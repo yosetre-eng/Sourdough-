@@ -1,0 +1,1010 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>יומן מחמצת</title>
+<meta name="theme-color" content="#5A3D27">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="מחמצת">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ECEEE6; --paper:#F9FAF6; --ink:#1E221C; --muted:#646B5F; --line:#D3D8CB; --chip:#E1E5D9;
+  --rye:#5A3D27; --on-rye:#FBF6EF; --levain:#DA9B1F; --plum:#8C2F50; --ok:#3E7748; --glass:#FFFFFF;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161913; --paper:#1F231C; --ink:#E8EBE2; --muted:#9BA393; --line:#343A2F; --chip:#2B3027;
+    --rye:#C9A27F; --on-rye:#1E150D; --levain:#F0B43F; --plum:#DA6E92; --ok:#7FC28C; --glass:#252A22;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#161913; --paper:#1F231C; --ink:#E8EBE2; --muted:#9BA393; --line:#343A2F; --chip:#2B3027;
+  --rye:#C9A27F; --on-rye:#1E150D; --levain:#F0B43F; --plum:#DA6E92; --ok:#7FC28C; --glass:#252A22;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Assistant',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+.app{max-width:560px;margin:0 auto;padding:12px 16px 120px}
+header.top{display:flex;align-items:flex-end;justify-content:space-between;padding:8px 2px 14px;gap:12px}
+.brand{font-family:'Frank Ruhl Libre',Georgia,serif;font-weight:900;font-size:30px;line-height:1;letter-spacing:-.01em}
+.brand small{display:block;font-family:'Assistant',sans-serif;font-weight:600;font-size:13px;color:var(--muted);letter-spacing:0;margin-top:6px}
+.sync{font-size:12px;color:var(--muted);white-space:nowrap}
+h2{font-family:'Frank Ruhl Libre',Georgia,serif;font-weight:700;font-size:22px;margin:26px 0 10px;line-height:1.2}
+h3{font-family:'Frank Ruhl Libre',Georgia,serif;font-weight:700;font-size:19px;margin:0 0 6px;line-height:1.25}
+h4{font-size:16px;margin:12px 0 4px}
+p{margin:0 0 8px}
+a{color:var(--rye)}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+.panel.flat{background:transparent}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+.tiny{font-size:12.5px}
+.big{font-family:'Frank Ruhl Libre',Georgia,serif;font-size:44px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.02em}
+.mid{font-family:'Frank Ruhl Libre',Georgia,serif;font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.num{font-variant-numeric:tabular-nums}
+.hero{display:grid;grid-template-columns:118px 1fr;gap:16px;align-items:center}
+.hero .jarwrap{width:118px}
+.jar{width:100%;height:auto;display:block}
+.state{display:inline-block;font-weight:700;font-size:14px;padding:3px 11px;border-radius:99px;background:var(--chip);color:var(--ink);margin-bottom:8px}
+.state.peak{background:var(--levain);color:#241800}
+.state.over{background:var(--plum);color:#fff}
+.state.ok{background:var(--ok);color:#fff}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row.sp{justify-content:space-between}
+.btn{appearance:none;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-weight:700;padding:10px 16px;border-radius:12px;cursor:pointer;min-height:44px;line-height:1.2;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--rye);border-color:var(--rye);color:var(--on-rye)}
+.btn.accent{background:var(--levain);border-color:var(--levain);color:#241800}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--plum)}
+.btn.small{padding:6px 12px;min-height:36px;font-size:14px}
+.btn.wide{width:100%}
+.btn[disabled]{opacity:.5;cursor:default}
+.link{background:none;border:0;padding:0;font:inherit;color:var(--rye);font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--levain);outline-offset:2px}
+label.f{display:block;font-size:13px;color:var(--muted);font-weight:600}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 10px;width:100%;margin-top:4px;min-height:42px}
+textarea{min-height:70px;resize:vertical}
+input[type=number]{direction:ltr;text-align:right}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stack>*+*{margin-top:10px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:99px;padding:6px 12px;font:inherit;font-size:14px;cursor:pointer;min-height:36px}
+.chip[aria-pressed="true"]{background:var(--rye);border-color:var(--rye);color:var(--on-rye)}
+.note{border-inline-start:4px solid var(--levain);background:var(--paper);padding:10px 12px;border-radius:0 10px 10px 0;margin:8px 0}
+.note.bad{border-color:var(--plum)}
+.note.good{border-color:var(--ok)}
+.warn{color:var(--plum);font-weight:600}
+.late{color:var(--plum);font-weight:700}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.list li:last-child{border-bottom:0}
+.list .x{background:none;border:0;color:var(--muted);cursor:pointer;font-size:18px;padding:0 6px;min-height:32px}
+.card{display:block;width:100%;text-align:start;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px;font:inherit;color:inherit;cursor:pointer}
+.card:hover{border-color:var(--muted)}
+.card .t{font-family:'Frank Ruhl Libre',Georgia,serif;font-weight:700;font-size:19px}
+.stars{color:var(--levain);letter-spacing:1px}
+.clocks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 4px}
+.clock{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 8px;text-align:center}
+.clock b{display:block;font-family:'Frank Ruhl Libre',Georgia,serif;font-size:20px;font-variant-numeric:tabular-nums;direction:ltr}
+.clock span{font-size:12px;color:var(--muted)}
+.steps{list-style:none;padding:0;margin:8px 0 0}
+.step{position:relative;padding:0 32px 16px 0}
+.step::before{content:'';position:absolute;right:10px;top:24px;bottom:0;width:2px;background:var(--line)}
+.step:last-child::before{display:none}
+.dot{position:absolute;right:0;top:3px;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);background:var(--bg);display:grid;place-items:center;color:var(--on-rye);font-size:12px;font-weight:700}
+.step.done .dot{background:var(--rye);border-color:var(--rye)}
+.step.cur .dot{background:var(--levain);border-color:var(--levain)}
+.step .head{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.step .title{font-weight:700}
+.step.done .title{color:var(--muted)}
+.step .body{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:8px}
+.bar{height:12px;border-radius:99px;background:var(--chip);overflow:hidden;position:relative}
+.bar i{display:block;height:100%;background:var(--levain);border-radius:99px}
+.bar.over i{background:var(--plum)}
+.tbl{overflow-x:auto;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:start;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:13px}
+details{background:var(--paper);border:1px solid var(--line);border-radius:14px;margin-bottom:8px}
+details>summary{cursor:pointer;padding:13px 14px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:8px}
+details>summary::-webkit-details-marker{display:none}
+details>summary::after{content:'+';color:var(--muted);font-weight:400}
+details[open]>summary::after{content:'–'}
+details .in{padding:0 14px 14px}
+.ing{list-style:none;padding:0;margin:0}
+.ing li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line)}
+.ing li b{font-variant-numeric:tabular-nums;direction:ltr}
+.ai{font-size:15px}
+.ai ul{padding-inline-start:20px;margin:4px 0 10px}
+.ai h4{font-family:'Frank Ruhl Libre',Georgia,serif;font-size:17px}
+.think{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.4}}
+.chart{width:100%;height:auto;display:block}
+nav.tabs{position:fixed;bottom:0;left:0;right:0;background:var(--paper);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:20}
+nav.tabs .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+nav.tabs button{background:none;border:0;font:inherit;font-size:12px;color:var(--muted);padding:8px 0 10px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;min-height:56px}
+nav.tabs button[aria-current="page"]{color:var(--rye);font-weight:700}
+nav.tabs svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#sheet{position:fixed;inset:0;z-index:50}
+#sheet[hidden]{display:none}
+.sheet-bg{position:absolute;inset:0;background:rgba(18,20,16,.5)}
+.sheet{position:absolute;bottom:0;left:0;right:0;max-width:560px;margin:0 auto;background:var(--paper);border-radius:22px 22px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px));max-height:90%;overflow:auto}
+.sheet .grab{width:44px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 12px}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(76px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;z-index:60;max-width:90%;text-align:center}
+#toast[hidden]{display:none}
+.empty{text-align:center;padding:26px 10px}
+.loading{text-align:center;padding:80px 20px;color:var(--muted)}
+.spec{display:flex;gap:18px;flex-wrap:wrap;margin:8px 0}
+.spec div{font-size:13px;color:var(--muted)}
+.spec b{display:block;font-size:18px;color:var(--ink);font-family:'Frank Ruhl Libre',Georgia,serif}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:380px){.hero{grid-template-columns:96px 1fr}.hero .jarwrap{width:96px}.big{font-size:38px}}
+</style>
+</head>
+<body>
+<div class="app" id="app"><div class="loading">טוען את היומן…</div></div>
+<nav class="tabs" aria-label="ניווט ראשי"><div class="in" id="tabs"></div></nav>
+<div id="sheet" hidden></div>
+<div id="toast" hidden role="status"></div>
+
+<script src="firebase-config.js"></script>
+<script>
+(function(){
+'use strict';
+/* ---------- utils ---------- */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const now=()=>Date.now();
+const pad=n=>String(n).padStart(2,'0');
+const r1=x=>Math.round(x*10)/10;
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+function dur(ms){const neg=ms<0;const s=Math.floor(Math.abs(ms)/1000);const H=Math.floor(s/3600),M=Math.floor(s%3600/60),X=s%60;return (neg?'-':'')+(H?H+':'+pad(M):M)+':'+pad(X);}
+function hrs(x){if(x==null||!isFinite(x))return '—';if(x<1)return Math.round(x*60)+' דק׳';return r1(x)+' ש׳';}
+function mins(m){if(m==null||!isFinite(m))return '—';if(m<60)return Math.round(m)+' דק׳';return r1(m/60)+' ש׳';}
+const tFmt=ts=>new Date(ts).toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+const dFmt=ts=>new Date(ts).toLocaleDateString('he-IL',{day:'numeric',month:'short'});
+const dtFmt=ts=>dFmt(ts)+', '+tFmt(ts);
+function toLocalInput(ts){const off=new Date(ts).getTimezoneOffset()*6e4;return new Date(ts-off).toISOString().slice(0,16);}
+function fromLocalInput(v){const t=new Date(v).getTime();return isNaN(t)?now():t;}
+function interp(pts,x){if(x<=pts[0][0])return pts[0][1];for(let i=1;i<pts.length;i++){if(x<=pts[i][0]){const[a,b]=pts[i-1],[c,d]=pts[i];return b+(d-b)*(x-a)/(c-a);}}return pts[pts.length-1][1];}
+const num=v=>{const n=parseFloat(v);return isFinite(n)?n:null;};
+function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>{t.hidden=true;},3200);}
+function md(t){const lines=esc(t).split('\n');let out='',inL=false;for(let ln of lines){ln=ln.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');const m=ln.match(/^\s*[-*•]\s+(.*)/)||ln.match(/^\s*\d+[.)]\s+(.*)/);if(m){if(!inL){out+='<ul>';inL=true;}out+='<li>'+m[1]+'</li>';continue;}if(inL){out+='</ul>';inL=false;}const hm=ln.match(/^#{1,4}\s+(.*)/);if(hm){out+='<h4>'+hm[1]+'</h4>';continue;}if(ln.trim())out+='<p>'+ln+'</p>';}if(inL)out+='</ul>';return out;}
+const stars=n=>'★'.repeat(n||0)+'☆'.repeat(5-(n||0));
+
+/* ---------- data: recipes ---------- */
+const g=(x,k)=>Math.round(x*k);
+const RECIPES=[
+{id:'country',name:'לחם כפרי',sub:'הלחם הבסיסי — קרום פריך ופירור פתוח',time:'כ-24 ש׳, כולל לילה במקרר',
+ ing:[['קמח לחם',450,'flour'],['קמח מלא',50,'flour'],['מים (26°C)',350,'water'],['מים לשלב המלח',25,'water'],['לבן פעיל',100,'levain'],['מלח',10,'salt']],
+ steps:[
+  {id:'lev',type:'levain',title:'הכנת לבן',dur:[300,480],d:k=>`ערבב ${g(25,k)} ג׳ סטארטר + ${g(50,k)} ג׳ קמח + ${g(50,k)} ג׳ מים (1:2:2). מוכן כשהכפיל נפח, עם כיפה מבועבעת — לפני שמתחיל לשקוע.`},
+  {id:'aut',type:'rest',title:'אוטוליזה',dur:[30,60],d:k=>`ערבב את כל הקמח עם ${g(350,k)} ג׳ מים עד שאין קמח יבש. כסה והנח.`},
+  {id:'mix',type:'mix',title:'הוספת לבן ומלח',dur:[5,15],d:k=>`הוסף ${g(100,k)} ג׳ לבן, ${g(10,k)} ג׳ מלח ו-${g(25,k)} ג׳ מים. צבוט ולוש עד שהבצק מתאחד. מדוד טמפ׳ בצק (יעד 24–26°C) והכנס דגימה של כ-40 ג׳ לצנצנת מדידה.`},
+  {id:'fold',type:'fold',title:'מתיחות וקיפולים',dur:[120,150],folds:{n:4,every:30},d:()=>`4 סבבים כל 30 דק׳: תופסים צד, מותחים למעלה ומקפלים — ארבעה צדדים בכל סבב. הבצק אמור להתחזק ולהחליק מסבב לסבב.`},
+  {id:'bulk',type:'bulk',title:'תסיסה ראשונית',dur:[90,300],d:()=>`בלי מגע עד יעד העלייה לפי טמפ׳ הבצק. סימנים: כיפה, בועות בשוליים, הבצק רוטט כשמזיזים את הקערה.`},
+  {id:'shape',type:'shape',title:'עיצוב',dur:[30,45],d:()=>`עיצוב מקדים לכדור, מנוחה 20–30 דק׳, ואז עיצוב סופי במתח והעברה לסלסילה מקומחת.`},
+  {id:'cold',type:'proof',cold:true,title:'התפחה במקרר',dur:[600,960],d:()=>`מכוסה במקרר 10–16 ש׳. מעמיק טעם ומקל על החריצה.`},
+  {id:'bake',type:'bake',title:'אפייה',dur:[40,50],d:()=>`חמם סיר ברזל ל-250°C לפחות 45 דק׳. חריץ, 20 דק׳ עם מכסה, ואז 230°C בלי מכסה 20–25 דק׳ עד השחמה עמוקה. טמפ׳ פנים 96–99°C.`},
+  {id:'cool',type:'cool',title:'צינון',dur:[60,120],d:()=>`על רשת לפחות שעה. חיתוך מוקדם גורם לפירור דביק.`}
+ ]},
+{id:'whole',name:'לחם 50% מלא',sub:'טעם אגוזי ועמוק, תוסס מהר יותר',time:'כ-24 ש׳, כולל לילה במקרר',wholeGrain:true,
+ src:['https://sourdougharchive.com/bulk-fermentation-percentage-rise/','יעדי עלייה לקמח מלא — Sourdough Archive'],
+ ing:[['קמח לחם',250,'flour'],['קמח מלא',250,'flour'],['מים (26°C)',365,'water'],['מים לשלב המלח',25,'water'],['לבן פעיל',100,'levain'],['מלח',10,'salt']],
+ steps:[
+  {id:'lev',type:'levain',title:'הכנת לבן',dur:[300,480],d:k=>`${g(25,k)} ג׳ סטארטר + ${g(50,k)} ג׳ קמח + ${g(50,k)} ג׳ מים (1:2:2). להשתמש בשיא.`},
+  {id:'aut',type:'rest',title:'אוטוליזה',dur:[45,75],d:k=>`קמחים + ${g(365,k)} ג׳ מים. קמח מלא סופג יותר — שעה מנוחה עוזרת.`},
+  {id:'mix',type:'mix',title:'הוספת לבן ומלח',dur:[5,15],d:k=>`${g(100,k)} ג׳ לבן, ${g(10,k)} ג׳ מלח, ${g(25,k)} ג׳ מים. מדוד טמפ׳ ושים דגימה בצנצנת.`},
+  {id:'fold',type:'fold',title:'מתיחות וקיפולים',dur:[90,120],folds:{n:3,every:30},d:()=>`3 סבבים כל 30 דק׳. בצק מלא נקרע בקלות — עבוד בעדינות.`},
+  {id:'bulk',type:'bulk',title:'תסיסה ראשונית',dur:[60,240],d:()=>`היעד נמוך ב-20–30% מבצק לבן. קמח מלא תוסס מהר — בדוק מוקדם.`},
+  {id:'shape',type:'shape',title:'עיצוב',dur:[30,45],d:()=>`עיצוב מקדים, מנוחה 20 דק׳, עיצוב סופי לסלסילה.`},
+  {id:'cold',type:'proof',cold:true,title:'התפחה במקרר',dur:[600,900],d:()=>`10–15 ש׳ במקרר.`},
+  {id:'bake',type:'bake',title:'אפייה',dur:[40,50],d:()=>`כמו הלחם הכפרי: 250°C עם מכסה 20 דק׳, 230°C בלי מכסה 20–25 דק׳.`},
+  {id:'cool',type:'cool',title:'צינון',dur:[90,120],d:()=>`לפחות שעה וחצי — לחם מלא לח יותר בפנים.`}
+ ]},
+{id:'focaccia',name:'פוקאצ׳ה',sub:'רכה בפנים, פריכה ומשומנת מלמטה',time:'כ-8 ש׳ ביום אחד',
+ src:['https://sourdoughhydration.com/recipe/focaccia','Sourdough Hydration — פוקאצ׳ה 80%'],
+ ing:[['קמח לחם',450,'flour'],['מים',350,'water'],['לבן פעיל',100,'levain'],['מלח',10,'salt'],['שמן זית לבצק',20,'other'],['שמן זית לתבנית ולמעלה',45,'other']],
+ steps:[
+  {id:'lev',type:'levain',title:'הכנת לבן',dur:[240,360],d:k=>`${g(35,k)} ג׳ סטארטר + ${g(35,k)} ג׳ קמח + ${g(35,k)} ג׳ מים (1:1:1). מוכן כשהכפיל נפח.`},
+  {id:'mix',type:'mix',title:'ערבוב',dur:[5,10],d:k=>`קמח, ${g(350,k)} ג׳ מים, ${g(100,k)} ג׳ לבן, ${g(10,k)} ג׳ מלח ו-${g(20,k)} ג׳ שמן — עד בצק דביק ואחיד. מדוד טמפ׳.`},
+  {id:'fold',type:'fold',title:'קיפולי סליל',dur:[90,120],folds:{n:4,every:30},d:()=>`מרימים את הבצק מהמרכז בידיים רטובות ונותנים לקצוות להתקפל מתחת. 4 סבבים כל 30 דק׳.`},
+  {id:'bulk',type:'bulk',title:'תסיסה ראשונית',dur:[60,180],d:()=>`עד יעד העלייה לפי הטמפ׳ — בערך 3 ש׳ ב-24°C מתחילת הערבוב.`},
+  {id:'pan',type:'shape',title:'העברה לתבנית',dur:[10,25],d:()=>`משמנים תבנית 23×33 בנדיבות (3 כפות לפחות), מעבירים את הבצק ומותחים בעדינות. אם מתכווץ — 15 דק׳ מנוחה ושוב.`},
+  {id:'proof',type:'proof',title:'התפחה בתבנית',dur:[60,120],d:()=>`עד שהבצק נפוח, מבועבע ורוטט. אפשר במקום זה לילה במקרר בתבנית לטעם עמוק יותר.`},
+  {id:'bake',type:'bake',title:'דימפלים ואפייה',dur:[22,28],d:()=>`תנור 230°C. שמן זית למעלה, גומות עמוקות באצבעות משומנות, מלח גס ורוזמרין. 22–25 דק׳ עד זהוב מלמעלה ומלמטה.`},
+  {id:'cool',type:'cool',title:'הוצאה לרשת',dur:[10,20],d:()=>`להוציא מהתבנית לרשת מיד — כך התחתית נשארת פריכה.`}
+ ]},
+{id:'challah',name:'חלה במחמצת',sub:'בצק מועשר בביצים ודבש, לקליעה',time:'כ-12 ש׳ (או לילה במקרר)',enriched:true,
+ src:['https://breadbyelise.com/sourdough-challah/','Bread By Elise — חלה במחמצת'],
+ ing:[['קמח לחם',500,'flour'],['מים (24°C)',185,'water'],['לבן פעיל',100,'levain'],['ביצים (2 בינוניות)',100,'other'],['דבש',40,'other'],['שמן ניטרלי',40,'other'],['מלח',10,'salt']],
+ steps:[
+  {id:'lev',type:'levain',title:'הכנת לבן',dur:[180,300],d:k=>`${g(40,k)} ג׳ סטארטר + ${g(40,k)} ג׳ קמח + ${g(40,k)} ג׳ מים, במקום חם (~26°C), עד שהכפיל–שילש.`},
+  {id:'mix',type:'rest',title:'ערבוב ומנוחה',dur:[30,40],d:k=>`במיקסר עם וו: ${g(185,k)} ג׳ מים, ${g(100,k)} ג׳ לבן, ${g(100,k)} ג׳ ביצים ו-${g(40,k)} ג׳ דבש, ואז הקמח. 2 דק׳ עד שמתאחד, ומנוחה 30 דק׳.`},
+  {id:'knead',type:'mix',title:'לישה עם מלח ושמן',dur:[8,15],d:k=>`מוסיפים ${g(10,k)} ג׳ מלח, ואז ${g(40,k)} ג׳ שמן בהדרגה. לשים 8–10 דק׳ עד בצק חלק שנמתח לקרום דק בלי להיקרע. מדוד טמפ׳.`},
+  {id:'bulk',type:'bulk',title:'תסיסה ראשונית',dur:[300,480],d:()=>`בצק מועשר איטי: כמעט הכפלה, בדרך כלל 5–8 ש׳ ב-24°C. אפשר לילה במקרר.`},
+  {id:'shape',type:'shape',title:'חלוקה וקליעה',dur:[15,30],d:()=>`חלוקה ל-3–6 גלילים שווים במשקל, קליעה והנחה על נייר אפייה.`},
+  {id:'proof',type:'proof',title:'התפחה אחרונה',dur:[120,240],d:()=>`עד שהחלה נפוחה והלחיצה חוזרת לאט — 2–4 ש׳.`},
+  {id:'bake',type:'bake',title:'אפייה',dur:[25,32],d:()=>`מריחת ביצה (ביצה + כף מים), שומשום. 180°C כ-25–30 דק׳ עד חום-זהב עמוק.`},
+  {id:'cool',type:'cool',title:'צינון',dur:[30,60],d:()=>`על רשת.`}
+ ]},
+{id:'pita',name:'פיתות',sub:'מתנפחות בתנור חם מאוד',time:'כ-10 ש׳ (או לילה)',
+ src:['https://vanillaandbean.com/sourdough-pita-bread/','בהשראת Vanilla And Bean — פיתות מחמצת (מותאם)'],
+ ing:[['קמח לחם',400,'flour'],['מים',250,'water'],['סטארטר פעיל',120,'levain'],['שמן זית',20,'other'],['דבש',10,'other'],['מלח',8,'salt']],
+ steps:[
+  {id:'lev',type:'levain',title:'הכנת סטארטר',dur:[240,360],d:k=>`האכל 1:1:1 כך שיהיו לפחות ${g(135,k)} ג׳ סטארטר בשיא.`},
+  {id:'mix',type:'mix',title:'ערבוב',dur:[30,40],d:k=>`הכל חוץ מהמלח, מנוחה 30 דק׳, ואז ${g(8,k)} ג׳ מלח ולישה 3–4 דק׳. מדוד טמפ׳.`},
+  {id:'fold',type:'fold',title:'קיפולים',dur:[60,90],folds:{n:3,every:30},d:()=>`3 סבבים כל 30 דק׳.`},
+  {id:'bulk',type:'bulk',title:'תסיסה ראשונית',dur:[120,360],d:()=>`עד יעד העלייה. אפשר להעביר למקרר ללילה ולהמשיך בבוקר.`},
+  {id:'shape',type:'shape',title:'חלוקה לכדורים',dur:[30,60],d:k=>`${Math.max(1,g(8,k))} כדורים של כ-100 ג׳, מכוסים 30–60 דק׳.`},
+  {id:'bake',type:'bake',title:'רידוד ואפייה',dur:[20,40],d:()=>`תנור הכי חם (260°C+) עם אבן או מגש הפוך בפנים 45 דק׳. מרדדים לעובי 5 מ״מ, 3–5 דק׳ עד שמתנפחות. עוטפים במגבת מיד — שומר על רכות.`}
+ ]},
+{id:'bagels',name:'בייגלס',sub:'לעיסים, מבושלים ואפויים',time:'לילה + בוקר',
+ src:['https://natashaskitchen.com/sourdough-bagels/','Natasha\u2019s Kitchen — בייגלס מחמצת'],
+ ing:[['קמח לחם',500,'flour'],['מים',250,'water'],['סטארטר פעיל',125,'levain'],['דבש',20,'other'],['מלח',10,'salt'],['סוכר/דבש לרתיחה',15,'other']],
+ steps:[
+  {id:'lev',type:'levain',title:'האכלת סטארטר',dur:[180,300],d:k=>`האכל 1:1:1 כך שיהיו לפחות ${g(140,k)} ג׳, 3–4 ש׳ לפני הלישה.`},
+  {id:'mix',type:'mix',title:'לישה',dur:[10,20],d:()=>`סטארטר, מים, דבש ומלח, ואז הקמח. 10 דק׳ ביד או 6 במיקסר — בצק נוקשה וחלק. מדוד טמפ׳.`},
+  {id:'bulk',type:'bulk',title:'תסיסה ללילה',dur:[480,720],d:()=>`מכוסה בטמפ׳ החדר עד שכמעט הכפיל — בדרך כלל 8–12 ש׳.`},
+  {id:'shape',type:'shape',title:'עיצוב',dur:[15,25],d:k=>`${Math.max(1,g(8,k))} חלקים של כ-113 ג׳, כדורים, חור באגודל ומתיחה לטבעת.`},
+  {id:'proof',type:'proof',title:'התפחה קצרה',dur:[30,60],d:()=>`30–60 דק׳. בדיקה: בייגל שצף בקערת מים מוכן.`},
+  {id:'bake',type:'bake',title:'בישול ואפייה',dur:[30,40],d:()=>`מים רותחים עם כף סוכר או דבש, דקה מכל צד, ציפוי, ו-220°C כ-20–25 דק׳ עד זהוב.`},
+  {id:'cool',type:'cool',title:'צינון',dur:[15,30],d:()=>`על רשת.`}
+ ]},
+{id:'pizza',name:'בצק פיצה',sub:'תסיסה קרה ארוכה לטעם עמוק',time:'1–3 ימים',
+ src:['https://natashaskitchen.com/sourdough-pizza-dough/','Natasha\u2019s Kitchen — בצק פיצה מחמצת'],
+ ing:[['קמח 00 (או קמח לחם)',500,'flour'],['מים',335,'water'],['סטארטר פעיל',100,'levain'],['מלח',12,'salt']],
+ steps:[
+  {id:'lev',type:'levain',title:'האכלת סטארטר',dur:[240,360],d:k=>`האכל 4–6 ש׳ לפני, כך שיהיו לפחות ${g(110,k)} ג׳ בשיא.`},
+  {id:'mix',type:'mix',title:'ערבוב ומנוחה',dur:[30,40],d:()=>`טורפים קמח ומלח, מוסיפים מים וסטארטר, צובטים עד שמתאחד. מנוחה 30 דק׳. מדוד טמפ׳.`},
+  {id:'fold',type:'fold',title:'קיפולים',dur:[60,90],folds:{n:3,every:30},d:()=>`3 סבבים כל 30 דק׳.`},
+  {id:'bulk',type:'bulk',title:'תסיסה ראשונית',dur:[120,300],d:()=>`עד יעד העלייה — בערך +50%, 4–6 ש׳ בטמפ׳ החדר.`},
+  {id:'shape',type:'shape',title:'כדורים',dur:[15,20],d:k=>`${Math.max(1,g(4,k))} כדורים של כ-235 ג׳ במתח, לקופסה משומנת.`},
+  {id:'cold',type:'proof',cold:true,title:'תסיסה קרה',dur:[1440,4320],d:()=>`24–72 ש׳ במקרר. ככל שארוך יותר, הטעם עמוק יותר.`},
+  {id:'warm',type:'proof',title:'חימום לפני אפייה',dur:[90,150],d:()=>`להוציא שעתיים לפני האפייה.`},
+  {id:'bake',type:'bake',title:'אפייה',dur:[6,10],d:()=>`אבן או פלדה בתנור מקסימלי שעה. מותחים ביד, רוטב וגבינה, 6–8 דק׳.`}
+ ]},
+{id:'sandwich',name:'לחם תבנית רך',sub:'לכריכים וטוסט, פירור עדין',time:'כ-14 ש׳',enriched:true,
+ ing:[['קמח לחם',500,'flour'],['מים',220,'water'],['חלב',100,'milk'],['לבן פעיל',100,'levain'],['דבש',25,'other'],['חמאה רכה או שמן',30,'other'],['מלח',10,'salt']],
+ steps:[
+  {id:'lev',type:'levain',title:'הכנת לבן',dur:[300,480],d:k=>`${g(25,k)} ג׳ סטארטר + ${g(50,k)} ג׳ קמח + ${g(50,k)} ג׳ מים (1:2:2).`},
+  {id:'mix',type:'mix',title:'לישה',dur:[15,25],d:()=>`הכל חוץ מהחמאה, לישה 5 דק׳, מוסיפים חמאה ולשים עוד 8–10 דק׳ עד שהבצק נמתח לקרום דק. מדוד טמפ׳.`},
+  {id:'bulk',type:'bulk',title:'תסיסה ראשונית',dur:[360,540],d:()=>`עד +75–100%, בדרך כלל 6–9 ש׳ ב-24°C.`},
+  {id:'shape',type:'shape',title:'עיצוב לתבנית',dur:[10,20],d:()=>`מרדדים למלבן, מגלגלים בחוזקה לגליל, לתבנית משומנת 22×11 עם התפר למטה.`},
+  {id:'proof',type:'proof',title:'התפחה בתבנית',dur:[120,300],d:()=>`עד שהבצק מתרומם 1–2 ס״מ מעל שפת התבנית, 2–4 ש׳.`},
+  {id:'bake',type:'bake',title:'אפייה',dur:[35,45],d:()=>`190°C כ-35–40 דק׳, טמפ׳ פנים כ-93°C. מריחת חמאה על הקרום לרכות.`},
+  {id:'cool',type:'cool',title:'צינון',dur:[60,120],d:()=>`להוציא מהתבנית אחרי 10 דק׳, צינון מלא לפני פריסה.`}
+ ]}
+];
+const recipeOf=b=>RECIPES.find(r=>r.id===b.recipeId)||RECIPES[0];
+function hydration(r){if(r.enriched)return null;let fl=0,w=0;r.ing.forEach(([n,q,t])=>{if(t==='flour')fl+=q;if(t==='water')w+=q;if(t==='milk')w+=q*.87;if(t==='levain'){fl+=q/2;w+=q/2;}});return Math.round(w/fl*100);}
+
+const CRUMB=[
+ {id:'good',label:'פתוח ואחיד — מצוין',cause:'',fix:'שמור על התנאים ותעד טמפ׳ וזמנים'},
+ {id:'dense',label:'צפוף, חורים קטנים, כבד',cause:'תת-התפחה או סטארטר חלש',fix:'הארך את התסיסה הראשונית, ודא שהסטארטר בשיא, חמם את הסביבה'},
+ {id:'fools',label:'חורים גדולים למעלה, תחתית צפופה',cause:'תת-התפחה',fix:'עוד זמן בתסיסה — כוון ליעד העלייה לפי טמפ׳ הבצק'},
+ {id:'blowout',label:'נקרע בצד במקום בחריץ',cause:'תת-התפחה',fix:'הארך את ההתפחה ובדוק במבחן לחיצה לפני אפייה'},
+ {id:'gummy',label:'דביק במרכז, תפיחה סבירה',cause:'אפייה קצרה או חיתוך מוקדם',fix:'אפה עד 96–99°C בפנים וצנן שעה לפחות'},
+ {id:'flat',label:'שטוח ומתפשט',cause:'התפחת-יתר או עיצוב רפוי',fix:'קצר את התסיסה ועצב במתח חזק יותר'},
+ {id:'holey',label:'חורים קרועים ודפנות דקות',cause:'התפחת-יתר או יותר מדי מים לקמח',fix:'קצר תסיסה או הורד 3–5% מים'},
+ {id:'tunnels',label:'מנהרות מתחת לקרום',cause:'עיצוב לא אחיד או גז שנלכד',fix:'עצב בעדינות ובמתח אחיד'}
+];
+
+const STARTER_PROBLEMS=[
+ {id:'acetone',label:'ריח אצטון',t:'סימן לרעב. השאר רק 10–20 ג׳, האכל גדול (1:3:3 עד 1:5:5) וחזור על זה יומיים-שלושה עד שהריח השמרי-נעים חוזר.'},
+ {id:'hooch',label:'נוזל כהה למעלה',t:'גם זה רעב. אפשר לשפוך או לערבב פנימה (חמוץ יותר), ואז להאכיל בתדירות גבוהה יותר או ביחס גדול יותר.'},
+ {id:'collapse',label:'עולה וקורס מהר',t:'אוכל את המזון מהר מדי — בדרך כלל מטבח חם. עבור ל-1:3:3 או 1:5:5, ואפשר מים קרירים (כ-20°C).'},
+ {id:'nodouble',label:'לא מכפיל',t:'נסה סטארטר מעט עבה יותר (100 ג׳ קמח / 90 ג׳ מים), קמח לחם חזק, ומקום חם (24–27°C). האכלות "משיא לשיא" ב-1:2:2 ליומיים-שלושה מחזקות.'},
+ {id:'sour',label:'חמוץ מדי',t:'יחס גבוה יותר (1:4:4 ומעלה) מדלל את החומציות ונותן טעם עדין יותר.'},
+ {id:'slow',label:'איטי מאוד',t:'חמם: מים ב-26–29°C ומקום חם. 1:1:1 מאיץ. אחרי תקופה במקרר, תן 2 האכלות בטמפ׳ החדר לפני אפייה.'}
+];
+
+/* ---------- state & storage ---------- */
+let S={starter:{feeds:[],settings:{fridge:false}},bakes:{},coach:{}};
+const ui={tab:'starter',bakeId:null,recipeId:null,recipeScale:1,diag:null,ai:{},chat:[]};
+let READY=false, SAMPLE=null;
+const LKEY='sourdough-journal-v1';
+
+const FB_VER='10.12.2';
+const Store={
+ mode:'local',fb:null,uid:null,pending:{},busy:{},
+ async init(){
+  const cfg=window.FIREBASE_CONFIG;
+  if(!cfg||!cfg.apiKey||String(cfg.apiKey).indexOf('PASTE')===0)return 'local';
+  try{
+   const B='https://www.gstatic.com/firebasejs/'+FB_VER+'/';
+   const [appM,authM,fsM]=await Promise.all([import(B+'firebase-app.js'),import(B+'firebase-auth.js'),import(B+'firebase-firestore.js')]);
+   const app=appM.initializeApp(cfg);
+   let db;try{db=fsM.initializeFirestore(app,{localCache:fsM.persistentLocalCache({tabManager:fsM.persistentMultipleTabManager()})});}catch(e){db=fsM.getFirestore(app);}
+   const auth=authM.getAuth(app);
+   this.fb={authM,fsM,db,auth};
+   const user=await new Promise(r=>{const un=authM.onAuthStateChanged(auth,u=>{un();r(u);});});
+   if(user){this.uid=user.uid;this.mode='cloud';return 'cloud';}
+   return 'login';
+  }catch(e){console.error(e);return 'local';}
+ },
+ async signIn(email,pw,up){
+  const{authM,auth}=this.fb;
+  const cred=up?await authM.createUserWithEmailAndPassword(auth,email,pw):await authM.signInWithEmailAndPassword(auth,email,pw);
+  this.uid=cred.user.uid;this.mode='cloud';
+ },
+ async signOut(){try{await this.fb.authM.signOut(this.fb.auth);}catch(e){}location.reload();},
+ ref(id){const{fsM,db}=this.fb;return fsM.doc(db,'users',this.uid,'docs',id);},
+ readLocal(){try{return JSON.parse(localStorage.getItem(LKEY)||'null');}catch(e){return null;}},
+ writeLocal(){try{localStorage.setItem(LKEY,JSON.stringify(S));}catch(e){}},
+ async loadAll(){
+  const local=this.readLocal();
+  if(this.mode==='cloud'){
+   try{
+    const{fsM,db}=this.fb;
+    const snap=await fsM.getDocs(fsM.collection(db,'users',this.uid,'docs'));
+    if(snap.empty&&local&&(local.starter?.feeds?.length||Object.keys(local.bakes||{}).length)){
+     applyLoaded(local);this.put('starter',S.starter);this.put('coach',S.coach);
+     Object.values(S.bakes).forEach(b=>this.put(b.id,b));return;
+    }
+    S={starter:{feeds:[],settings:{fridge:false}},bakes:{},coach:{}};
+    snap.docs.forEach(d=>{const v=d.data();if(d.id==='starter')S.starter=normStarter(v);else if(d.id==='coach')S.coach=v||{};else if(d.id.indexOf('b_')===0)S.bakes[d.id]=v;});
+    return;
+   }catch(e){console.error(e);toast('אין חיבור לענן — עובד מהמכשיר');}
+  }
+  if(local)applyLoaded(local);
+ },
+ put(id,data){
+  this.writeLocal();
+  if(this.mode!=='cloud')return;
+  this.pending[id]=JSON.parse(JSON.stringify(data));
+  if(!this.busy[id])this.flush(id);
+ },
+ async flush(id){
+  this.busy[id]=true;
+  while(this.pending[id]){
+   const d=this.pending[id];this.pending[id]=null;
+   try{await this.fb.fsM.setDoc(this.ref(id),d);}catch(e){console.error(e);toast('השמירה לענן נכשלה — נשמר במכשיר');}
+  }
+  this.busy[id]=false;
+ },
+ async del(id){this.writeLocal();if(this.mode!=='cloud')return;try{await this.fb.fsM.deleteDoc(this.ref(id));}catch(e){toast('המחיקה מהענן נכשלה');}}
+};
+function normStarter(v){v=v||{};return{feeds:Array.isArray(v.feeds)?v.feeds:[],settings:Object.assign({fridge:false},v.settings||{})};}
+function applyLoaded(o){S.starter=normStarter(o.starter);S.bakes=o.bakes||{};S.coach=o.coach||{};}
+function saveStarter(){if(S.starter.feeds.length>400)S.starter.feeds=S.starter.feeds.slice(-400);Store.put('starter',S.starter);}
+function saveBake(b){S.bakes[b.id]=b;Store.put(b.id,b);}
+
+/* ---------- starter model ---------- */
+function ratioStr(f){const s=Math.max(+f.starter||1,1);return `1:${r1((+f.flour||0)/s)}:${r1((+f.water||0)/s)}`;}
+function basePeak(f){
+ const r=(+f.flour||0)/Math.max(+f.starter||1,1);
+ const b=interp([[0.5,3.5],[1,5],[2,7],[3,9],[4,10.5],[5,12],[10,15]],r);
+ const T=num(f.temp)!=null?num(f.temp):22;
+ let h=b*Math.pow(2,(22-T)/5.5);
+ const hyd=(+f.water||0)/Math.max(+f.flour||1,1);
+ if(hyd<.8)h*=1.15;
+ if(f.flourType==='rye'||f.flourType==='whole')h*=.85;
+ return Math.min(Math.max(h,1.5),30);
+}
+function calib(){
+ const xs=S.starter.feeds.filter(f=>f.peakAt&&f.state==='peak').slice(-8).map(f=>((f.peakAt-f.at)/36e5)/basePeak(f)).filter(v=>v>.2&&v<4);
+ if(xs.length<2)return{k:1,n:xs.length};
+ const k=xs.reduce((a,b)=>a+b,0)/xs.length; return{k:Math.min(Math.max(k,.4),2.5),n:xs.length};
+}
+function predict(f){const c=calib();const p=basePeak(f)*c.k;return{h:p,lo:p*.85,hi:p*1.15,n:c.n};}
+function starterState(){
+ const F=S.starter.feeds;const f=F[F.length-1];if(!f)return null;
+ const e=(now()-f.at)/36e5;
+ if(S.starter.settings.fridge)return{f,kind:'fridge',e};
+ const p=predict(f);let kind;
+ if(f.peakAt)kind=f.state==='collapsed'?'over':f.state==='norise'?'weak':'logged';
+ else if(e<p.lo)kind='rising';else if(e<=p.hi)kind='peak';else kind='over';
+ return{f,p,e,kind};
+}
+function feedInsight(f){
+ const tips=[];
+ if(f.state==='collapsed')tips.push({c:'bad',t:'הסטארטר כבר קרס כשבדקת — השיא היה מוקדם יותר. בפעם הבאה בדוק מוקדם, או האט: יחס גבוה יותר (1:3:3–1:5:5) או מים קרירים.'});
+ else if(f.peakAt&&f.state==='peak'){
+  const act=(f.peakAt-f.at)/36e5,q=act/basePeak(f);
+  if(q<.7)tips.push({c:'',t:`השיא הגיע אחרי ${hrs(act)} — מהר מהטבלה ליחס ולטמפ׳ האלה. אם לא נוח לך, הגדל יחס או קרר את המים.`});
+  else if(q>1.5)tips.push({c:'',t:`השיא לקח ${hrs(act)} — איטי מהצפוי. מקום חם יותר (24–27°C), מים פושרים או יחס נמוך יותר.`});
+ }
+ if(f.state==='norise')tips.push({c:'bad',t:'לא עלה: מקום חם, האכלות "משיא לשיא" ב-1:2:2 ליומיים-שלושה, וסטארטר מעט עבה יותר (100 קמח / 90 מים).'});
+ if(f.riseX&&f.riseX<2&&f.state!=='norise')tips.push({c:'',t:'פחות מהכפלה — הסטארטר עדיין לא בשיא כוחו. תן עוד האכלות קבועות לפני אפייה.'});
+ if(f.smell==='acetone')tips.push({c:'bad',t:'ריח אצטון = רעב. השאר 10–20 ג׳ והאכל 1:5:5 ליומיים-שלושה.'});
+ if(f.smell==='vinegar')tips.push({c:'',t:'ריח חומץ חזק — חומציות גבוהה. יחס של 1:4:4 ומעלה ירכך אותה.'});
+ if(f.hooch)tips.push({c:'bad',t:'נוזל על הפנים = רעב. האכל לעיתים קרובות יותר או ביחס גדול יותר.'});
+ if(!tips.length&&f.peakAt)tips.push({c:'good',t:'נראה מצוין. השיא הזה נכנס לתחזית האישית שלך.'});
+ return tips;
+}
+
+/* ---------- bulk model ---------- */
+function targetRise(T,r){
+ let t=interp([[18,88],[21,70],[24,50],[26,36],[27,30],[29,22],[32,20]],T);
+ if(r&&r.wholeGrain)t*=.75;
+ if(r&&r.enriched)t=Math.max(t,85);
+ return Math.round(t);
+}
+function bakeLessons(b){
+ const r=recipeOf(b),L=[],o=b.outcome;if(!o)return L;
+ const c=CRUMB.find(x=>x.id===o.crumb);
+ if(c&&c.id!=='good')L.push({c:'bad',t:`${c.label}: סיבה סבירה — ${c.cause}. ${c.fix}.`});
+ const last=b.readings[b.readings.length-1];
+ if(last&&last.temp!=null&&last.pct!=null){
+  const tg=targetRise(last.temp,r);
+  if(last.pct<tg-12)L.push({c:'bad',t:`המדידה האחרונה בתסיסה: ${Math.round(last.pct)}% מול יעד ${tg}% ב-${last.temp}°C — כנראה עצרת מוקדם.`});
+  else if(last.pct>tg+20)L.push({c:'bad',t:`העלייה הגיעה ל-${Math.round(last.pct)}% מול יעד ${tg}% — ייתכן שהתסיסה נמשכה יותר מדי.`});
+  else L.push({c:'good',t:`עצרת את התסיסה ב-${Math.round(last.pct)}% — קרוב ליעד ${tg}%.`});
+ }else L.push({c:'',t:'בפעם הבאה רשום טמפ׳ בצק ואחוז עלייה — כך יהיה ברור איפה עצרת.'});
+ if(o.spring==='weak'&&(!c||c.id==='good'))L.push({c:'',t:'תפיחה חלשה בתנור: חמם את התנור והסיר זמן רב יותר ובדוק שהסטארטר היה בשיא.'});
+ if(o.sour==='very')L.push({c:'',t:'חמוץ מאוד: יחס האכלה גבוה יותר ללבן, להשתמש בו צעיר יותר, או התפחה קרה קצרה יותר.'});
+ if(o.sour==='mild')L.push({c:'',t:'רוצה יותר חמיצות? התפחה ארוכה יותר במקרר או לבן שהגיע לשיא מאוחר.'});
+ return L;
+}
+
+/* ---------- AI coach ---------- */
+const RULES=`אתה מאמן אפיית מחמצת מנוסה שמלווה אופה ביתי. ענה בעברית, קצר, ישיר ומעשי, עם כותרות קצרות (##) ורשימות (-). אל תמציא נתונים — אם חסר מידע, אמור מה כדאי למדוד בפעם הבאה. תן מספרים קונקרטיים (יחסים, טמפ׳, דקות, אחוזים).
+ידע בסיס:
+- יחסי האכלה ב-22°C: 1:1:1 שיא ב-4–6 ש׳, 1:2:2 ב-6–8 ש׳, 1:5:5 ב-10–14 ש׳. כל ~5.5°C חם יותר חוצה את הזמן בערך בחצי.
+- אצטון/נוזל כהה = רעב → האכלות גדולות (1:3:3–1:5:5) ליומיים-שלושה. עולה וקורס מהר = יחס גבוה יותר או מים קרירים. לא מכפיל = סטארטר מעט עבה יותר, קמח חזק, מקום חם.
+- יעד עלייה בתסיסה ראשונית לפי טמפ׳ הבצק: 18°C 75–100%, 21°C 65–75%, 24°C כ-50%, 27°C כ-30%, 29°C 20–25%. קמח מלא: להוריד 20–30%. בצק מועשר: כמעט הכפלה.
+- תת-התפחה: צפוף/דביק, חורים גדולים למעלה, קריעה בצד. התפחת-יתר: שטוח, מתפשט, חורים קרועים. דביק במרכז עם תפיחה טובה = אפייה קצרה או חיתוך מוקדם (96–99°C בפנים).
+- מבחן לחיצה: קופץ מיד = צריך עוד; חוזר לאט עם שקע קל = מוכן; לא חוזר = עבר.`;
+function feedSummary(f){return{date:new Date(f.at).toISOString().slice(0,16),ratio:ratioStr(f),grams:[f.starter,f.flour,f.water].join('/'),flour:f.flourType||null,roomC:num(f.temp),hoursToPeak:f.peakAt?r1((f.peakAt-f.at)/36e5):null,rise:f.riseX||null,state:f.state||null,smell:f.smell||null,hooch:f.hooch||undefined,notes:f.notes||undefined};}
+function bakeSummary(b){
+ const r=recipeOf(b);
+ return{date:new Date(b.createdAt).toISOString().slice(0,10),recipe:r.name,scale:b.scale,
+  steps:r.steps.map((s,i)=>{const st=b.steps[i]||{};return{step:s.title,minutes:st.startedAt&&st.doneAt?Math.round((st.doneAt-st.startedAt)/6e4):null,note:st.note||undefined};}),
+  folds:b.folds.length,
+  readings:b.readings.map(x=>({minFromStart:Math.round((x.at-b.createdAt)/6e4),doughC:x.temp,risePct:x.pct!=null?Math.round(x.pct):null,targetPct:x.temp!=null?targetRise(x.temp,r):null})),
+  poke:(b.pokes||[]).map(p=>p.v),notes:b.notes||undefined,outcome:b.outcome||null};
+}
+function historyJSON(){
+ return JSON.stringify({starterFeeds:S.starter.feeds.slice(-25).map(feedSummary),bakes:Object.values(S.bakes).sort((a,b)=>a.createdAt-b.createdAt).slice(-12).map(bakeSummary)});
+}
+function errCopy(c){return c==='not_granted'?'המאמן לא אושר בחלון הזה.':c==='rate_limited'?'יותר מדי בקשות — נסה שוב בעוד דקה.':c==='cancelled'?'בוטל.':'המאמן לא זמין כרגע. נסה שוב.';}
+async function runAI(key,prompt,onDone){
+ if(!SAMPLE){toast('המאמן זמין כשהאפליקציה פתוחה בתוך Claude');return;}
+ if(ui.ai[key]&&ui.ai[key].busy)return;
+ ui.ai[key]={busy:true,text:''};paintAI(key);
+ try{
+  const res=await SAMPLE(prompt,{cache:false,onText:({text})=>{ui.ai[key].text=text;paintAI(key);}});
+  ui.ai[key]={busy:false,text:res.text};onDone&&onDone(res.text);
+ }catch(e){ui.ai[key]={busy:false,text:(e&&e.text)||'',err:errCopy(e&&e.code)};}
+ paintAI(key);
+}
+function aiInner(a,text){if(a&&a.busy&&!a.text)return '<p class="muted think">המאמן חושב…</p>';return (text?md(text):'')+(a&&a.err?`<p class="warn">${esc(a.err)}</p>`:'');}
+function aiBlock(key,stored){const a=ui.ai[key];const text=a?a.text:(stored||'');return `<div class="ai" data-ai="${key}" aria-live="polite">${aiInner(a,text)}</div>`;}
+function paintAI(key){const el=document.querySelector(`[data-ai="${key}"]`);const a=ui.ai[key];if(el)el.innerHTML=aiInner(a,a.text);}
+
+/* ---------- visuals ---------- */
+const BUB=[[30,128,3],[48,118,2],[70,124,3.5],[82,108,2],[40,100,2.5],[62,92,2],[28,80,2],[76,72,3],[52,66,2],[36,52,2.5],[68,46,2]];
+function jarSVG(lv,band,label){
+ const top=24,bottom=140,inner=bottom-top;const y=bottom-inner*lv;const by=bottom-inner*band;
+ const bubbles=BUB.filter(b=>b[1]>y+4).map(b=>`<circle cx="${b[0]}" cy="${b[1]}" r="${b[2]}" fill="var(--paper)" opacity=".55"/>`).join('');
+ return `<svg class="jar" viewBox="0 0 110 150" role="img" aria-label="${esc(label)}">
+ <rect x="22" y="4" width="66" height="14" rx="4" fill="var(--rye)"/>
+ <path d="M16 20 h78 v112 q0 12 -12 12 h-54 q-12 0 -12 -12z" fill="var(--glass)" stroke="var(--ink)" stroke-opacity=".3" stroke-width="2"/>
+ <clipPath id="jarclip"><path d="M18 22 h74 v110 q0 10 -10 10 h-54 q-10 0 -10 -10z"/></clipPath>
+ <g clip-path="url(#jarclip)">${lv>0?`<rect x="0" y="${y}" width="110" height="${150-y}" fill="var(--levain)" opacity=".85"/><path d="M0 ${y} q27 -5 55 0 t55 0 v6 h-110z" fill="var(--levain)"/>${bubbles}`:''}</g>
+ ${lv>0?`<line x1="11" x2="99" y1="${by}" y2="${by}" stroke="var(--plum)" stroke-width="4" stroke-linecap="round"/>`:''}
+ </svg>`;
+}
+function jarNow(){
+ const st=starterState();if(!st)return jarSVG(0,.3,'צנצנת ריקה');
+ const base=.3,f=st.f;
+ if(st.kind==='fridge')return jarSVG(base*1.15,base,'סטארטר במקרר');
+ const rx=Math.min(f.riseX||(st.kind==='weak'?1.3:2.2),3.2);
+ const peakH=Math.max(f.peakAt?(f.peakAt-f.at)/36e5:st.p.h,.25);
+ let fr;if(st.e<peakH){const x=st.e/peakH;fr=(1-Math.cos(Math.PI*x))/2;}else fr=Math.max(.2,1-(st.e-peakH)/(peakH*1.5));
+ if(st.kind==='weak')fr=Math.min(fr,.5);
+ const lv=Math.min(base*(1+(rx-1)*fr),.95);
+ return jarSVG(lv,base,`גובה משוער: פי ${r1(lv/base)} מהגומייה`);
+}
+function peakChart(){
+ const pts=S.starter.feeds.filter(f=>f.peakAt&&f.state==='peak').slice(-14);
+ if(pts.length<2)return '';
+ const W=320,H=120,pl=26,pb=20;const mx=Math.max(...pts.map(f=>(f.peakAt-f.at)/36e5),4);
+ const bw=(W-pl)/pts.length;
+ const bars=pts.map((f,i)=>{const v=(f.peakAt-f.at)/36e5;const h=(H-pb-8)*v/mx;const x=W-(i+1)*bw+3;return `<rect x="${x}" y="${H-pb-h}" width="${bw-6}" height="${h}" rx="3" fill="var(--rye)"><title>${esc(dFmt(f.at))}: ${hrs(v)}, ${ratioStr(f)}</title></rect>`;}).join('');
+ const ticks=[0,Math.round(mx/2),Math.round(mx)].map(v=>{const y=H-pb-(H-pb-8)*v/mx;return `<line x1="0" x2="${W-pl}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${W-pl+4}" y="${y+4}" font-size="10" fill="var(--muted)">${v}ש׳</text>`;}).join('');
+ return `<h3 style="margin-top:14px">שעות עד שיא</h3><svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="גרף שעות עד שיא ב-${pts.length} ההאכלות האחרונות">${ticks}${bars}</svg><p class="tiny muted">האכלה חדשה ביותר מימין.</p>`;
+}
+const ICON={
+ starter:'<path d="M8 3h8v3H8zM6 7h12v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path d="M6 13h12"/>',
+ bake:'<path d="M4 12a8 5.5 0 0 1 16 0v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 9.5l1.2 3M13.5 8.5l1.2 3"/>',
+ recipes:'<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19"/>',
+ know:'<circle cx="12" cy="10" r="6"/><path d="M9.5 18.5h5M10.5 21h3"/>',
+ coach:'<path d="M4 5h16v11H10l-5 4v-4H4z"/><path d="M8 10h8"/>'
+};
+const TABS=[['starter','סטארטר'],['bake','אפייה'],['recipes','מתכונים'],['know','ידע'],['coach','תובנות']];
+
+/* ---------- views ---------- */
+function vHeader(){
+ return `<header class="top"><div class="brand">יומן מחמצת<small>סטארטר, אפיות ולקחים</small></div><div class="sync">${Store.mode==='cloud'?'● מסונכרן לחשבון':'○ נשמר במכשיר הזה'}</div></header>`;
+}
+function vLogin(){
+ const up=ui.loginMode==='up';
+ return vHeader()+`<section class="panel"><h3>${up?'יצירת חשבון':'כניסה'}</h3><p class="small muted">החשבון שומר את היומן בענן ומסנכרן בין הטלפון למחשב.</p>
+ <form data-form="login" class="stack"><label class="f">אימייל<input name="email" type="email" autocomplete="email" required dir="ltr"></label>
+ <label class="f">סיסמה<input name="pw" type="password" autocomplete="${up?'new-password':'current-password'}" minlength="6" required dir="ltr"></label>
+ <div class="warn small" id="loginErr" role="alert"></div>
+ <button class="btn primary" type="submit">${up?'צור חשבון':'היכנס'}</button></form>
+ <p style="margin-top:12px"><button class="link small" data-act="loginToggle">${up?'יש לי כבר חשבון':'אין לי חשבון עדיין'}</button></p></section>
+ <p class="small muted" style="text-align:center"><button class="link" data-act="localMode">המשך בלי חשבון (שמירה במכשיר בלבד)</button></p>`;
+}
+function vStarter(){
+ const st=starterState(),F=S.starter.feeds,fr=S.starter.settings.fridge;
+ let hero;
+ if(!st){
+  hero=`<section class="panel hero"><div class="jarwrap" id="jar">${jarNow()}</div><div><h3>הצנצנת ריקה</h3><p class="muted small">רשום את ההאכלה הראשונה. מכאן האפליקציה לומדת את הקצב של הסטארטר שלך.</p><button class="btn primary" data-act="feedOpen">רשום האכלה</button></div></section>`;
+ }else{
+  const f=st.f;let label,cls='',line2='';
+  switch(st.kind){
+   case 'fridge':label='במקרר';line2=`האכלה שבועית בעוד <span data-until="${f.at+7*864e5}" dir="ltr"></span>`;break;
+   case 'rising':label='תופח';line2=`שיא צפוי <span dir="ltr">${tFmt(f.at+st.p.lo*36e5)}–${tFmt(f.at+st.p.hi*36e5)}</span>`;break;
+   case 'peak':label='בחלון השיא';cls='peak';line2='זה הזמן לבדוק ולהשתמש';break;
+   case 'over':label=f.peakAt?'קרס':'כנראה עבר שיא';cls='over';line2='כדאי להאכיל';break;
+   case 'logged':label=`שיא ×${f.riseX||'?'} אחרי ${hrs((f.peakAt-f.at)/36e5)}`;cls='ok';line2='האכל כשתרצה להמשיך';break;
+   case 'weak':label='לא עלה';cls='over';line2='ראה תובנה למטה';break;
+  }
+  hero=`<section class="panel"><div class="hero"><div class="jarwrap" id="jar">${jarNow()}</div><div>
+   <span class="state ${cls}">${esc(label)}</span>
+   <div class="big" dir="ltr" data-since="${f.at}">0:00</div>
+   <div class="small muted">מאז ההאכלה · <span dir="ltr">${ratioStr(f)}</span>${num(f.temp)!=null?' · '+f.temp+'°C':''}</div>
+   <div class="small" style="margin-top:6px">${line2}</div>
+  </div></div>
+  ${st.p&&!f.peakAt?`<p class="tiny muted" style="margin:10px 0 0">${st.p.n>=2?`תחזית מותאמת לפי ${st.p.n} שיאים שתיעדת.`:'התחזית תתאים את עצמה אליך אחרי 2 שיאים מתועדים.'}</p>`:''}
+  <div class="row" style="margin-top:12px">
+   <button class="btn primary" data-act="feedOpen">האכלתי</button>
+   ${!f.peakAt&&!fr?`<button class="btn accent" data-act="peakOpen">תעד שיא / מצב</button>`:''}
+   <button class="btn ghost small" data-act="fridge" aria-pressed="${fr}">${fr?'הוצאתי מהמקרר':'העברתי למקרר'}</button>
+  </div></section>`;
+ }
+ const last=F[F.length-1];
+ const tips=last?feedInsight(last):[];
+ const groups={};F.filter(f=>f.peakAt&&f.state==='peak').forEach(f=>{const k=ratioStr(f);(groups[k]=groups[k]||[]).push((f.peakAt-f.at)/36e5);});
+ const gRows=Object.entries(groups).map(([k,v])=>`<tr><td dir="ltr" style="text-align:start">${k}</td><td>${v.length}</td><td>${hrs(v.reduce((a,b)=>a+b,0)/v.length)}</td></tr>`).join('');
+ const hist=F.slice(-20).reverse().map(f=>`<li><div><div class="num"><b>${esc(dtFmt(f.at))}</b> · <span dir="ltr">${ratioStr(f)}</span> <span class="muted small">(${f.starter}/${f.flour}/${f.water} ג׳)</span></div>
+  <div class="small muted">${[f.flourTypeLabel,num(f.temp)!=null?f.temp+'°C':null,f.peakAt?(f.state==='peak'?'שיא אחרי '+hrs((f.peakAt-f.at)/36e5):f.state==='collapsed'?'נמצא קורס':'לא עלה'):null,f.riseX?'×'+f.riseX:null,f.smellLabel].filter(Boolean).map(esc).join(' · ')}</div>
+  ${f.notes?`<div class="small">${esc(f.notes)}</div>`:''}</div><button class="x" data-act="delFeed" data-id="${f.id}" aria-label="מחק האכלה">×</button></li>`).join('');
+ const dg=STARTER_PROBLEMS.map(p=>`<button class="chip" data-act="diag" data-id="${p.id}" aria-pressed="${ui.diag===p.id}">${p.label}</button>`).join('');
+ const dsel=STARTER_PROBLEMS.find(p=>p.id===ui.diag);
+ return `${hero}
+ ${tips.length?`<h2>תובנה מההאכלה האחרונה</h2>${tips.map(t=>`<div class="note ${t.c}">${esc(t.t)}</div>`).join('')}`:''}
+ 
+ <h2>משהו לא נראה טוב?</h2><div class="chips">${dg}</div>${dsel?`<div class="note">${esc(dsel.t)}</div>`:''}
+ ${gRows||peakChart()?`<h2>הקצב של הסטארטר שלך</h2><section class="panel">${gRows?`<div class="tbl"><table><thead><tr><th>יחס</th><th>שיאים</th><th>ממוצע עד שיא</th></tr></thead><tbody>${gRows}</tbody></table></div>`:''}${peakChart()}</section>`:''}
+ ${F.length?`<h2>היסטוריית האכלות</h2><section class="panel"><ul class="list">${hist}</ul></section>`:''}`;
+}
+
+function vBakeList(){
+ const all=Object.values(S.bakes).sort((a,b)=>b.createdAt-a.createdAt);
+ const active=all.filter(b=>!b.outcome),done=all.filter(b=>b.outcome);
+ const card=b=>{const r=recipeOf(b);const i=b.steps.findIndex(s=>!s.doneAt);const cur=i>=0?r.steps[i]:null;
+  return `<button class="card" data-act="openBake" data-id="${b.id}"><div class="row sp"><span class="t">${esc(b.name)}</span><span class="small muted">${esc(dFmt(b.createdAt))}</span></div>
+  ${b.outcome?`<div class="stars" aria-label="דירוג ${b.outcome.rating} מתוך 5">${stars(b.outcome.rating)}</div><div class="small muted">${esc((CRUMB.find(c=>c.id===b.outcome.crumb)||{}).label||'')}</div>`
+   :`<div class="small">${cur?`עכשיו: <b>${esc(cur.title)}</b>${b.steps[i].startedAt?` · <span dir="ltr" data-since="${b.steps[i].startedAt}"></span>`:''}`:'כל השלבים הושלמו — מחכה לסיכום'}</div>`}</button>`;};
+ return `<button class="btn primary wide" data-act="newBakeOpen" style="margin-bottom:6px">אפייה חדשה</button>
+ ${active.length?`<h2>בתהליך</h2>${active.map(card).join('')}`:''}
+ ${done.length?`<h2>אפיות קודמות</h2>${done.map(card).join('')}`:''}
+ ${!all.length?`<div class="empty panel flat"><h3>עוד לא אפית כאן</h3><p class="muted">בחר מתכון, והאפליקציה תנהל איתך את הזמנים, הקיפולים והמדידות — ותזכור הכל לפעם הבאה.</p></div>`:''}`;
+}
+
+function prevLesson(b){
+ const prev=Object.values(S.bakes).filter(x=>x.id!==b.id&&x.recipeId===b.recipeId&&x.outcome&&x.createdAt<b.createdAt).sort((a,c)=>c.createdAt-a.createdAt)[0];
+ if(!prev)return '';
+ const L=bakeLessons(prev);
+ return `<details><summary>לקחים מהפעם הקודמת (${esc(dFmt(prev.createdAt))}) <span class="stars">${stars(prev.outcome.rating)}</span></summary><div class="in">
+  ${L.map(t=>`<div class="note ${t.c}">${esc(t.t)}</div>`).join('')}
+  ${prev.outcome.notes?`<p class="small"><b>ההערות שלך:</b> ${esc(prev.outcome.notes)}</p>`:''}
+  ${prev.aiReview?`<div class="ai small">${md(prev.aiReview.text.split('\n').slice(0,14).join('\n'))}</div>`:''}</div></details>`;
+}
+
+function vBake(b){
+ const r=recipeOf(b);
+ const ci=b.steps.findIndex(s=>!s.doneAt);
+ const lev=b.steps[r.steps.findIndex(s=>s.type==='levain')];
+ const mixI=r.steps.findIndex(s=>s.type==='mix'||s.type==='rest'&&s.id==='mix');
+ const mix=b.steps[mixI>=0?mixI:1];
+ const clock=(ts,label)=>`<div class="clock"><b ${ts?`data-since="${ts}"`:''}>${ts?'':'—'}</b><span>${label}</span></div>`;
+ const steps=r.steps.map((sd,i)=>{
+  const st=b.steps[i]||{};const cls=st.doneAt?'done':i===ci?'cur':'';
+  const took=st.startedAt&&st.doneAt?mins((st.doneAt-st.startedAt)/6e4):'';
+  let body='';
+  if(i===ci&&!b.outcome)body=stepBody(b,r,sd,st,i);
+  else if(st.doneAt&&st.note)body=`<div class="small muted" style="margin-top:4px">${esc(st.note)}</div>`;
+  const lastDone=st.doneAt&&(i===b.steps.length-1||!b.steps[i+1].doneAt)&&ci!==-1?`<button class="link small" data-act="stepUndo" data-i="${i}">החזר שלב</button>`:'';
+  return `<li class="step ${cls}"><span class="dot" aria-hidden="true">${st.doneAt?'✓':''}</span>
+   <div class="head"><span class="title">${esc(sd.title)}</span><span class="small muted num">${st.doneAt?esc(tFmt(st.startedAt))+' · '+took:i===ci?'':mins(sd.dur[0])+'–'+mins(sd.dur[1])}</span></div>${lastDone}${body}</li>`;
+ }).join('');
+ const ingList=r.ing.map(([n,q])=>`<li><span>${esc(n)}</span><b>${g(q,b.scale)} ג׳</b></li>`).join('');
+ const allDone=ci===-1;
+ return `<div class="row sp"><button class="btn ghost small" data-act="backBakes">→ כל האפיות</button><button class="btn ghost small danger" data-act="delBake" data-id="${b.id}">מחק</button></div>
+ <h2 style="margin-top:12px">${esc(b.name)}</h2>
+ <p class="small muted">${esc(r.name)} · כמות ×${b.scale} · התחלה ${esc(dtFmt(b.createdAt))}</p>
+ <div class="clocks">${clock(b.createdAt,'מההתחלה')}${clock(lev&&lev.startedAt,'מהאכלת הלבן')}${clock(mix&&mix.startedAt,'מהערבוב')}</div>
+ ${prevLesson(b)}
+ <details><summary>מצרכים לכמות הזו</summary><div class="in"><ul class="ing">${ingList}</ul></div></details>
+ <section class="panel" style="margin-top:12px"><ol class="steps">${steps}</ol>
+ ${!allDone&&!b.outcome?`<button class="link small" data-act="finishEarly">סיימתי — עבור לסיכום</button>`:''}</section>
+ ${(allDone||b.forceOutcome)&&!b.outcome?vOutcomeForm(b):''}
+ ${b.outcome?vOutcome(b):''}
+ `;
+}
+
+function stepBody(b,r,sd,st,i){
+ let x=`<div class="body stack"><p class="small">${esc(sd.d(b.scale))}</p>`;
+ if(!st.startedAt){
+  x+=`<button class="btn accent" data-act="stepStart" data-i="${i}">התחל שלב</button>`;
+ }else{
+  x+=`<div class="row sp"><div><div class="mid" dir="ltr" data-since="${st.startedAt}"></div><div class="tiny muted">בשלב הזה · מומלץ ${mins(sd.dur[0])}–${mins(sd.dur[1])}</div></div>
+   <div class="small" style="text-align:end">${st.startedAt+sd.dur[0]*6e4>now()?`מינימום בעוד<br><span dir="ltr" data-until="${st.startedAt+sd.dur[0]*6e4}"></span>`:`מקסימום בעוד<br><span dir="ltr" data-until="${st.startedAt+sd.dur[1]*6e4}"></span>`}</div></div>`;
+  if(sd.type==='fold')x+=foldBox(b,sd,st,i);
+  if(sd.type==='fold'||sd.type==='bulk'||(sd.type==='mix'&&!r.steps.some(s=>s.type==='fold'))||(sd.type==='mix'&&false))x+=bulkBox(b,r);
+  if(sd.type==='bulk'&&r.steps.every(s=>s.type!=='fold'))x+='';
+  if(sd.type==='proof')x+=pokeBox(b,i,sd);
+  if(sd.type==='levain')x+=`<p class="tiny muted">הסטארטר שלך: ${(()=>{const s=starterState();return s?(s.kind==='peak'||s.kind==='logged'?'בשיא או קרוב אליו':s.kind==='rising'?'עדיין תופח':'כנראה עבר שיא'):'אין האכלה מתועדת';})()}</p>`;
+  x+=`<label class="f">הערה לשלב<textarea data-note="${i}" placeholder="מה ראית, הרגשת, שינית">${esc(st.note||'')}</textarea></label>
+  <div class="row"><button class="btn primary" data-act="stepDone" data-i="${i}">סיימתי את השלב</button><button class="btn ghost small" data-act="stepStart" data-i="${i}">אפס טיימר</button></div>`;
+ }
+ return x+'</div>';
+}
+function foldBox(b,sd,st,i){
+ const every=b.foldEvery||sd.folds.every;
+ const fl=b.folds.filter(f=>f.step===i);
+ const lastT=fl.length?fl[fl.length-1].at:st.startedAt;
+ const doneAll=fl.length>=sd.folds.n;
+ return `<div class="panel" style="margin:0;background:var(--bg)"><div class="row sp"><div><div class="mid num">${fl.length}/${sd.folds.n}</div><div class="tiny muted">קיפולים</div></div>
+  <div style="text-align:end" class="small">${doneAll?'כל הקיפולים בוצעו':`קיפול הבא בעוד<br><b dir="ltr" data-until="${lastT+every*6e4}"></b>`}</div></div>
+  <div class="row" style="margin-top:10px"><button class="btn accent" data-act="fold" data-i="${i}">ביצעתי קיפול</button>${fl.length?`<button class="btn ghost small" data-act="foldUndo" data-i="${i}">בטל אחרון</button>`:''}
+  <label class="f" style="flex:1;min-width:110px">מרווח (דק׳)<input type="number" inputmode="numeric" data-fe="1" value="${every}" min="10" max="120"></label></div>
+  ${fl.length?`<p class="tiny muted" style="margin:8px 0 0">${fl.map(f=>tFmt(f.at)).join(' · ')}</p>`:''}</div>`;
+}
+function bulkBox(b,r){
+ const R=b.readings;const last=R[R.length-1];
+ const T=last&&last.temp!=null?last.temp:null;const tg=T!=null?targetRise(T,r):null;
+ const pct=last&&last.pct!=null?last.pct:null;
+ let prog='';
+ if(tg!=null){
+  const w=pct!=null?Math.min(pct/tg*100,100):0;const over=pct!=null&&pct>tg+10;
+  prog=`<div class="row sp small"><span>עלייה: <b class="num">${pct!=null?Math.round(pct)+'%':'—'}</b></span><span>יעד: <b class="num">${tg}%</b> <span class="muted">(בצק <span dir="ltr">${T}°C</span>)</span></span></div><div class="bar ${over?'over':''}" role="progressbar" aria-valuenow="${Math.round(w)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${w}%"></i></div>
+  ${pct!=null&&pct>=tg-5&&!over?'<div class="note good small">הגעת ליעד — בדוק כיפה ובועות בשוליים, ועבור לעיצוב.</div>':''}${over?'<div class="note bad small">עבר את היעד — עצב עכשיו.</div>':''}`;
+ }
+ return `<div class="panel" style="margin:0;background:var(--bg)"><h3 style="font-size:17px">מדידת תסיסה</h3>${prog}
+ <form data-form="reading" class="stack" style="margin-top:10px">
+  <div class="g3"><label class="f">טמפ׳ בצק °C<input name="temp" type="number" step="0.5" inputmode="decimal" value="${T!=null?T:''}"></label>
+  <label class="f">צנצנת: התחלה (מ״ל)<input name="start" type="number" inputmode="decimal" value="${b.aliquotStart||''}"></label>
+  <label class="f">צנצנת: עכשיו (מ״ל)<input name="cur" type="number" inputmode="decimal"></label></div>
+  <label class="f">או הערכה בעין<select name="eye"><option value="">—</option><option>10</option><option>25</option><option>40</option><option>50</option><option>65</option><option>75</option><option>100</option></select></label>
+  <button class="btn small" type="submit">רשום מדידה</button></form>
+ ${R.length?`<ul class="list small" style="margin-top:6px">${R.slice().reverse().map(x=>`<li><span class="num">${esc(tFmt(x.at))}</span><span class="num">${x.temp!=null?x.temp+'°C':''} ${x.pct!=null?' · '+Math.round(x.pct)+'%':''}</span></li>`).join('')}</ul>`:''}</div>`;
+}
+const POKE={fast:['קופץ מיד','צריך עוד זמן.','bad'],slow:['חוזר לאט, שקע קל','מוכן לאפייה.','good'],stay:['לא חוזר','עבר את השיא — אפה מיד, ואם צריך עצב מחדש ותן 30–60 דק׳.','bad']};
+function pokeBox(b,i,sd){
+ const P=(b.pokes||[]).filter(p=>p.step===i);const last=P[P.length-1];
+ return `<div><div class="small muted">מבחן לחיצה${sd.cold?' (אחרי המקרר, או לפני הכנסה לתנור)':''}:</div><div class="chips" style="margin-top:6px">${Object.entries(POKE).map(([k,v])=>`<button class="chip" data-act="poke" data-i="${i}" data-v="${k}" aria-pressed="${last&&last.v===k}">${v[0]}</button>`).join('')}</div>${last?`<div class="note ${POKE[last.v][2]} small">${POKE[last.v][1]}</div>`:''}</div>`;
+}
+function vOutcomeForm(b){
+ return `<section class="panel"><h3>איך יצא?</h3><form data-form="outcome" class="stack">
+ <fieldset style="border:0;padding:0;margin:0"><legend class="small muted">דירוג</legend><div class="chips">${[1,2,3,4,5].map(n=>`<label class="chip"><input type="radio" name="rating" value="${n}" style="width:auto;min-height:0;margin:0 0 0 4px" ${n===3?'checked':''}>${n}</label>`).join('')}</div></fieldset>
+ <label class="f">פירור<select name="crumb">${CRUMB.map(c=>`<option value="${c.id}">${esc(c.label)}</option>`).join('')}</select></label>
+ <div class="g2"><label class="f">תפיחה בתנור<select name="spring"><option value="good">טובה</option><option value="ok">בינונית</option><option value="weak">חלשה</option></select></label>
+ <label class="f">חמיצות<select name="sour"><option value="mild">עדינה</option><option value="balanced" selected>מאוזנת</option><option value="very">חמוץ מאוד</option></select></label></div>
+ <label class="f">הערות<textarea name="notes" placeholder="קרום, צבע, טעם, מה היית משנה"></textarea></label>
+ <button class="btn primary" type="submit">שמור תוצאה</button></form></section>`;
+}
+function vOutcome(b){
+ const o=b.outcome,L=bakeLessons(b);
+ return `<h2>סיכום</h2><section class="panel"><div class="stars" style="font-size:20px">${stars(o.rating)}</div>
+ <p class="small">${esc((CRUMB.find(c=>c.id===o.crumb)||{}).label||'')} · תפיחה ${o.spring==='good'?'טובה':o.spring==='weak'?'חלשה':'בינונית'} · ${o.sour==='very'?'חמוץ מאוד':o.sour==='mild'?'חמיצות עדינה':'חמיצות מאוזנת'}</p>
+ ${o.notes?`<p class="small">${esc(o.notes)}</p>`:''}
+ <h3 style="margin-top:12px">לקחים</h3>${L.map(t=>`<div class="note ${t.c} small">${esc(t.t)}</div>`).join('')}
+ ${b.aiReview?`<h3 style="margin-top:14px">ניתוח המאמן (מהגרסה הקודמת)</h3><div class="ai">${md(b.aiReview.text)}</div>`:''}
+ <div class="row" style="margin-top:8px"><button class="btn ghost small" data-act="editOutcome" data-id="${b.id}">ערוך תוצאה</button></div></section>`;
+}
+
+function vRecipes(){
+ if(ui.recipeId){
+  const r=RECIPES.find(x=>x.id===ui.recipeId);const k=ui.recipeScale;const hy=hydration(r);
+  return `<button class="btn ghost small" data-act="recipeBack">→ כל המתכונים</button>
+  <h2>${esc(r.name)}</h2><p class="muted">${esc(r.sub)}</p>
+  <div class="spec">${hy?`<div><b>${hy}%</b>הידרציה</div>`:'<div><b>מועשר</b>סוג בצק</div>'}<div><b>${esc(r.time)}</b>זמן כולל</div></div>
+  <div class="chips" role="group" aria-label="כמות">${[0.5,1,1.5,2].map(v=>`<button class="chip" data-act="recipeScale" data-v="${v}" aria-pressed="${k===v}">×${v}</button>`).join('')}</div>
+  <section class="panel" style="margin-top:10px"><ul class="ing">${r.ing.map(([n,q])=>`<li><span>${esc(n)}</span><b>${g(q,k)} ג׳</b></li>`).join('')}</ul></section>
+  <h3>שלבים</h3><ol style="padding-inline-start:20px">${r.steps.map(s=>`<li style="margin-bottom:8px"><b>${esc(s.title)}</b> <span class="small muted">(${mins(s.dur[0])}–${mins(s.dur[1])})</span><br><span class="small">${esc(s.d(k))}</span></li>`).join('')}</ol>
+  <button class="btn primary wide" data-act="recipeStart">התחל אפייה עם המתכון הזה</button>
+  ${r.src?`<p class="tiny muted" style="margin-top:10px">מקור: <a href="${r.src[0]}" target="_blank" rel="noopener">${esc(r.src[1])}</a> (ניסוח ושלבים מותאמים)</p>`:'<p class="tiny muted" style="margin-top:10px">נוסחת בסיס סטנדרטית, עם יעדי תסיסה לפי טמפ׳ בצק.</p>'}`;
+ }
+ return RECIPES.map(r=>{const hy=hydration(r);const n=Object.values(S.bakes).filter(b=>b.recipeId===r.id).length;
+  return `<button class="card" data-act="recipeOpen" data-id="${r.id}"><div class="row sp"><span class="t">${esc(r.name)}</span><span class="small muted">${hy?hy+'% הידרציה':'מועשר'}</span></div><div class="small muted">${esc(r.sub)}${n?` · אפית ${n} פעמים`:''}</div></button>`;}).join('');
+}
+
+const KNOW=[
+ {t:'סימני שיא ומתי להשתמש',h:`<p>שים גומייה על הצנצנת בגובה הסטארטר מיד אחרי ההאכלה. הוא בשיא כשהכפיל את עצמו לפחות, עם כיפה מבועבעת. ברגע שהכיפה מתחילה להשתטח או לשקוע — הוא עבר את השיא.</p><p>לאפייה משתמשים בסטארטר בשיא, אחרי האכלה אחת-שתיים בטמפ׳ החדר.</p>`},
+ {t:'יחסי האכלה וזמנים',h:`<div class="tbl"><table><thead><tr><th>יחס (סטארטר:קמח:מים)</th><th>שיא ב-22°C</th><th>מתי</th></tr></thead><tbody>
+  <tr><td dir="ltr" style="text-align:start">1:1:1</td><td>4–6 ש׳</td><td>אפייה באותו יום, חיזוק סטארטר איטי. חמוץ יותר.</td></tr>
+  <tr><td dir="ltr" style="text-align:start">1:2:2</td><td>6–8 ש׳</td><td>הכי גמיש: ערב לבוקר, בוקר לערב.</td></tr>
+  <tr><td dir="ltr" style="text-align:start">1:5:5</td><td>10–14 ש׳</td><td>לילה, מטבח חם, טעם עדין.</td></tr></tbody></table></div>
+  <p class="small">מעבר ל-1:5:5 כבר כמעט לא מרוויחים זמן, והסטארטר נוטה להחמיץ.</p>`},
+ {t:'טמפרטורה — הידית החזקה ביותר',h:`<p>כל ~5.5°C חם יותר חוצים את זמן השיא בערך בחצי, וכל 5.5°C קר יותר מכפילים אותו. בחורף — מים פושרים (24–27°C) בהאכלה. בקיץ חם — יחס גבוה (1:4:4 עד 1:5:5) ומים קרירים.</p><p class="small muted">בבית שמש בקיץ המטבח יכול להגיע ל-28°C+ — שם הסטארטר יכול לשיא תוך 3–4 שעות גם ב-1:2:2.</p>`},
+ {t:'סטארטר במקרר',h:`<p>אם אופים פחות מפעם-פעמיים בשבוע: האכלה שבועית ב-1:2:2 או 1:3:3, שעה-שעתיים בחוץ עד שמתחילות בועות, ובחזרה למקרר. לפני אפייה — 1–2 האכלות בטמפ׳ החדר.</p>`},
+ {t:'אבחון בעיות סטארטר',h:`<div class="tbl"><table><thead><tr><th>סימן</th><th>משמעות</th><th>מה לעשות</th></tr></thead><tbody>
+  <tr><td>ריח אצטון, נוזל כהה</td><td>רעב</td><td>להשאיר 10–20 ג׳, 1:3:3–1:5:5 ליומיים-שלושה</td></tr>
+  <tr><td>עולה וקורס תוך 2–3 ש׳</td><td>אוכל מהר מדי</td><td>יחס גבוה יותר, מים קרירים</td></tr>
+  <tr><td>ריח קמח, כמעט לא עולה</td><td>מדולל מדי / האכלות צפופות</td><td>לתת לו להגיע לשיא בין האכלות</td></tr>
+  <tr><td>עולה אבל לא מכפיל</td><td>נוזלי מדי או חלש</td><td>100 קמח / 90 מים, קמח לחם, מקום חם</td></tr>
+  <tr><td>חמוץ מאוד</td><td>חומציות גבוהה</td><td>1:5:5 פעם-פעמיים</td></tr></tbody></table></div>`},
+ {t:'תסיסה ראשונית: טמפ׳ בצק ויעד עלייה',h:`<p>זו השיטה הכי אמינה לדעת מתי לעצור: מודדים את טמפ׳ <b>מרכז הבצק</b> במדחום דקירה אחרי הקיפולים, ומכוונים לאחוז עלייה לפי הטבלה. בצק חם ממשיך לתסוס גם בעיצוב ובמקרר — לכן עוצרים אותו מוקדם יותר.</p>
+  <div class="tbl"><table><thead><tr><th>טמפ׳ בצק</th><th>יעד עלייה</th><th>זמן משוער</th></tr></thead><tbody>
+  <tr><td>18°C</td><td>75–100%</td><td>8–12 ש׳</td></tr><tr><td>21°C</td><td>65–75%</td><td>6–9 ש׳</td></tr><tr><td>24°C</td><td>~50%</td><td>4–6 ש׳</td></tr><tr><td>27°C</td><td>~30%</td><td>3–4 ש׳</td></tr><tr><td>29°C</td><td>20–25%</td><td>2–3 ש׳</td></tr></tbody></table></div>
+  <p class="small">קמח מלא: להוריד 20–30% מהיעד. אם הטמפ׳ זזה במהלך התסיסה, הטמפ׳ ששלטה ברוב הזמן היא הקובעת. הזמנים תלויים גם בכמות הלבן — 20% לבן הוא הבסיס בטבלה.</p>`},
+ {t:'צנצנת מדידה (Aliquot)',h:`<p>לוקחים כ-40 ג׳ מהבצק מיד אחרי הערבוב לצנצנת צרה עם דפנות ישרות, מסמנים בגומייה, ומניחים ליד הקערה (אותה טמפ׳). לא נוגעים בדגימה בזמן הקיפולים. כשהדגימה מגיעה ליעד — הבצק הגדול מוכן.</p><p class="small">חישוב: (גובה עכשיו − גובה התחלה) ÷ גובה התחלה × 100. באפליקציה פשוט מזינים מ״ל התחלה ומ״ל עכשיו.</p>`},
+ {t:'מבחן לחיצה',h:`<p>לוחצים בעדינות באצבע מקומחת כ-1 ס״מ:</p><ul><li>קופץ מיד — צריך עוד זמן.</li><li>חוזר לאט ומשאיר שקע קל — מוכן.</li><li>לא חוזר בכלל — עבר את השיא. לאפות מיד.</li></ul>`},
+ {t:'קריאת הפירור',h:`<div class="tbl"><table><thead><tr><th>מה רואים</th><th>סיבה סבירה</th><th>תיקון</th></tr></thead><tbody>${CRUMB.filter(c=>c.id!=='good').map(c=>`<tr><td>${esc(c.label)}</td><td>${esc(c.cause)}</td><td>${esc(c.fix)}</td></tr>`).join('')}</tbody></table></div><p class="small">תמיד כדאי להצליב את הפירור עם המראה מבחוץ: חריץ שנפתח יפה מול קריעה בצד, גובה מול התפשטות.</p>`},
+ {t:'למה דביק בפנים?',h:`<p>ברוב המקרים זו לא התסיסה אלא האפייה: לאפות עד 96–99°C בפנים ולחכות שעה-שעתיים לפני חיתוך — האדים עדיין מבשלים את הפירור. אם גם הפירור צפוף והלחם נמוך — זו תת-התפחה, והתיקון הוא יותר זמן בתסיסה, לא בתנור.</p>`}
+];
+const SOURCES=[
+ ['https://sourdoughratio.com/guides/starter-feeding-ratio','יחסי האכלה וזמני שיא — Sourdough Ratio'],
+ ['https://sourdougharchive.com/sourdough-starter-chart/','טבלת האכלה לפי טמפ׳ — Sourdough Archive'],
+ ['https://sourdougharchive.com/how-to-feed-and-maintain-sourdough-starter/','אבחון סטארטר — Sourdough Archive'],
+ ['https://sourdoughstarter.com/blogs/bakers-playbook/peak-to-peak-feeding-explained-how-to-time-your-sourdough-starter-for-maximum-strength','האכלה משיא לשיא'],
+ ['https://thesourdoughjourney.com/wp-content/uploads/2024/01/The-The-SECRET-of-Bulk-Fermentation-Measuring-Dough-Temperature-and-Percentage-Rise.pdf','טמפ׳ בצק ואחוז עלייה — The Sourdough Journey'],
+ ['https://sourdougharchive.com/bulk-fermentation-percentage-rise/','יעד עלייה לפי טמפ׳ — Sourdough Archive'],
+ ['https://sourdoughtalk.com/aliquot-jar-method-for-sourdough-bulk-fermentation/','שיטת צנצנת המדידה — Sourdough Talk'],
+ ['https://www.mydailysourdoughbread.com/reading-your-sourdough-crumb/','קריאת פירור — My Daily Sourdough'],
+ ['https://sourdoughratio.com/blog/underproofed-vs-overproofed','תת-התפחה מול התפחת-יתר']
+];
+function vKnow(){
+ return KNOW.map((k,i)=>`<details ${i===5?'open':''}><summary>${esc(k.t)}</summary><div class="in small">${k.h}</div></details>`).join('')+
+ `<h2>מקורות</h2><ul class="small" style="padding-inline-start:18px">${SOURCES.map(s=>`<li><a href="${s[0]}" target="_blank" rel="noopener">${esc(s[1])}</a></li>`).join('')}</ul>`;
+}
+
+function bulkMinutes(b){const r=recipeOf(b);let m=0;r.steps.forEach((sd,i)=>{const st=b.steps[i]||{};if((sd.type==='fold'||sd.type==='bulk')&&st.startedAt&&st.doneAt)m+=(st.doneAt-st.startedAt)/6e4;});return m||null;}
+function lastPct(b){const R=b.readings||[];for(let i=R.length-1;i>=0;i--)if(R[i].pct!=null)return R[i];return null;}
+function vCoach(){
+ const B=Object.values(S.bakes).filter(b=>b.outcome).sort((a,b)=>b.createdAt-a.createdAt);
+ const F=S.starter.feeds.filter(f=>f.peakAt&&f.state==='peak');
+ const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null;
+ const avgR=B.length?r1(avg(B.map(b=>b.outcome.rating))):null;
+ const under=B.filter(b=>['dense','fools','blowout'].includes(b.outcome.crumb)).length;
+ const over=B.filter(b=>['flat','holey'].includes(b.outcome.crumb)).length;
+ const avgPeak=F.length?avg(F.map(f=>(f.peakAt-f.at)/36e5)):null;
+ const pattern=B.length>=2?(under>over&&under>=2?'נטייה לתת-התפחה: רוב האפיות החלשות שלך צפופות. תן לתסיסה עוד זמן והגע ליעד העלייה.':over>under&&over>=2?'נטייה להתפחת-יתר: האפיות החלשות שטוחות או עם חורים קרועים. עצור מוקדם יותר או קרר.':''):'';
+ const good=B.filter(b=>b.outcome.rating>=4),weak=B.filter(b=>b.outcome.rating<=2);
+ const cmp=(arr)=>{const p=arr.map(lastPct).filter(Boolean);return{pct:avg(p.map(x=>x.pct)),temp:avg(p.map(x=>x.temp).filter(x=>x!=null)),bulk:avg(arr.map(bulkMinutes).filter(Boolean))};};
+ let cmpHtml='';
+ if(good.length&&weak.length){const a=cmp(good),c=cmp(weak);const cell=(v,f)=>v!=null?f(v):'—';
+  cmpHtml=`<h3 style="margin-top:14px">טובות מול חלשות</h3><div class="tbl"><table><thead><tr><th></th><th>טובות (4–5★)</th><th>חלשות (1–2★)</th></tr></thead><tbody>
+  <tr><td>עלייה בסוף התסיסה</td><td>${cell(a.pct,v=>Math.round(v)+'%')}</td><td>${cell(c.pct,v=>Math.round(v)+'%')}</td></tr>
+  <tr><td>טמפ׳ בצק</td><td>${cell(a.temp,v=>r1(v)+'°C')}</td><td>${cell(c.temp,v=>r1(v)+'°C')}</td></tr>
+  <tr><td>זמן קיפולים + תסיסה</td><td>${cell(a.bulk,mins)}</td><td>${cell(c.bulk,mins)}</td></tr></tbody></table></div>`;}
+ const best=B.slice().sort((a,b)=>b.outcome.rating-a.outcome.rating||b.createdAt-a.createdAt)[0];
+ let bestHtml='';
+ if(best){const lp=lastPct(best);bestHtml=`<h3 style="margin-top:14px">האפייה הכי טובה שלך</h3><p class="small"><b>${esc(best.name)}</b> (${esc(dFmt(best.createdAt))}) <span class="stars">${stars(best.outcome.rating)}</span><br>${[lp&&lp.temp!=null?'בצק '+lp.temp+'°C':null,lp?'עצרת ב-'+Math.round(lp.pct)+'%':null,bulkMinutes(best)?'תסיסה '+mins(bulkMinutes(best)):null].filter(Boolean).join(' · ')||'אין מדידות'}</p>`;}
+ const perR=RECIPES.map(r=>{const x=B.filter(b=>b.recipeId===r.id);return x.length?`<tr><td>${esc(r.name)}</td><td>${x.length}</td><td>${r1(avg(x.map(b=>b.outcome.rating)))}</td></tr>`:'';}).join('');
+ return `<section class="panel"><div class="g3" style="text-align:center">
+  <div><div class="mid">${B.length}</div><div class="tiny muted">אפיות מסוכמות</div></div>
+  <div><div class="mid">${avgR!=null?avgR:'—'}</div><div class="tiny muted">דירוג ממוצע</div></div>
+  <div><div class="mid">${avgPeak!=null?hrs(avgPeak):'—'}</div><div class="tiny muted">ממוצע עד שיא</div></div></div>
+  ${pattern?`<div class="note bad small" style="margin-top:12px">${esc(pattern)}</div>`:''}
+  ${!B.length?'<p class="small muted" style="margin-top:12px">סכם כמה אפיות, והתובנות יופיעו כאן.</p>':''}
+  ${cmpHtml}${bestHtml}
+  ${perR?`<h3 style="margin-top:14px">לפי מתכון</h3><div class="tbl"><table><thead><tr><th>מתכון</th><th>אפיות</th><th>דירוג</th></tr></thead><tbody>${perR}</tbody></table></div>`:''}</section>
+ <section class="panel"><h3>גיבוי</h3><p class="small muted">${Store.mode==='cloud'?'היומן מסונכרן לחשבון שלך. גיבוי לקובץ הוא ביטוח נוסף.':'היומן שמור רק במכשיר הזה. גבה מדי פעם לקובץ.'}</p>
+  <div class="row"><button class="btn small" data-act="exportData">ייצוא לקובץ</button><label class="btn small ghost">ייבוא מקובץ<input type="file" accept="application/json,.json" data-import="1" hidden></label>
+  ${Store.mode==='cloud'?'<button class="btn small ghost danger" data-act="signOut">התנתק</button>':''}</div></section>`;
+}
+
+/* ---------- render ---------- */
+function render(){
+ const app=$('#app');
+ $('#tabs').innerHTML=TABS.map(([id,l])=>`<button data-act="tab" data-id="${id}" ${ui.tab===id?'aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[id]}</svg>${l}</button>`).join('');
+ if(!READY){app.innerHTML='<div class="loading">טוען את היומן…</div>';return;}
+ if(ui.needLogin){$('#tabs').innerHTML='';app.innerHTML=vLogin();return;}
+ let body='';
+ if(ui.tab==='starter')body=vStarter();
+ else if(ui.tab==='bake'){const b=ui.bakeId&&S.bakes[ui.bakeId];body=b?vBake(b):vBakeList();}
+ else if(ui.tab==='recipes')body=vRecipes();
+ else if(ui.tab==='know')body=vKnow();
+ else body=vCoach();
+ app.innerHTML=vHeader()+body;
+ tickTimers();
+}
+function tickTimers(){
+ const t=now();
+ document.querySelectorAll('[data-since]').forEach(el=>{el.textContent=dur(t-+el.dataset.since);});
+ document.querySelectorAll('[data-until]').forEach(el=>{const d=+el.dataset.until-t;el.textContent=d>=0?dur(d):'עכשיו (+'+dur(-d)+')';el.classList.toggle('late',d<0);});
+}
+let tick=0;
+setInterval(()=>{
+ tickTimers();tick++;
+ if(!READY)return;
+ if(tick%20===0&&ui.tab==='starter'){const j=$('#jar');if(j)j.innerHTML=jarNow();}
+ if(tick%60===0){const a=document.activeElement;const busy=a&&a.matches&&a.matches('input,textarea,select');const anyAI=Object.values(ui.ai).some(x=>x.busy);if(!busy&&$('#sheet').hidden&&!anyAI&&(ui.tab==='starter'||ui.tab==='bake'))render();}
+},1000);
+
+/* ---------- sheets ---------- */
+function openSheet(html){const s=$('#sheet');s.innerHTML=`<div class="sheet-bg" data-act="closeSheet"></div><div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div>${html}</div>`;s.hidden=false;const f=s.querySelector('input,select,button:not(.sheet-bg)');}
+function closeSheet(){const s=$('#sheet');s.hidden=true;s.innerHTML='';}
+const FLOURS=[['bread','קמח לחם'],['white','קמח לבן'],['whole','קמח מלא'],['rye','שיפון'],['mix','תערובת']];
+function feedSheet(){
+ const l=S.starter.feeds[S.starter.feeds.length-1]||{starter:25,flour:50,water:50,temp:24,flourType:'bread'};
+ openSheet(`<h3>רישום האכלה</h3><form data-form="feed" class="stack">
+  <div class="g3"><label class="f">סטארטר (ג׳)<input name="starter" type="number" inputmode="decimal" value="${l.starter}" required></label>
+  <label class="f">קמח (ג׳)<input name="flour" type="number" inputmode="decimal" value="${l.flour}" required></label>
+  <label class="f">מים (ג׳)<input name="water" type="number" inputmode="decimal" value="${l.water}" required></label></div>
+  <div class="chips" role="group" aria-label="יחס מהיר">${[[1,1],[1,2],[1,3],[1,5]].map(([a,b])=>`<button type="button" class="chip" data-act="ratioPick" data-v="${b}">1:${b}:${b}</button>`).join('')}</div>
+  <div class="g2"><label class="f">סוג קמח<select name="flourType">${FLOURS.map(([v,t])=>`<option value="${v}" ${l.flourType===v?'selected':''}>${t}</option>`).join('')}</select></label>
+  <label class="f">טמפ׳ בחדר °C<input name="temp" type="number" step="0.5" inputmode="decimal" value="${l.temp!=null?l.temp:''}"></label></div>
+  <label class="f">מתי<input name="at" type="datetime-local" value="${toLocalInput(now())}"></label>
+  <label class="f">הערות<input name="notes" placeholder="למשל: מים פושרים, צנצנת חדשה"></label>
+  <div class="note small" id="feedPred"></div>
+  <div class="row"><button class="btn primary" type="submit">שמור</button><button class="btn ghost" type="button" data-act="closeSheet">ביטול</button></div></form>`);
+ updFeedPred();
+}
+function feedFromForm(f){return{starter:num(f.starter.value)||0,flour:num(f.flour.value)||0,water:num(f.water.value)||0,temp:num(f.temp.value),flourType:f.flourType.value};}
+function updFeedPred(){const f=$('#sheet form[data-form="feed"]');if(!f)return;const x=feedFromForm(f);if(!x.starter){$('#feedPred').textContent='';return;}const p=predict(x);$('#feedPred').innerHTML=`יחס <span dir="ltr">${ratioStr(x)}</span> · שיא צפוי בעוד <b>${hrs(p.lo)}–${hrs(p.hi)}</b>${p.n>=2?' (לפי הקצב שלך)':''}`;}
+function peakSheet(){
+ openSheet(`<h3>תיעוד שיא / מצב</h3><form data-form="peak" class="stack">
+  <label class="f">מה מצאת?<select name="state"><option value="peak">בשיא — כיפה מלאה</option><option value="collapsed">כבר קרס / שוקע</option><option value="norise">כמעט לא עלה</option></select></label>
+  <div class="g2"><label class="f">עלייה (לפי הגומייה)<select name="rise"><option value="">—</option><option value="1.3">×1.3</option><option value="1.5">×1.5</option><option value="2" selected>×2</option><option value="2.5">×2.5</option><option value="3">×3 ויותר</option></select></label>
+  <label class="f">ריח<select name="smell"><option value="">—</option><option value="yeasty">שמרי, נעים</option><option value="tangy">חמצמץ עדין</option><option value="vinegar">חומץ חזק</option><option value="acetone">אצטון</option><option value="flour">כמו קמח</option></select></label></div>
+  <label class="row small" style="gap:8px"><input type="checkbox" name="hooch" style="width:auto;min-height:0;margin:0"> יש נוזל על הפנים</label>
+  <label class="f">מתי<input name="at" type="datetime-local" value="${toLocalInput(now())}"></label>
+  <label class="f">הערות<input name="notes"></label>
+  <div class="row"><button class="btn primary" type="submit">שמור</button><button class="btn ghost" type="button" data-act="closeSheet">ביטול</button></div></form>`);
+}
+function newBakeSheet(preset){
+ openSheet(`<h3>אפייה חדשה</h3><form data-form="newBake" class="stack">
+  <label class="f">מתכון<select name="recipe">${RECIPES.map(r=>`<option value="${r.id}" ${preset===r.id?'selected':''}>${esc(r.name)}</option>`).join('')}</select></label>
+  <label class="f">כמות<select name="scale"><option value="0.5">×0.5</option><option value="1" selected>×1</option><option value="1.5">×1.5</option><option value="2">×2</option></select></label>
+  <label class="f">שם (אופציונלי)<input name="name" placeholder="למשל: חלה לשבת"></label>
+  <p class="small muted">השלב הראשון (הלבן) יתחיל לרוץ מעכשיו.</p>
+  <div class="row"><button class="btn primary" type="submit">התחל</button><button class="btn ghost" type="button" data-act="closeSheet">ביטול</button></div></form>`);
+ if(ui.recipeScale&&preset){const s=$('#sheet select[name=scale]');if(s)s.value=String(ui.recipeScale);}
+}
+
+/* ---------- actions ---------- */
+const FLOUR_LABEL=Object.fromEntries(FLOURS);
+const SMELL_LABEL={yeasty:'ריח שמרי',tangy:'חמצמץ',vinegar:'חומץ',acetone:'אצטון',flour:'ריח קמח'};
+function curBake(){return ui.bakeId&&S.bakes[ui.bakeId];}
+const ACT={
+ tab(el){ui.tab=el.dataset.id;if(ui.tab!=='bake')ui.bakeId=ui.bakeId;render();window.scrollTo(0,0);},
+ closeSheet,
+ loginToggle(){ui.loginMode=ui.loginMode==='up'?'in':'up';render();},
+ localMode(){ui.needLogin=false;Store.mode='local';Store.loadAll().then(render);},
+ signOut(){if(confirm('להתנתק? הנתונים נשארים בחשבון.'))Store.signOut();},
+ exportData(){const blob=new Blob([JSON.stringify(S,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sourdough-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);},
+ feedOpen:feedSheet, peakOpen:peakSheet,
+ ratioPick(el){const f=el.closest('form');const s=num(f.starter.value)||25;const m=+el.dataset.v;f.flour.value=Math.round(s*m);f.water.value=Math.round(s*m);updFeedPred();},
+ delFeed(el){if(!confirm('למחוק את ההאכלה הזו?'))return;S.starter.feeds=S.starter.feeds.filter(f=>f.id!==el.dataset.id);saveStarter();render();},
+ fridge(){S.starter.settings.fridge=!S.starter.settings.fridge;saveStarter();render();toast(S.starter.settings.fridge?'מצב מקרר: תזכורת להאכלה שבועית':'חזרת לטמפ׳ החדר — האכל כדי להתחיל מחזור');},
+ diag(el){ui.diag=ui.diag===el.dataset.id?null:el.dataset.id;render();},
+ aiStarter(){
+  const p=`${RULES}\n\nאלה ההאכלות האחרונות של הסטארטר שלי (JSON, הישנה ראשונה). הסטארטר ${S.starter.settings.fridge?'כרגע במקרר':'כרגע בטמפ׳ החדר'}.\n${JSON.stringify(S.starter.feeds.slice(-20).map(feedSummary))}\n\nמשימה: 1) מה מצב הסטארטר ומה הקצב שלו (שעות עד שיא לפי יחס וטמפ׳). 2) דפוסים או בעיות שחוזרות. 3) תוכנית האכלה מומלצת ליומיים הקרובים עם יחסים ושעות. עד 200 מילים.`;
+  runAI('starter',p,t=>{S.coach.starterText=t;Store.put('coach',S.coach);});
+ },
+ newBakeOpen(){newBakeSheet();},
+ openBake(el){ui.bakeId=el.dataset.id;ui.tab='bake';render();window.scrollTo(0,0);},
+ backBakes(){ui.bakeId=null;render();window.scrollTo(0,0);},
+ delBake(el){if(!confirm('למחוק את האפייה הזו וכל התיעוד שלה?'))return;const id=el.dataset.id;delete S.bakes[id];Store.del(id);ui.bakeId=null;render();},
+ stepStart(el){const b=curBake();const i=+el.dataset.i;b.steps[i].startedAt=now();saveBake(b);render();},
+ stepDone(el){const b=curBake();const i=+el.dataset.i;const st=b.steps[i];if(!st.startedAt)st.startedAt=now();st.doneAt=now();if(b.steps[i+1]&&!b.steps[i+1].startedAt)b.steps[i+1].startedAt=now();saveBake(b);render();},
+ stepUndo(el){const b=curBake();const i=+el.dataset.i;delete b.steps[i].doneAt;const n=b.steps[i+1];if(n&&!n.doneAt)delete n.startedAt;saveBake(b);render();},
+ fold(el){const b=curBake();b.folds.push({at:now(),step:+el.dataset.i});saveBake(b);render();toast('קיפול '+b.folds.filter(f=>f.step===+el.dataset.i).length+' נרשם');},
+ foldUndo(el){const b=curBake();const i=+el.dataset.i;for(let k=b.folds.length-1;k>=0;k--){if(b.folds[k].step===i){b.folds.splice(k,1);break;}}saveBake(b);render();},
+ poke(el){const b=curBake();b.pokes=b.pokes||[];b.pokes.push({at:now(),step:+el.dataset.i,v:el.dataset.v});saveBake(b);render();},
+ finishEarly(){const b=curBake();b.forceOutcome=true;saveBake(b);render();setTimeout(()=>{const f=$('form[data-form="outcome"]');if(f)f.scrollIntoView({behavior:'smooth',block:'start'});},50);},
+ editOutcome(){const b=curBake();b.outcome=null;b.forceOutcome=true;saveBake(b);render();},
+ aiReview(el){const b=S.bakes[el.dataset.id];reviewBake(b);},
+ askDough(){
+  const b=curBake();const q=($('#askDoughQ')||{}).value||'';if(!q.trim()){toast('כתוב שאלה קודם');return;}
+  const r=recipeOf(b);const ci=b.steps.findIndex(s=>!s.doneAt);
+  const ctx={now:new Date().toISOString().slice(0,16),currentStep:ci>=0?r.steps[ci].title:'הסתיים',minutesInStep:ci>=0&&b.steps[ci].startedAt?Math.round((now()-b.steps[ci].startedAt)/6e4):null,bake:bakeSummary(b),recipeSteps:r.steps.map(s=>({title:s.title,rangeMin:s.dur,desc:s.d(b.scale)}))};
+  const prev=Object.values(S.bakes).filter(x=>x.id!==b.id&&x.outcome).sort((a,c)=>c.createdAt-a.createdAt).slice(0,4).map(bakeSummary);
+  runAI('dough_'+b.id,`${RULES}\n\nאני באמצע אפייה. המצב הנוכחי (JSON):\n${JSON.stringify(ctx)}\n\nאפיות קודמות שלי:\n${JSON.stringify(prev)}\n\nהסטארטר: ${JSON.stringify(S.starter.feeds.slice(-3).map(feedSummary))}\n\nהשאלה שלי: ${q}\n\nענה ממוקד למצב הנוכחי, עד 150 מילים, עם פעולה ברורה לעכשיו.`);
+ },
+ recipeOpen(el){ui.recipeId=el.dataset.id;ui.recipeScale=1;render();window.scrollTo(0,0);},
+ recipeBack(){ui.recipeId=null;render();},
+ recipeScale(el){ui.recipeScale=+el.dataset.v;render();},
+ recipeStart(){newBakeSheet(ui.recipeId);},
+ coachAnalyze(){
+  runAI('insight',`${RULES}\n\nזו כל ההיסטוריה שלי — האכלות הסטארטר והאפיות (JSON):\n${historyJSON()}\n\nמשימה:\n## הסטארטר — קצב, יציבות, בעיות\n## מה מבדיל בין האפיות הטובות לחלשות (השווה זמני תסיסה, טמפ׳, אחוזי עלייה, מבחני לחיצה)\n## טעויות שחוזרות\n## 3 שינויים קונקרטיים לאפייה הבאה (עם מספרים)\nעד 350 מילים.`,t=>{S.coach.insightText=t;S.coach.insightAt=now();Store.put('coach',S.coach);});
+ }
+};
+async function reviewBake(b){
+ const prev=Object.values(S.bakes).filter(x=>x.id!==b.id&&x.outcome).sort((a,c)=>c.createdAt-a.createdAt).slice(0,5).map(bakeSummary);
+ await runAI('review_'+b.id,`${RULES}\n\nסיימתי אפייה. התיעוד המלא (JSON):\n${JSON.stringify(bakeSummary(b))}\n\nאפיות קודמות להשוואה:\n${JSON.stringify(prev)}\n\nהסטארטר בימים האחרונים:\n${JSON.stringify(S.starter.feeds.slice(-5).map(feedSummary))}\n\nמשימה:\n## מה עבד\n## מה כנראה השפיע על התוצאה (קשר בין המדידות לתוצאה)\n## 3 שינויים לפעם הבאה במתכון הזה\nעד 220 מילים.`,t=>{b.aiReview={text:t,at:now()};saveBake(b);});
+}
+const AUTH_ERR={'auth/invalid-credential':'אימייל או סיסמה שגויים','auth/wrong-password':'אימייל או סיסמה שגויים','auth/user-not-found':'אין חשבון עם האימייל הזה','auth/email-already-in-use':'כבר יש חשבון עם האימייל הזה — עבור לכניסה','auth/weak-password':'סיסמה של 6 תווים לפחות','auth/invalid-email':'האימייל לא תקין','auth/network-request-failed':'אין חיבור לאינטרנט','auth/too-many-requests':'יותר מדי ניסיונות — נסה שוב בעוד כמה דקות'};
+const FORMS={
+ async login(f){
+  const btn=f.querySelector('button[type=submit]');btn.disabled=true;$('#loginErr').textContent='';
+  try{await Store.signIn(f.email.value.trim(),f.pw.value,ui.loginMode==='up');ui.needLogin=false;await Store.loadAll();render();}
+  catch(e){$('#loginErr').textContent=AUTH_ERR[e&&e.code]||'הכניסה נכשלה. נסה שוב.';btn.disabled=false;}
+ },
+ feed(f){
+  const x=feedFromForm(f);if(!x.starter||!x.flour){toast('מלא כמויות סטארטר וקמח');return;}
+  const feed=Object.assign(x,{id:uid(),at:fromLocalInput(f.at.value),notes:f.notes.value.trim()||undefined,flourTypeLabel:FLOUR_LABEL[x.flourType]});
+  S.starter.feeds.push(feed);S.starter.feeds.sort((a,b)=>a.at-b.at);
+  if(S.starter.settings.fridge===true&&false)S.starter.settings.fridge=false;
+  saveStarter();closeSheet();render();toast('ההאכלה נשמרה');
+ },
+ peak(f){
+  const F=S.starter.feeds;const l=F[F.length-1];if(!l){closeSheet();return;}
+  l.state=f.state.value;l.peakAt=fromLocalInput(f.at.value);l.riseX=num(f.rise.value)||undefined;l.smell=f.smell.value||undefined;l.smellLabel=SMELL_LABEL[l.smell];l.hooch=f.hooch.checked||undefined;
+  if(f.notes.value.trim())l.notes=((l.notes?l.notes+' · ':'')+f.notes.value.trim());
+  if(l.peakAt<l.at)l.peakAt=l.at+36e5;
+  saveStarter();closeSheet();render();window.scrollTo(0,0);
+ },
+ newBake(f){
+  const r=RECIPES.find(x=>x.id===f.recipe.value);const scale=+f.scale.value||1;
+  const id='b_'+uid();
+  const b={id,recipeId:r.id,name:f.name.value.trim()||r.name,scale,createdAt:now(),steps:r.steps.map(()=>({})),folds:[],readings:[],pokes:[]};
+  b.steps[0].startedAt=now();
+  saveBake(b);closeSheet();ui.tab='bake';ui.bakeId=id;ui.recipeId=null;render();window.scrollTo(0,0);
+ },
+ reading(f){
+  const b=curBake();const temp=num(f.temp.value),start=num(f.start.value),cur=num(f.cur.value),eye=num(f.eye.value);
+  let pct=null;if(start&&cur!=null)pct=(cur-start)/start*100;else if(eye!=null)pct=eye;
+  if(temp==null&&pct==null){toast('הזן טמפ׳ או עלייה');return;}
+  if(start)b.aliquotStart=start;
+  b.readings.push({at:now(),temp:temp!=null?temp:(b.readings.length?b.readings[b.readings.length-1].temp:null),pct});
+  saveBake(b);render();
+ },
+ outcome(f){
+  const b=curBake();
+  b.outcome={rating:+(f.querySelector('input[name=rating]:checked')||{value:3}).value,crumb:f.crumb.value,spring:f.spring.value,sour:f.sour.value,notes:f.notes.value.trim()||undefined,at:now()};
+  delete b.forceOutcome;saveBake(b);render();
+  if(SAMPLE)reviewBake(b);
+ },
+ chat(f){
+  const q=f.q.value.trim();if(!q)return;
+  ui.chat.push({role:'user',content:q});f.q.value='';
+  const intro=`${RULES}\n\nההיסטוריה שלי לעיון (JSON):\n${historyJSON()}\n\nמעכשיו ענה על השאלות שלי, עד 180 מילים לתשובה.`;
+  const turns=[{role:'user',content:intro},{role:'assistant',content:'הבנתי. מה השאלה?'},...ui.chat];
+  render();
+  if(!SAMPLE)return;
+  ui.ai.chat={busy:true,text:''};paintAI('chat');
+  SAMPLE(turns,{cache:false,onText:({text})=>{ui.ai.chat.text=text;paintAI('chat');}})
+   .then(res=>{ui.chat.push({role:'assistant',content:res.text});delete ui.ai.chat;render();})
+   .catch(e=>{ui.chat.pop();ui.ai.chat={busy:false,text:'',err:errCopy(e&&e.code)};paintAI('chat');});
+ }
+};
+document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el)return;const fn=ACT[el.dataset.act];if(fn){e.preventDefault();fn(el,e);}});
+document.addEventListener('submit',e=>{const f=e.target;if(!f.dataset||!f.dataset.form)return;e.preventDefault();FORMS[f.dataset.form]&&FORMS[f.dataset.form](f);});
+document.addEventListener('input',e=>{if(e.target.closest&&e.target.closest('form[data-form="feed"]'))updFeedPred();});
+document.addEventListener('change',e=>{
+ const el=e.target;const b=curBake();
+ if(el.dataset.import&&el.files&&el.files[0]){const rd=new FileReader();rd.onload=()=>{try{const o=JSON.parse(rd.result);if(!o||!o.starter)throw 0;if(!confirm('לייבא את הגיבוי? הוא יחליף את היומן הנוכחי.'))return;applyLoaded(o);Store.put('starter',S.starter);Store.put('coach',S.coach);Object.values(S.bakes).forEach(x=>Store.put(x.id,x));render();toast('הגיבוי יובא');}catch(_){toast('הקובץ לא נראה כמו גיבוי של היומן');}};rd.readAsText(el.files[0]);el.value='';return;}
+ if(el.dataset.note!=null&&b){b.steps[+el.dataset.note].note=el.value.trim()||undefined;saveBake(b);}
+ if(el.dataset.fe&&b){const v=num(el.value);if(v&&v>=5){b.foldEvery=v;saveBake(b);tickTimers();render();}}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#sheet').hidden)closeSheet();});
+
+/* ---------- boot ---------- */
+(async function(){
+ render();
+ const m=await Store.init();
+ if(m==='login')ui.needLogin=true;else await Store.loadAll();
+ READY=true;render();
+})();
+if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
+})();
+</script>
+</body>
+</html>
