@@ -1,5 +1,5 @@
 // שנה את הגרסה בכל פעם שאתה מעלה עדכון, כדי שהטלפון יקבל את הקוד החדש
-const CACHE = 'machmetzet-v1';
+const CACHE = 'machmetzet-v4';
 const SHELL = ['./', './index.html', './firebase-config.js', './manifest.webmanifest',
   './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 

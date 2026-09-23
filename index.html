@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>יומן מחמצת</title>
-<meta name="theme-color" content="#5A3D27">
+<meta name="theme-color" content="#F6EFE3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1B1511" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="מחמצת">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
@@ -17,8 +18,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#ECEEE6; --paper:#F9FAF6; --ink:#1E221C; --muted:#646B5F; --line:#D3D8CB; --chip:#E1E5D9;
-  --rye:#5A3D27; --on-rye:#FBF6EF; --levain:#DA9B1F; --plum:#8C2F50; --ok:#3E7748; --glass:#FFFFFF;
+  --bg:#F6EFE3; --bg2:#EFE4D2; --paper:#FFFDF9; --ink:#3A2A1E; --muted:#8A7766; --line:#EADFCC; --chip:#F3E9D8;
+  --rye:#5B3A24; --on-rye:#FFF8EE; --crust:#A86B3C; --caramel:#D9A066; --dough:#F1E2C4; --flour:#FBF6EC;
+  --levain:#D9A066; --plum:#A0442C; --ok:#6E7F4A; --glass:#FFFFFF;
+  --shadow:0 1px 2px rgba(74,50,34,.06),0 10px 28px -14px rgba(74,50,34,.28);
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
@@ -26,136 +29,169 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#161913; --paper:#1F231C; --ink:#E8EBE2; --muted:#9BA393; --line:#343A2F; --chip:#2B3027;
-    --rye:#C9A27F; --on-rye:#1E150D; --levain:#F0B43F; --plum:#DA6E92; --ok:#7FC28C; --glass:#252A22;
+    --bg:#1B1511; --bg2:#231B15; --paper:#271F19; --ink:#F3EADC; --muted:#B3A08C; --line:#3A2E25; --chip:#322820;
+    --rye:#E2BE93; --on-rye:#24180F; --crust:#C98A55; --caramel:#E3AA6C; --dough:#E9D6B2; --flour:#2C231C;
+    --levain:#E3AA6C; --plum:#E07A5E; --ok:#A7B97C; --glass:#2E2620;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -14px rgba(0,0,0,.6);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#161913; --paper:#1F231C; --ink:#E8EBE2; --muted:#9BA393; --line:#343A2F; --chip:#2B3027;
-  --rye:#C9A27F; --on-rye:#1E150D; --levain:#F0B43F; --plum:#DA6E92; --ok:#7FC28C; --glass:#252A22;
+  --bg:#1B1511; --bg2:#231B15; --paper:#271F19; --ink:#F3EADC; --muted:#B3A08C; --line:#3A2E25; --chip:#322820;
+  --rye:#E2BE93; --on-rye:#24180F; --crust:#C98A55; --caramel:#E3AA6C; --dough:#E9D6B2; --flour:#2C231C;
+  --levain:#E3AA6C; --plum:#E07A5E; --ok:#A7B97C; --glass:#2E2620;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -14px rgba(0,0,0,.6);
   color-scheme:dark;
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
 *,*::before,*::after{box-sizing:inherit}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'Assistant',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
-.app{max-width:560px;margin:0 auto;padding:12px 16px 120px}
-header.top{display:flex;align-items:flex-end;justify-content:space-between;padding:8px 2px 14px;gap:12px}
-.brand{font-family:'Frank Ruhl Libre',Georgia,serif;font-weight:900;font-size:30px;line-height:1;letter-spacing:-.01em}
-.brand small{display:block;font-family:'Assistant',sans-serif;font-weight:600;font-size:13px;color:var(--muted);letter-spacing:0;margin-top:6px}
-.sync{font-size:12px;color:var(--muted);white-space:nowrap}
-h2{font-family:'Frank Ruhl Libre',Georgia,serif;font-weight:700;font-size:22px;margin:26px 0 10px;line-height:1.2}
-h3{font-family:'Frank Ruhl Libre',Georgia,serif;font-weight:700;font-size:19px;margin:0 0 6px;line-height:1.25}
+body{margin:0;color:var(--ink);font-family:'Assistant',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%;
+  background:radial-gradient(1200px 500px at 100% -10%,var(--flour),transparent 60%),radial-gradient(900px 600px at -10% 110%,var(--bg2),transparent 60%),var(--bg);background-attachment:fixed;min-height:100%}
+.app{max-width:560px;margin:0 auto;padding:10px 16px 130px}
+header.top{display:flex;align-items:center;justify-content:space-between;padding:10px 2px 18px;gap:12px}
+.brandwrap{display:flex;align-items:center;gap:12px}
+.logo{width:48px;height:48px;border-radius:16px;background:var(--paper);box-shadow:var(--shadow);display:grid;place-items:center;flex:none}
+.logo svg{width:34px;height:34px}
+.hello{font-size:13px;color:var(--muted);font-weight:600}
+.brand{font-family:'Frank Ruhl Libre',Georgia,serif;font-weight:900;font-size:27px;line-height:1.05;letter-spacing:-.01em;color:var(--rye)}
+.sync{font-size:12px;color:var(--muted);white-space:nowrap;background:var(--paper);padding:5px 10px;border-radius:99px;box-shadow:var(--shadow)}
+h2{font-family:'Frank Ruhl Libre',Georgia,serif;font-weight:700;font-size:21px;margin:28px 2px 12px;line-height:1.2;color:var(--rye);display:flex;align-items:center;gap:10px}
+h2::after{content:'';flex:1;height:1px;background:linear-gradient(to left,var(--line),transparent)}
+h3{font-family:'Frank Ruhl Libre',Georgia,serif;font-weight:700;font-size:19px;margin:0 0 6px;line-height:1.25;color:var(--rye)}
 h4{font-size:16px;margin:12px 0 4px}
 p{margin:0 0 8px}
-a{color:var(--rye)}
-.panel{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
-.panel.flat{background:transparent}
+a{color:var(--crust)}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.panel.flat{background:transparent;box-shadow:none;border-color:transparent}
+.panel.warm{background:linear-gradient(160deg,var(--paper) 30%,var(--flour));}
+.sub{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:14px}
 .muted{color:var(--muted)}
 .small{font-size:14px}
 .tiny{font-size:12.5px}
-.big{font-family:'Frank Ruhl Libre',Georgia,serif;font-size:44px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.02em}
-.mid{font-family:'Frank Ruhl Libre',Georgia,serif;font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.big{font-family:'Frank Ruhl Libre',Georgia,serif;font-size:46px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.02em;color:var(--rye)}
+.mid{font-family:'Frank Ruhl Libre',Georgia,serif;font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1;color:var(--rye)}
 .num{font-variant-numeric:tabular-nums}
-.hero{display:grid;grid-template-columns:118px 1fr;gap:16px;align-items:center}
-.hero .jarwrap{width:118px}
-.jar{width:100%;height:auto;display:block}
-.state{display:inline-block;font-weight:700;font-size:14px;padding:3px 11px;border-radius:99px;background:var(--chip);color:var(--ink);margin-bottom:8px}
-.state.peak{background:var(--levain);color:#241800}
+.hero{display:grid;grid-template-columns:128px 1fr;gap:18px;align-items:center}
+.hero .jarwrap{width:128px}
+.jar{width:100%;height:auto;display:block;filter:drop-shadow(0 10px 14px rgba(74,50,34,.18))}
+.state{display:inline-block;font-weight:700;font-size:13px;padding:4px 12px;border-radius:99px;background:var(--chip);color:var(--ink);margin-bottom:10px;letter-spacing:.01em}
+.state.peak{background:var(--caramel);color:#2E1F14}
 .state.over{background:var(--plum);color:#fff}
 .state.ok{background:var(--ok);color:#fff}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .row.sp{justify-content:space-between}
-.btn{appearance:none;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-weight:700;padding:10px 16px;border-radius:12px;cursor:pointer;min-height:44px;line-height:1.2;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
-.btn:hover{border-color:var(--muted)}
-.btn.primary{background:var(--rye);border-color:var(--rye);color:var(--on-rye)}
-.btn.accent{background:var(--levain);border-color:var(--levain);color:#241800}
+.btn{appearance:none;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-weight:700;padding:11px 18px;border-radius:14px;cursor:pointer;min-height:46px;line-height:1.2;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:transform .12s ease,box-shadow .12s ease}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--rye);border-color:var(--rye);color:var(--on-rye);box-shadow:0 6px 16px -8px rgba(91,58,36,.7)}
+.btn.accent{background:var(--caramel);border-color:var(--caramel);color:#2E1F14;box-shadow:0 6px 16px -8px rgba(168,107,60,.7)}
 .btn.ghost{background:transparent}
 .btn.danger{color:var(--plum)}
-.btn.small{padding:6px 12px;min-height:36px;font-size:14px}
+.btn.small{padding:7px 14px;min-height:38px;font-size:14px;border-radius:12px}
 .btn.wide{width:100%}
 .btn[disabled]{opacity:.5;cursor:default}
-.link{background:none;border:0;padding:0;font:inherit;color:var(--rye);font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-:focus-visible{outline:3px solid var(--levain);outline-offset:2px}
+.link{background:none;border:0;padding:0;font:inherit;color:var(--crust);font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--caramel);outline-offset:2px}
 label.f{display:block;font-size:13px;color:var(--muted);font-weight:600}
-input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 10px;width:100%;margin-top:4px;min-height:42px}
-textarea{min-height:70px;resize:vertical}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--flour);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%;margin-top:5px;min-height:44px}
+input:focus,select:focus,textarea:focus{border-color:var(--caramel);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--caramel) 30%,transparent)}
+textarea{min-height:72px;resize:vertical}
 input[type=number]{direction:ltr;text-align:right}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stack>*+*{margin-top:10px}
+.stack>*+*{margin-top:12px}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
-.chip{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:99px;padding:6px 12px;font:inherit;font-size:14px;cursor:pointer;min-height:36px}
+.chip{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:99px;padding:7px 14px;font:inherit;font-size:14px;cursor:pointer;min-height:38px}
 .chip[aria-pressed="true"]{background:var(--rye);border-color:var(--rye);color:var(--on-rye)}
-.note{border-inline-start:4px solid var(--levain);background:var(--paper);padding:10px 12px;border-radius:0 10px 10px 0;margin:8px 0}
-.note.bad{border-color:var(--plum)}
-.note.good{border-color:var(--ok)}
+.note{background:var(--paper);border:1px solid var(--line);border-inline-start:4px solid var(--caramel);padding:11px 14px;border-radius:14px;margin:8px 0;box-shadow:var(--shadow)}
+.note.bad{border-inline-start-color:var(--plum)}
+.note.good{border-inline-start-color:var(--ok)}
 .warn{color:var(--plum);font-weight:600}
 .late{color:var(--plum);font-weight:700}
 .list{list-style:none;margin:0;padding:0}
-.list li{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.list li{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px dashed var(--line);align-items:flex-start}
 .list li:last-child{border-bottom:0}
 .list .x{background:none;border:0;color:var(--muted);cursor:pointer;font-size:18px;padding:0 6px;min-height:32px}
-.card{display:block;width:100%;text-align:start;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px;font:inherit;color:inherit;cursor:pointer}
-.card:hover{border-color:var(--muted)}
-.card .t{font-family:'Frank Ruhl Libre',Georgia,serif;font-weight:700;font-size:19px}
-.stars{color:var(--levain);letter-spacing:1px}
-.clocks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 4px}
-.clock{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 8px;text-align:center}
-.clock b{display:block;font-family:'Frank Ruhl Libre',Georgia,serif;font-size:20px;font-variant-numeric:tabular-nums;direction:ltr}
+.card{display:flex;gap:14px;align-items:center;width:100%;text-align:start;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:12px;margin-bottom:12px;font:inherit;color:inherit;cursor:pointer;box-shadow:var(--shadow);transition:transform .15s ease}
+.card:active{transform:scale(.985)}
+.card .art{width:88px;height:64px;flex:none;border-radius:14px;background:var(--flour);display:grid;place-items:center;overflow:hidden}
+.card .art svg{width:84px;height:56px}
+.card .meta{flex:1;min-width:0}
+.card .t{font-family:'Frank Ruhl Libre',Georgia,serif;font-weight:700;font-size:19px;color:var(--rye)}
+.stars{color:var(--caramel);letter-spacing:1px}
+.clocks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 10px}
+.clock{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:12px 8px;text-align:center;box-shadow:var(--shadow)}
+.clock b{display:block;font-family:'Frank Ruhl Libre',Georgia,serif;font-size:21px;font-variant-numeric:tabular-nums;direction:ltr;color:var(--rye)}
 .clock span{font-size:12px;color:var(--muted)}
-.steps{list-style:none;padding:0;margin:8px 0 0}
-.step{position:relative;padding:0 32px 16px 0}
-.step::before{content:'';position:absolute;right:10px;top:24px;bottom:0;width:2px;background:var(--line)}
+.steps{list-style:none;padding:0;margin:4px 0 0}
+.step{position:relative;padding:0 36px 18px 0}
+.step::before{content:'';position:absolute;right:12px;top:28px;bottom:2px;width:2px;background:repeating-linear-gradient(to bottom,var(--line) 0 5px,transparent 5px 9px)}
+.step.done::before{background:var(--crust);opacity:.5}
 .step:last-child::before{display:none}
-.dot{position:absolute;right:0;top:3px;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);background:var(--bg);display:grid;place-items:center;color:var(--on-rye);font-size:12px;font-weight:700}
-.step.done .dot{background:var(--rye);border-color:var(--rye)}
-.step.cur .dot{background:var(--levain);border-color:var(--levain)}
-.step .head{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.dot{position:absolute;right:0;top:2px;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:var(--paper);display:grid;place-items:center;color:var(--on-rye);font-size:13px;font-weight:700}
+.step.done .dot{background:var(--crust);border-color:var(--crust)}
+.step.cur .dot{background:var(--caramel);border-color:var(--caramel);box-shadow:0 0 0 5px color-mix(in srgb,var(--caramel) 25%,transparent)}
+.step .head{display:flex;justify-content:space-between;gap:8px;align-items:baseline;padding-top:3px}
 .step .title{font-weight:700}
+.step.cur .title{font-family:'Frank Ruhl Libre',Georgia,serif;font-size:19px;color:var(--rye)}
 .step.done .title{color:var(--muted)}
-.step .body{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:8px}
+.step .body{background:var(--flour);border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:10px}
+.ringrow{display:flex;gap:16px;align-items:center}
+.ring{width:118px;height:118px;flex:none}
 .bar{height:12px;border-radius:99px;background:var(--chip);overflow:hidden;position:relative}
-.bar i{display:block;height:100%;background:var(--levain);border-radius:99px}
+.bar i{display:block;height:100%;background:linear-gradient(to left,var(--caramel),var(--crust));border-radius:99px}
 .bar.over i{background:var(--plum)}
+.bowl{width:100%;max-width:260px;height:auto;display:block;margin:4px auto 6px}
 .tbl{overflow-x:auto;margin:8px 0}
 table{border-collapse:collapse;width:100%;font-size:14px}
-th,td{text-align:start;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th,td{text-align:start;padding:8px;border-bottom:1px dashed var(--line);vertical-align:top}
 th{color:var(--muted);font-weight:600;font-size:13px}
-details{background:var(--paper);border:1px solid var(--line);border-radius:14px;margin-bottom:8px}
-details>summary{cursor:pointer;padding:13px 14px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:8px}
+details{background:var(--paper);border:1px solid var(--line);border-radius:18px;margin-bottom:10px;box-shadow:var(--shadow)}
+details>summary{cursor:pointer;padding:14px 16px;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
 details>summary::-webkit-details-marker{display:none}
-details>summary::after{content:'+';color:var(--muted);font-weight:400}
-details[open]>summary::after{content:'–'}
-details .in{padding:0 14px 14px}
+details>summary::after{content:'';width:9px;height:9px;border-inline-start:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(-45deg);transition:transform .2s;flex:none;margin-inline-start:auto}
+details[open]>summary::after{transform:rotate(135deg)}
+details .ico{width:34px;height:34px;border-radius:11px;background:var(--flour);display:grid;place-items:center;flex:none;font-size:18px}
+details .in{padding:0 16px 16px}
 .ing{list-style:none;padding:0;margin:0}
-.ing li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line)}
-.ing li b{font-variant-numeric:tabular-nums;direction:ltr}
+.ing li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ing li:last-child{border-bottom:0}
+.ing li b{font-variant-numeric:tabular-nums;direction:ltr;color:var(--rye)}
 .ai{font-size:15px}
 .ai ul{padding-inline-start:20px;margin:4px 0 10px}
-.ai h4{font-family:'Frank Ruhl Libre',Georgia,serif;font-size:17px}
-.think{animation:pulse 1.4s ease-in-out infinite}
-@keyframes pulse{50%{opacity:.4}}
 .chart{width:100%;height:auto;display:block}
-nav.tabs{position:fixed;bottom:0;left:0;right:0;background:var(--paper);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:20}
-nav.tabs .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
-nav.tabs button{background:none;border:0;font:inherit;font-size:12px;color:var(--muted);padding:8px 0 10px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;min-height:56px}
-nav.tabs button[aria-current="page"]{color:var(--rye);font-weight:700}
+.rhero{border-radius:26px;overflow:hidden;background:linear-gradient(170deg,var(--flour),var(--dough));margin:10px 0 14px;box-shadow:var(--shadow);display:grid;place-items:center;padding:18px}
+.rhero svg{width:78%;max-width:320px;height:auto}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:14px 8px;text-align:center;box-shadow:var(--shadow)}
+nav.tabs{position:fixed;bottom:0;left:0;right:0;padding:0 12px calc(10px + env(safe-area-inset-bottom,0px));z-index:20;pointer-events:none}
+nav.tabs .in{max-width:540px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:24px;box-shadow:0 12px 30px -12px rgba(74,50,34,.35);padding:6px;pointer-events:auto}
+nav.tabs button{background:none;border:0;font:inherit;font-size:11.5px;color:var(--muted);padding:6px 0 5px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;min-height:54px;border-radius:18px;transition:background .15s}
+nav.tabs button[aria-current="page"]{color:var(--rye);font-weight:700;background:var(--chip)}
 nav.tabs svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #sheet{position:fixed;inset:0;z-index:50}
 #sheet[hidden]{display:none}
-.sheet-bg{position:absolute;inset:0;background:rgba(18,20,16,.5)}
-.sheet{position:absolute;bottom:0;left:0;right:0;max-width:560px;margin:0 auto;background:var(--paper);border-radius:22px 22px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px));max-height:90%;overflow:auto}
-.sheet .grab{width:44px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 12px}
-#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(76px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;z-index:60;max-width:90%;text-align:center}
+.sheet-bg{position:absolute;inset:0;background:rgba(40,26,16,.45);backdrop-filter:blur(2px)}
+.sheet{position:absolute;bottom:0;left:0;right:0;max-width:560px;margin:0 auto;background:var(--paper);border-radius:28px 28px 0 0;padding:14px 18px calc(22px + env(safe-area-inset-bottom,0px));max-height:90%;overflow:auto;animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(24px);opacity:.4}}
+.sheet .grab{width:44px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 14px}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));background:var(--rye);color:var(--on-rye);padding:11px 18px;border-radius:14px;font-weight:600;font-size:14px;z-index:60;max-width:90%;text-align:center;box-shadow:var(--shadow)}
 #toast[hidden]{display:none}
-.empty{text-align:center;padding:26px 10px}
-.loading{text-align:center;padding:80px 20px;color:var(--muted)}
-.spec{display:flex;gap:18px;flex-wrap:wrap;margin:8px 0}
-.spec div{font-size:13px;color:var(--muted)}
-.spec b{display:block;font-size:18px;color:var(--ink);font-family:'Frank Ruhl Libre',Georgia,serif}
+.empty{text-align:center;padding:22px 14px}
+.empty svg{width:180px;height:auto;margin:0 auto 8px;display:block}
+.loading{text-align:center;padding:90px 20px;color:var(--muted)}
+.loading svg{width:90px;display:block;margin:0 auto 12px;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.spec{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 14px}
+.spec div{font-size:12px;color:var(--muted);background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:10px;text-align:center;box-shadow:var(--shadow)}
+.spec b{display:block;font-size:17px;color:var(--rye);font-family:'Frank Ruhl Libre',Georgia,serif}
+.credit{font-size:13px;font-weight:700;color:var(--crust);margin-top:3px;letter-spacing:.01em}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--chip);border-radius:16px;padding:4px;margin:0 0 14px;gap:4px}
+.seg button{border:0;background:transparent;font:inherit;font-weight:700;color:var(--muted);padding:10px;border-radius:12px;cursor:pointer;min-height:42px}
+.seg button[aria-selected="true"]{background:var(--paper);color:var(--rye);box-shadow:var(--shadow)}
+.codebox{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:19px;font-weight:700;letter-spacing:.08em;text-align:center;background:var(--flour);border:1px dashed var(--caramel);border-radius:16px;padding:16px 10px;color:var(--rye);word-break:break-all}
+.welcome-list{padding-inline-start:20px;margin:6px 0 0}.welcome-list li{margin-bottom:8px}
+table.journal th{color:var(--muted);font-weight:600;font-size:13px;border-bottom:1px dashed var(--line)}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
-@media (max-width:380px){.hero{grid-template-columns:96px 1fr}.hero .jarwrap{width:96px}.big{font-size:38px}}
+@media (max-width:380px){.hero{grid-template-columns:100px 1fr}.hero .jarwrap{width:100px}.big{font-size:40px}.ring{width:100px;height:100px}}
 </style>
 </head>
 <body>
@@ -192,6 +228,21 @@ const stars=n=>'★'.repeat(n||0)+'☆'.repeat(5-(n||0));
 /* ---------- data: recipes ---------- */
 const g=(x,k)=>Math.round(x*k);
 const RECIPES=[
+{id:'geller',name:'כיכר הבסיס מהקורס',sub:'המתכון של איתן גלר — כ-700 ג׳ בצק, מתאים ללמידת תחושת הבצק',time:'כ-14 ש׳ ועד 45 ש׳',hyd:73,course:true,
+ src:['','חוברת הקורס — מאסטרקלאס לחמי מחמצת, איתן גלר'],
+ ing:[['קמח לחם',280,'flour'],['קמח כפרי',70,'flour'],['מים',255,'water'],['מחמצת פעילה',90,'levain'],['מלח',10,'salt']],
+ steps:[
+  {id:'lev',type:'levain',title:'האכלת המחמצת',dur:[240,720],d:k=>`צריך ${g(90,k)} ג׳ מחמצת בשיא. לאפייה באותו יום: 1:1:1 (כ-4 ש׳). ללילה או ליום עבודה: 1:10:10 (כ-10–12 ש׳). מוכנה כשהנפח גדל משמעותית, יש בועות בצדדים, החלק העליון כיפתי והריח נעים וחמצמץ.`},
+  {id:'aut',type:'rest',title:'אוטוליזה',dur:[20,180],d:k=>`ערבב ${g(280,k)} ג׳ קמח לחם, ${g(70,k)} ג׳ קמח כפרי ו-${g(255,k)} מ״ל מים עד שאין קמח יבש. מכסים וממתינים 20 דק׳ עד 3 ש׳. ביום חם — מים קרים יותר.`},
+  {id:'mix',type:'mix',title:'מחמצת, מלח ולישה',dur:[10,20],d:k=>`מוסיפים ${g(90,k)} ג׳ מחמצת ולשים בשיטת הצביטה עד שנטמעת. אחר כך ${g(10,k)} ג׳ מלח, וממשיכים עד שהבצק אחיד ומבריק. טמפ׳ הבצק לא מעל 26°C — ביום חם מקררים 5 דק׳ וממשיכים.`},
+  {id:'fold',type:'fold',title:'קיפולים',dur:[80,150],folds:{n:3,every:30},d:()=>`מנוחה של כ-30 דק׳ אחרי הלישה, ואז קיפול 1. קיפול 2 אחרי 20–40 דק׳, וקיפול 3 או למינציה (כאן נכנסות התוספות) אחרי 20–40 דק׳ נוספות. ידיים רטובות בלבד — בלי קמח ובלי שמן. לא רודפים אחרי מספר: עוצרים כשהבצק יציב, אלסטי ופחות דביק.`},
+  {id:'bulk',type:'bulk',title:'השלמת התפחה ראשונה',dur:[30,180],d:()=>`כ-30 דק׳ אחרי הקיפול האחרון בודקים אם צריך עוד קיפול. לישה, קיפולים והתפחה ראשונה יחד — בדרך כלל 3–6 ש׳. יותר מחמצת או חום מקצרים. מתקדמים לפי הבצק, לא רק לפי השעון.`},
+  {id:'shape',type:'shape',title:'עיצוב',dur:[25,40],d:()=>`עיצוב ראשוני עדין עם מעט מתח, בלי להוציא אוויר. בנץ׳ רסט כ-15 דק׳ (מתפשט מהר — לקצר; מתנגד למתיחה — להאריך). עיצוב סופי והעברה לסלסילה מקומחת היטב, תפר כלפי מעלה.`},
+  {id:'cold',type:'proof',cold:true,title:'התפחה סופית במקרר',dur:[360,1440],d:()=>`מכסים ומכניסים למקרר ל-6 עד 24 ש׳. מוציאים רק כשהתנור וכלי האפייה חמים ומוכנים.`},
+  {id:'heat',type:'rest',title:'חימום תנור',dur:[45,60],d:()=>`סיר: בתוך התנור כ-45 דק׳ במקסימום או ב-250°C. אבן/משטח: לפחות 45 דק׳ בחום עליון-תחתון, עם תבנית ריקה בתחתית.`},
+  {id:'bake',type:'bake',title:'אפייה',dur:[37,45],d:()=>`הופכים בעדינות על נייר אפייה, מקמחים ומעטרים, חורצים — ומעבירים מיד, בלי להמתין. בסיר: שתי קוביות קרח בין הנייר לדופן; מכסה סגור 250°C 17 דק׳, מכסה פתוח 230°C כ-20 דק׳. על אבן: כוס מים לתבנית החמה וסוגרים מהר; אחרי 22 דק׳ פותחים לשחרור אדים ומורידים ל-230°C לעוד כ-20 דק׳. זהירות — אדים ומתכת לוהטת.`},
+  {id:'cool',type:'cool',title:'קירור',dur:[60,120],d:()=>`לרשת, ולהמתין לפחות שעה לפני פריסה — הקירור הוא חלק מהאפייה. חיתוך מוקדם יוצר קראמב דביק.`}
+ ]},
 {id:'country',name:'לחם כפרי',sub:'הלחם הבסיסי — קרום פריך ופירור פתוח',time:'כ-24 ש׳, כולל לילה במקרר',
  ing:[['קמח לחם',450,'flour'],['קמח מלא',50,'flour'],['מים (26°C)',350,'water'],['מים לשלב המלח',25,'water'],['לבן פעיל',100,'levain'],['מלח',10,'salt']],
  steps:[
@@ -294,18 +345,32 @@ const RECIPES=[
  ]}
 ];
 const recipeOf=b=>RECIPES.find(r=>r.id===b.recipeId)||RECIPES[0];
-function hydration(r){if(r.enriched)return null;let fl=0,w=0;r.ing.forEach(([n,q,t])=>{if(t==='flour')fl+=q;if(t==='water')w+=q;if(t==='milk')w+=q*.87;if(t==='levain'){fl+=q/2;w+=q/2;}});return Math.round(w/fl*100);}
+function hydration(r){if(r.hyd)return r.hyd;if(r.enriched)return null;let fl=0,w=0;r.ing.forEach(([n,q,t])=>{if(t==='flour')fl+=q;if(t==='water')w+=q;if(t==='milk')w+=q*.87;if(t==='levain'){fl+=q/2;w+=q/2;}});return Math.round(w/fl*100);}
 
 const CRUMB=[
- {id:'good',label:'פתוח ואחיד — מצוין',cause:'',fix:'שמור על התנאים ותעד טמפ׳ וזמנים'},
- {id:'dense',label:'צפוף, חורים קטנים, כבד',cause:'תת-התפחה או סטארטר חלש',fix:'הארך את התסיסה הראשונית, ודא שהסטארטר בשיא, חמם את הסביבה'},
- {id:'fools',label:'חורים גדולים למעלה, תחתית צפופה',cause:'תת-התפחה',fix:'עוד זמן בתסיסה — כוון ליעד העלייה לפי טמפ׳ הבצק'},
- {id:'blowout',label:'נקרע בצד במקום בחריץ',cause:'תת-התפחה',fix:'הארך את ההתפחה ובדוק במבחן לחיצה לפני אפייה'},
- {id:'gummy',label:'דביק במרכז, תפיחה סבירה',cause:'אפייה קצרה או חיתוך מוקדם',fix:'אפה עד 96–99°C בפנים וצנן שעה לפחות'},
- {id:'flat',label:'שטוח ומתפשט',cause:'התפחת-יתר או עיצוב רפוי',fix:'קצר את התסיסה ועצב במתח חזק יותר'},
- {id:'holey',label:'חורים קרועים ודפנות דקות',cause:'התפחת-יתר או יותר מדי מים לקמח',fix:'קצר תסיסה או הורד 3–5% מים'},
- {id:'tunnels',label:'מנהרות מתחת לקרום',cause:'עיצוב לא אחיד או גז שנלכד',fix:'עצב בעדינות ובמתח אחיד'}
+ {id:'good',label:'פתוח ואחיד — מצוין',cause:'',fix:'שמור על התנאים ותעד'},
+ {id:'flat',label:'כיכר שטוחה',cause:'תסיסת יתר או עיצוב חלש',fix:'בדוק את קצב ההתפחה וחזק את המתח בעיצוב'},
+ {id:'dense',label:'כיכר דחוסה',cause:'מחמצת חלשה או תסיסה קצרה',fix:'מחמצת בשיא בזמן הלישה, וסיום מלא של ההתפחה הראשונה'},
+ {id:'blowout',label:'נפתח מהצד',cause:'חריצה לא מספקת או קרום שהתקשה מוקדם',fix:'חריצה החלטית, אדים וחימום מקדים מלא'},
+ {id:'gummy',label:'קראמב דביק',cause:'פריסה מוקדמת או אפייה חסרה',fix:'להמתין שעה לפני פריסה ולוודא השחמה מלאה'},
+ {id:'fools',label:'חורים גדולים למעלה, תחתית צפופה',cause:'תסיסה קצרה',fix:'עוד זמן בהתפחה הראשונה'},
+ {id:'holey',label:'חורים קרועים ודפנות דקות',cause:'תסיסת יתר או יותר מדי מים',fix:'לקצר תסיסה או להוריד מעט מים (עד 73% למתחילים)'},
+ {id:'tunnels',label:'מנהרות מתחת לקרום',cause:'עיצוב לא אחיד או גז שנלכד',fix:'עיצוב עדין ובמתח אחיד'}
 ];
+const DOUGH_ISSUES={
+ tear:['נקרע בקיפולים','חסרה מנוחה או שהעבודה אגרסיבית. תן לבצק עוד 10–15 דק׳ מנוחה וקפל בעדינות.','bad'],
+ sticky:['דביק מאוד','חום גבוה או הידרציה גבוהה. בדוק טמפ׳ (עד 26°C), מים וקמח — ועבוד בידיים רטובות, בלי להוסיף קמח או שמן.','bad'],
+ strong:['יציב ואלסטי','הבצק קיבל מספיק חוזק — אפשר לוותר על קיפולים נוספים ולתת לו לתפוח.','good']
+};
+const FLAVORS=[
+ {id:'none',n:'רגיל',tip:'בלי תוספות — נקודת הייחוס שלך'},
+ {id:'garlic',n:'שום ופטרוזיליה',tip:'לקצוץ דק ולערבב עם שמן זית'},
+ {id:'tomato',n:'עגבניות מיובשות',tip:'לסנן ולייבש היטב לפני ההוספה'},
+ {id:'bgarlic',n:'שום שחור',tip:'למעוך או לקצוץ, ולפזר במנות קטנות'},
+ {id:'zaatar',n:'זעתר ושומשום',tip:'לערבב מראש כדי שהפיזור יהיה אחיד'}
+];
+const flourOf=r=>r.ing.filter(x=>x[2]==='flour').reduce((a,x)=>a+x[1],0);
+const METHODS={pot:'בסיר',stone:'על אבן / משטח',tin:'בתבנית',other:'אחר'};
 
 const STARTER_PROBLEMS=[
  {id:'acetone',label:'ריח אצטון',t:'סימן לרעב. השאר רק 10–20 ג׳, האכל גדול (1:3:3 עד 1:5:5) וחזור על זה יומיים-שלושה עד שהריח השמרי-נעים חוזר.'},
@@ -323,8 +388,13 @@ let READY=false, SAMPLE=null;
 const LKEY='sourdough-journal-v1';
 
 const FB_VER='10.12.2';
+const JKEY='sourdough-journal-code';
+const ALPH='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+function newCode(){const a=new Uint8Array(20);crypto.getRandomValues(a);return Array.from(a,x=>ALPH[x%32]).join('');}
+function normCode(v){return String(v||'').toUpperCase().split('').filter(c=>ALPH.indexOf(c)>=0).join('');}
+function fmtCode(c){return (c||'').match(/.{1,5}/g).join('-');}
 const Store={
- mode:'local',fb:null,uid:null,pending:{},busy:{},
+ mode:'local',fb:null,code:null,err:null,pending:{},busy:{},
  async init(){
   const cfg=window.FIREBASE_CONFIG;
   if(!cfg||!cfg.apiKey||String(cfg.apiKey).indexOf('PASTE')===0)return 'local';
@@ -335,33 +405,31 @@ const Store={
    let db;try{db=fsM.initializeFirestore(app,{localCache:fsM.persistentLocalCache({tabManager:fsM.persistentMultipleTabManager()})});}catch(e){db=fsM.getFirestore(app);}
    const auth=authM.getAuth(app);
    this.fb={authM,fsM,db,auth};
-   const user=await new Promise(r=>{const un=authM.onAuthStateChanged(auth,u=>{un();r(u);});});
-   if(user){this.uid=user.uid;this.mode='cloud';return 'cloud';}
-   return 'login';
+   let user=await new Promise(r=>{const un=authM.onAuthStateChanged(auth,u=>{un();r(u);});});
+   if(!user){try{user=(await authM.signInAnonymously(auth)).user;}catch(e){console.error(e);this.err='anon';return 'local';}}
+   let code=null;try{code=localStorage.getItem(JKEY);}catch(e){}
+   if(!code)return 'welcome';
+   this.code=code;this.mode='cloud';return 'cloud';
   }catch(e){console.error(e);return 'local';}
  },
- async signIn(email,pw,up){
-  const{authM,auth}=this.fb;
-  const cred=up?await authM.createUserWithEmailAndPassword(auth,email,pw):await authM.signInWithEmailAndPassword(auth,email,pw);
-  this.uid=cred.user.uid;this.mode='cloud';
- },
- async signOut(){try{await this.fb.authM.signOut(this.fb.auth);}catch(e){}location.reload();},
- ref(id){const{fsM,db}=this.fb;return fsM.doc(db,'users',this.uid,'docs',id);},
+ setCode(code){try{localStorage.setItem(JKEY,code);}catch(e){}this.code=code;this.mode='cloud';},
+ col(code){const{fsM,db}=this.fb;return fsM.collection(db,'journals',code||this.code,'docs');},
+ ref(id){const{fsM,db}=this.fb;return fsM.doc(db,'journals',this.code,'docs',id);},
+ async exists(code){const snap=await this.fb.fsM.getDocs(this.col(code));return !snap.empty;},
  readLocal(){try{return JSON.parse(localStorage.getItem(LKEY)||'null');}catch(e){return null;}},
  writeLocal(){try{localStorage.setItem(LKEY,JSON.stringify(S));}catch(e){}},
  async loadAll(){
   const local=this.readLocal();
   if(this.mode==='cloud'){
    try{
-    const{fsM,db}=this.fb;
-    const snap=await fsM.getDocs(fsM.collection(db,'users',this.uid,'docs'));
+    const snap=await this.fb.fsM.getDocs(this.col());
     if(snap.empty&&local&&(local.starter?.feeds?.length||Object.keys(local.bakes||{}).length)){
      applyLoaded(local);this.put('starter',S.starter);this.put('coach',S.coach);
      Object.values(S.bakes).forEach(b=>this.put(b.id,b));return;
     }
     S={starter:{feeds:[],settings:{fridge:false}},bakes:{},coach:{}};
     snap.docs.forEach(d=>{const v=d.data();if(d.id==='starter')S.starter=normStarter(v);else if(d.id==='coach')S.coach=v||{};else if(d.id.indexOf('b_')===0)S.bakes[d.id]=v;});
-    return;
+    this.writeLocal();return;
    }catch(e){console.error(e);toast('אין חיבור לענן — עובד מהמכשיר');}
   }
   if(local)applyLoaded(local);
@@ -391,7 +459,7 @@ function saveBake(b){S.bakes[b.id]=b;Store.put(b.id,b);}
 function ratioStr(f){const s=Math.max(+f.starter||1,1);return `1:${r1((+f.flour||0)/s)}:${r1((+f.water||0)/s)}`;}
 function basePeak(f){
  const r=(+f.flour||0)/Math.max(+f.starter||1,1);
- const b=interp([[0.5,3.5],[1,5],[2,7],[3,9],[4,10.5],[5,12],[10,15]],r);
+ const b=interp([[0.5,3.5],[1,4.3],[2,6.5],[3,8],[5,9.5],[10,11.5],[15,14]],r);
  const T=num(f.temp)!=null?num(f.temp):22;
  let h=b*Math.pow(2,(22-T)/5.5);
  const hyd=(+f.water||0)/Math.max(+f.flour||1,1);
@@ -450,6 +518,7 @@ function bakeLessons(b){
   else L.push({c:'good',t:`עצרת את התסיסה ב-${Math.round(last.pct)}% — קרוב ליעד ${tg}%.`});
  }else L.push({c:'',t:'בפעם הבאה רשום טמפ׳ בצק ואחוז עלייה — כך יהיה ברור איפה עצרת.'});
  if(o.spring==='weak'&&(!c||c.id==='good'))L.push({c:'',t:'תפיחה חלשה בתנור: חמם את התנור והסיר זמן רב יותר ובדוק שהסטארטר היה בשיא.'});
+ if(!o.next)L.push({c:'',t:'כתוב מה תשנה בפעם הבאה — משתנה אחד בכל אפייה, כדי להבין מה באמת שיפר את התוצאה.'});
  if(o.sour==='very')L.push({c:'',t:'חמוץ מאוד: יחס האכלה גבוה יותר ללבן, להשתמש בו צעיר יותר, או התפחה קרה קצרה יותר.'});
  if(o.sour==='mild')L.push({c:'',t:'רוצה יותר חמיצות? התפחה ארוכה יותר במקרר או לבן שהגיע לשיא מאוחר.'});
  return L;
@@ -490,17 +559,38 @@ function aiInner(a,text){if(a&&a.busy&&!a.text)return '<p class="muted think">ה
 function aiBlock(key,stored){const a=ui.ai[key];const text=a?a.text:(stored||'');return `<div class="ai" data-ai="${key}" aria-live="polite">${aiInner(a,text)}</div>`;}
 function paintAI(key){const el=document.querySelector(`[data-ai="${key}"]`);const a=ui.ai[key];if(el)el.innerHTML=aiInner(a,a.text);}
 
+/* ---------- illustrations ---------- */
+const C={crust:'#B7773F',dark:'#8A5530',deep:'#6E4226',gold:'#D9A35C',pale:'#EBCB98',cream:'#F6E7CC',flour:'#FFF8EC',olive:'#7C8A4A',sauce:'#B5462F',tin:'#9C8B7A'};
+function dust(n,seed,x0,x1,y0,y1,col,r){let o='',a=seed;for(let i=0;i<n;i++){a=(a*9301+49297)%233280;const x=x0+(x1-x0)*(a/233280);a=(a*9301+49297)%233280;const y=y0+(y1-y0)*(a/233280);o+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${col}"/>`;}return o;}
+const ART={
+ country:()=>`<ellipse cx="60" cy="66" rx="46" ry="6" fill="#000" opacity=".08"/><path d="M14 52c0-22 20-38 46-38s46 16 46 38c0 10-8 14-18 14H32c-10 0-18-4-18-14z" fill="${C.crust}"/><path d="M22 50c2-16 18-28 38-28" stroke="${C.dark}" stroke-width="3" fill="none" opacity=".35"/><path d="M36 30c10 6 34 6 50 18" stroke="${C.pale}" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M38 28c10 5 32 5 48 16" stroke="${C.flour}" stroke-width="1.6" stroke-linecap="round" fill="none" opacity=".8"/>${dust(26,7,24,98,20,54,C.flour,.9)}`,
+ whole:()=>`<ellipse cx="60" cy="67" rx="42" ry="6" fill="#000" opacity=".08"/><path d="M18 54c0-22 18-40 42-40s42 18 42 40c0 9-7 13-16 13H34c-9 0-16-4-16-13z" fill="${C.dark}"/><path d="M40 26l-6 26M60 22v30M80 26l6 26" stroke="${C.pale}" stroke-width="3.5" stroke-linecap="round"/>${dust(22,3,26,94,22,58,C.pale,1.2)}`,
+ focaccia:()=>`<rect x="10" y="22" width="100" height="44" rx="10" fill="${C.gold}"/><rect x="10" y="22" width="100" height="10" rx="8" fill="${C.pale}" opacity=".6"/>${[[26,40],[44,50],[62,38],[80,50],[96,40],[34,58],[70,58],[90,60],[52,62]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="4.5" ry="3" fill="${C.crust}" opacity=".75"/>`).join('')}<path d="M30 30l6 8M34 30l-2 7M76 30l6 7M80 29l-2 8" stroke="${C.olive}" stroke-width="2.4" stroke-linecap="round"/>${dust(18,5,16,104,28,62,C.flour,1)}`,
+ challah:()=>`<ellipse cx="60" cy="66" rx="48" ry="5" fill="#000" opacity=".08"/>${[[22,46,13],[40,40,15],[60,37,16],[80,40,15],[98,46,13]].map(([x,y,r],i)=>`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*.9}" fill="${i%2?C.crust:C.dark}"/>`).join('')}${[[22,46],[40,40],[60,37],[80,40],[98,46]].map(([x,y])=>`<path d="M${x-7} ${y-4}q7-6 14 0" stroke="#F2C489" stroke-width="2.4" fill="none" opacity=".7"/>`).join('')}<rect x="14" y="48" width="92" height="14" rx="7" fill="${C.dark}"/>${dust(30,11,14,106,26,58,C.cream,1)}`,
+ pita:()=>`<ellipse cx="62" cy="64" rx="44" ry="6" fill="#000" opacity=".07"/><ellipse cx="56" cy="46" rx="42" ry="18" fill="${C.pale}"/><ellipse cx="56" cy="42" rx="34" ry="12" fill="${C.cream}"/>${dust(14,9,26,86,34,58,C.gold,1.6)}<ellipse cx="80" cy="56" rx="30" ry="12" fill="${C.gold}" opacity=".9"/><ellipse cx="80" cy="53" rx="22" ry="7" fill="${C.pale}"/>`,
+ bagels:()=>`<ellipse cx="60" cy="66" rx="46" ry="5" fill="#000" opacity=".08"/><circle cx="42" cy="40" r="24" fill="${C.crust}"/><circle cx="42" cy="40" r="8" fill="${C.flour}"/><circle cx="82" cy="46" r="20" fill="${C.dark}"/><circle cx="82" cy="46" r="6.5" fill="${C.flour}"/>${dust(26,4,22,62,20,60,C.cream,1.1)}${dust(18,8,66,98,30,62,C.cream,1.1)}`,
+ pizza:()=>`<circle cx="60" cy="40" r="32" fill="${C.gold}"/><circle cx="60" cy="40" r="25" fill="${C.sauce}"/>${[[50,32],[68,36],[56,48],[72,50],[46,46]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="6" fill="${C.cream}"/>`).join('')}<path d="M62 26q5-3 8 2q-5 3-8-2zM44 38q4-4 8 0q-4 4-8 0z" fill="${C.olive}"/>${dust(10,2,32,88,12,70,C.crust,1.2)}`,
+ sandwich:()=>`<ellipse cx="60" cy="68" rx="40" ry="5" fill="#000" opacity=".08"/><rect x="24" y="36" width="72" height="30" rx="4" fill="${C.tin}"/><path d="M22 40c0-16 16-24 38-24s38 8 38 24z" fill="${C.gold}"/><path d="M30 36c4-10 16-14 30-14" stroke="${C.pale}" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="24" y="36" width="72" height="4" fill="#7E6E5F"/>`
+};
+ART.geller=()=>ART.country().replace(/fill="\$\{C.crust\}"/,'fill="#A86B3C"');
+function art(id,cls){const f=ART[id]||ART.country;return `<svg ${cls?`class="${cls}"`:''} viewBox="0 0 120 76" aria-hidden="true">${f()}</svg>`;}
+const LOGO=`<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 25c0-10 7-17 15-17s15 7 15 17c0 4-3 6-7 6H12c-4 0-7-2-7-6z" fill="#B7773F"/><path d="M12 17c4 3 12 3 17 8" stroke="#F1D6A8" stroke-width="2.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="22" r=".9" fill="#FFF8EC"/><circle cx="24" cy="15" r=".9" fill="#FFF8EC"/><circle cx="28" cy="21" r=".9" fill="#FFF8EC"/></svg>`;
+function greet(){const h=new Date().getHours();return h<5?'לילה טוב':h<12?'בוקר טוב':h<17?'צהריים טובים':h<21?'ערב טוב':'לילה טוב';}
+const EMPTY_BAKE=`<svg viewBox="0 0 200 120" aria-hidden="true"><ellipse cx="100" cy="104" rx="76" ry="8" fill="#000" opacity=".07"/><path d="M40 70h120l-10 30H50z" fill="#C9B39A"/><path d="M36 66h128v8H36z" fill="#B09A80"/><path d="M58 66c0-22 18-36 42-36s42 14 42 36z" fill="#F1E2C4"/><path d="M72 50c6-8 16-12 28-12" stroke="#FFF8EC" stroke-width="4" stroke-linecap="round" fill="none"/>${dust(10,13,66,134,40,64,'#E4CFA8',2)}<path d="M150 22c4 4 4 10 0 14M160 16c5 6 5 14 0 20" stroke="#D9A066" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".6"/></svg>`;
+
 /* ---------- visuals ---------- */
 const BUB=[[30,128,3],[48,118,2],[70,124,3.5],[82,108,2],[40,100,2.5],[62,92,2],[28,80,2],[76,72,3],[52,66,2],[36,52,2.5],[68,46,2]];
 function jarSVG(lv,band,label){
- const top=24,bottom=140,inner=bottom-top;const y=bottom-inner*lv;const by=bottom-inner*band;
- const bubbles=BUB.filter(b=>b[1]>y+4).map(b=>`<circle cx="${b[0]}" cy="${b[1]}" r="${b[2]}" fill="var(--paper)" opacity=".55"/>`).join('');
- return `<svg class="jar" viewBox="0 0 110 150" role="img" aria-label="${esc(label)}">
- <rect x="22" y="4" width="66" height="14" rx="4" fill="var(--rye)"/>
- <path d="M16 20 h78 v112 q0 12 -12 12 h-54 q-12 0 -12 -12z" fill="var(--glass)" stroke="var(--ink)" stroke-opacity=".3" stroke-width="2"/>
- <clipPath id="jarclip"><path d="M18 22 h74 v110 q0 10 -10 10 h-54 q-10 0 -10 -10z"/></clipPath>
- <g clip-path="url(#jarclip)">${lv>0?`<rect x="0" y="${y}" width="110" height="${150-y}" fill="var(--levain)" opacity=".85"/><path d="M0 ${y} q27 -5 55 0 t55 0 v6 h-110z" fill="var(--levain)"/>${bubbles}`:''}</g>
- ${lv>0?`<line x1="11" x2="99" y1="${by}" y2="${by}" stroke="var(--plum)" stroke-width="4" stroke-linecap="round"/>`:''}
+ const top=30,bottom=146,inner=bottom-top;const y=bottom-inner*lv;const by=bottom-inner*band;
+ const bubbles=BUB.map(b=>[b[0],b[1]+6,b[2]]).filter(b=>b[1]>y+5).map(b=>`<circle cx="${b[0]}" cy="${b[1]}" r="${b[2]}" fill="#FFFDF7" stroke="#D8BF95" stroke-width=".8" opacity=".9"/>`).join('');
+ return `<svg class="jar" viewBox="0 0 110 160" role="img" aria-label="${esc(label)}">
+ <ellipse cx="55" cy="154" rx="40" ry="4" fill="#000" opacity=".08"/>
+ <rect x="20" y="6" width="70" height="18" rx="6" fill="#8A5530"/><rect x="20" y="6" width="70" height="6" rx="4" fill="#A86B3C"/>
+ <path d="M14 26 h82 v112 q0 12 -12 12 h-58 q-12 0 -12 -12z" fill="var(--glass)" stroke="#CDB594" stroke-width="2"/>
+ <clipPath id="jarclip"><path d="M16 28 h78 v110 q0 10 -10 10 h-58 q-10 0 -10 -10z"/></clipPath>
+ <g clip-path="url(#jarclip)">${lv>0?`<rect x="0" y="${y}" width="110" height="${160-y}" fill="#E9CF9F"/><path d="M0 ${y+1} q14 -6 28 -2 t27 -1 t27 2 t28 -2 v8 h-110z" fill="#F2DDB5"/><rect x="0" y="${bottom-10}" width="110" height="14" fill="#E4CFA8" opacity=".6"/>${bubbles}`:''}</g>
+ <path d="M22 36 v96" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+ ${lv>0?`<rect x="10" y="${by-3}" width="90" height="6" rx="3" fill="#7A5234"/>`:''}
  </svg>`;
 }
 function jarNow(){
@@ -519,7 +609,7 @@ function peakChart(){
  if(pts.length<2)return '';
  const W=320,H=120,pl=26,pb=20;const mx=Math.max(...pts.map(f=>(f.peakAt-f.at)/36e5),4);
  const bw=(W-pl)/pts.length;
- const bars=pts.map((f,i)=>{const v=(f.peakAt-f.at)/36e5;const h=(H-pb-8)*v/mx;const x=W-(i+1)*bw+3;return `<rect x="${x}" y="${H-pb-h}" width="${bw-6}" height="${h}" rx="3" fill="var(--rye)"><title>${esc(dFmt(f.at))}: ${hrs(v)}, ${ratioStr(f)}</title></rect>`;}).join('');
+ const bars=pts.map((f,i)=>{const v=(f.peakAt-f.at)/36e5;const h=(H-pb-8)*v/mx;const x=W-(i+1)*bw+3;return `<rect x="${x}" y="${H-pb-h}" width="${bw-6}" height="${h}" rx="3" fill="var(--crust)"><title>${esc(dFmt(f.at))}: ${hrs(v)}, ${ratioStr(f)}</title></rect>`;}).join('');
  const ticks=[0,Math.round(mx/2),Math.round(mx)].map(v=>{const y=H-pb-(H-pb-8)*v/mx;return `<line x1="0" x2="${W-pl}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${W-pl+4}" y="${y+4}" font-size="10" fill="var(--muted)">${v}ש׳</text>`;}).join('');
  return `<h3 style="margin-top:14px">שעות עד שיא</h3><svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="גרף שעות עד שיא ב-${pts.length} ההאכלות האחרונות">${ticks}${bars}</svg><p class="tiny muted">האכלה חדשה ביותר מימין.</p>`;
 }
@@ -534,23 +624,40 @@ const TABS=[['starter','סטארטר'],['bake','אפייה'],['recipes','מתכ�
 
 /* ---------- views ---------- */
 function vHeader(){
- return `<header class="top"><div class="brand">יומן מחמצת<small>סטארטר, אפיות ולקחים</small></div><div class="sync">${Store.mode==='cloud'?'● מסונכרן לחשבון':'○ נשמר במכשיר הזה'}</div></header>`;
+ return `<header class="top"><div class="brandwrap"><div class="logo">${LOGO}</div><div><div class="brand">יומן מחמצת</div><div class="credit">בהשראת איתן גלר</div></div></div><div class="sync">${Store.mode==='cloud'?'● מסונכרן':'○ במכשיר'}</div></header>`;
 }
-function vLogin(){
- const up=ui.loginMode==='up';
- return vHeader()+`<section class="panel"><h3>${up?'יצירת חשבון':'כניסה'}</h3><p class="small muted">החשבון שומר את היומן בענן ומסנכרן בין הטלפון למחשב.</p>
- <form data-form="login" class="stack"><label class="f">אימייל<input name="email" type="email" autocomplete="email" required dir="ltr"></label>
- <label class="f">סיסמה<input name="pw" type="password" autocomplete="${up?'new-password':'current-password'}" minlength="6" required dir="ltr"></label>
- <div class="warn small" id="loginErr" role="alert"></div>
- <button class="btn primary" type="submit">${up?'צור חשבון':'היכנס'}</button></form>
- <p style="margin-top:12px"><button class="link small" data-act="loginToggle">${up?'יש לי כבר חשבון':'אין לי חשבון עדיין'}</button></p></section>
- <p class="small muted" style="text-align:center"><button class="link" data-act="localMode">המשך בלי חשבון (שמירה במכשיר בלבד)</button></p>`;
+function vWelcome(){
+ const j=ui.joinMode;
+ return vHeader()+`<div class="rhero" style="margin-top:0">${art('geller')}</div>
+ <section class="panel"><h3>ברוך הבא ליומן</h3>
+  <ul class="small welcome-list">
+   <li><b>אין שם משתמש ואין סיסמה.</b> היומן נוצר אוטומטית בשביל הטלפון הזה ונשמר בענן.</li>
+   <li>הטלפון זוכר אותך — בכל פתיחה היומן שלך פשוט שם.</li>
+   <li>תקבל <b>קוד יומן</b> אישי. הוא המפתח: מי שיש לו את הקוד יכול לפתוח את היומן, אז שמור אותו לעצמך.</li>
+   <li>רוצה את אותו יומן בטלפון נוסף או במחשב? מזינים שם את הקוד.</li>
+  </ul>
+  ${j?`<form data-form="join" class="stack" style="margin-top:12px"><label class="f">קוד היומן<input name="code" dir="ltr" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXXX-XXXXX-XXXXX-XXXXX" value="${esc(ui.joinPrefill?fmtCode(ui.joinPrefill):'')}" style="font-family:ui-monospace,Menlo,monospace;letter-spacing:.06em;text-align:center"></label>
+   <div class="warn small" id="joinErr" role="alert"></div>
+   <div class="row"><button class="btn primary" type="submit">חבר את היומן</button><button class="btn ghost small" type="button" data-act="joinToggle">חזרה</button></div></form>`
+  :`<div class="stack" style="margin-top:14px"><button class="btn primary wide" data-act="newJournal">התחל יומן חדש</button><button class="btn wide" data-act="joinToggle">יש לי קוד — חבר יומן קיים</button></div>`}
+ </section>
+ <p class="tiny muted" style="text-align:center">פתחת קודם בדפדפן ואחר כך הוספת למסך הבית? באייפון אלה שני אחסונים נפרדים — פשוט הזן כאן את הקוד.</p>`;
 }
+function codeSheet(first){
+ openSheet(`<h3>${first?'היומן שלך מוכן':'קוד היומן'}</h3>
+ <p class="small muted">${first?'זה קוד היומן שלך. אין צורך לזכור אותו כדי להשתמש בטלפון הזה — רק כדי לחבר מכשיר נוסף או לשחזר.':'עם הקוד הזה אפשר לפתוח את היומן בכל מכשיר.'}</p>
+ <div class="codebox" dir="ltr">${fmtCode(Store.code)}</div>
+ <div class="row" style="margin-top:12px"><button class="btn primary" data-act="copyCode">העתק קוד</button><button class="btn" data-act="shareLink">שתף קישור חיבור</button></div>
+ <p class="tiny muted" style="margin-top:10px">שמור אותו בפתקים או בסיסמאות של הטלפון. מי שיש לו את הקוד רואה ועורך את היומן.</p>
+ <button class="btn ghost wide" data-act="closeSheet" style="margin-top:6px">סגור</button>`);
+}
+async function copyText(t){try{await navigator.clipboard.writeText(t);toast('הועתק');}catch(e){window.prompt('העתק:',t);}}
+function joinLink(){return location.origin+location.pathname+'?join='+Store.code;}
 function vStarter(){
  const st=starterState(),F=S.starter.feeds,fr=S.starter.settings.fridge;
  let hero;
  if(!st){
-  hero=`<section class="panel hero"><div class="jarwrap" id="jar">${jarNow()}</div><div><h3>הצנצנת ריקה</h3><p class="muted small">רשום את ההאכלה הראשונה. מכאן האפליקציה לומדת את הקצב של הסטארטר שלך.</p><button class="btn primary" data-act="feedOpen">רשום האכלה</button></div></section>`;
+  hero=`<section class="panel warm hero"><div class="jarwrap" id="jar">${jarNow()}</div><div><h3>הצנצנת ריקה</h3><p class="muted small">רשום את ההאכלה הראשונה. מכאן האפליקציה לומדת את הקצב של הסטארטר שלך.</p><button class="btn primary" data-act="feedOpen">רשום האכלה</button></div></section>`;
  }else{
   const f=st.f;let label,cls='',line2='';
   switch(st.kind){
@@ -561,7 +668,7 @@ function vStarter(){
    case 'logged':label=`שיא ×${f.riseX||'?'} אחרי ${hrs((f.peakAt-f.at)/36e5)}`;cls='ok';line2='האכל כשתרצה להמשיך';break;
    case 'weak':label='לא עלה';cls='over';line2='ראה תובנה למטה';break;
   }
-  hero=`<section class="panel"><div class="hero"><div class="jarwrap" id="jar">${jarNow()}</div><div>
+  hero=`<section class="panel warm"><div class="hero"><div class="jarwrap" id="jar">${jarNow()}</div><div>
    <span class="state ${cls}">${esc(label)}</span>
    <div class="big" dir="ltr" data-since="${f.at}">0:00</div>
    <div class="small muted">מאז ההאכלה · <span dir="ltr">${ratioStr(f)}</span>${num(f.temp)!=null?' · '+f.temp+'°C':''}</div>
@@ -595,23 +702,24 @@ function vBakeList(){
  const all=Object.values(S.bakes).sort((a,b)=>b.createdAt-a.createdAt);
  const active=all.filter(b=>!b.outcome),done=all.filter(b=>b.outcome);
  const card=b=>{const r=recipeOf(b);const i=b.steps.findIndex(s=>!s.doneAt);const cur=i>=0?r.steps[i]:null;
-  return `<button class="card" data-act="openBake" data-id="${b.id}"><div class="row sp"><span class="t">${esc(b.name)}</span><span class="small muted">${esc(dFmt(b.createdAt))}</span></div>
+  return `<button class="card" data-act="openBake" data-id="${b.id}"><div class="art">${art(b.recipeId)}</div><div class="meta"><div class="row sp"><span class="t">${esc(b.name)}</span><span class="small muted">${esc(dFmt(b.createdAt))}</span></div>
   ${b.outcome?`<div class="stars" aria-label="דירוג ${b.outcome.rating} מתוך 5">${stars(b.outcome.rating)}</div><div class="small muted">${esc((CRUMB.find(c=>c.id===b.outcome.crumb)||{}).label||'')}</div>`
-   :`<div class="small">${cur?`עכשיו: <b>${esc(cur.title)}</b>${b.steps[i].startedAt?` · <span dir="ltr" data-since="${b.steps[i].startedAt}"></span>`:''}`:'כל השלבים הושלמו — מחכה לסיכום'}</div>`}</button>`;};
- return `<button class="btn primary wide" data-act="newBakeOpen" style="margin-bottom:6px">אפייה חדשה</button>
+   :`<div class="small">${cur?`עכשיו: <b>${esc(cur.title)}</b>${b.steps[i].startedAt?` · <span dir="ltr" data-since="${b.steps[i].startedAt}"></span>`:''}`:'כל השלבים הושלמו — מחכה לסיכום'}</div>`}</div></button>`;};
+ return `<button class="btn primary wide" data-act="newBakeOpen" style="margin-bottom:10px">אפייה חדשה</button>
+ ${vPlanner()}
  ${active.length?`<h2>בתהליך</h2>${active.map(card).join('')}`:''}
  ${done.length?`<h2>אפיות קודמות</h2>${done.map(card).join('')}`:''}
- ${!all.length?`<div class="empty panel flat"><h3>עוד לא אפית כאן</h3><p class="muted">בחר מתכון, והאפליקציה תנהל איתך את הזמנים, הקיפולים והמדידות — ותזכור הכל לפעם הבאה.</p></div>`:''}`;
+ ${!all.length?`<div class="empty">${EMPTY_BAKE}<h3>עוד לא אפית כאן</h3><p class="muted">בחר מתכון, והאפליקציה תנהל איתך את הזמנים, הקיפולים והמדידות — ותזכור הכל לפעם הבאה.</p></div>`:''}`;
 }
 
 function prevLesson(b){
- const prev=Object.values(S.bakes).filter(x=>x.id!==b.id&&x.recipeId===b.recipeId&&x.outcome&&x.createdAt<b.createdAt).sort((a,c)=>c.createdAt-a.createdAt)[0];
+ const prev=prevOf(b);
  if(!prev)return '';
- const L=bakeLessons(prev);
- return `<details><summary>לקחים מהפעם הקודמת (${esc(dFmt(prev.createdAt))}) <span class="stars">${stars(prev.outcome.rating)}</span></summary><div class="in">
+ const L=bakeLessons(prev);const nx=prev.outcome.next;
+ return `${nx&&!b.outcome?`<div class="note good"><b>בפעם הקודמת החלטת לשנות:</b> ${esc(nx)}</div>`:''}<details><summary>לקחים מהפעם הקודמת (${esc(dFmt(prev.createdAt))}) <span class="stars">${stars(prev.outcome.rating)}</span></summary><div class="in">
   ${L.map(t=>`<div class="note ${t.c}">${esc(t.t)}</div>`).join('')}
-  ${prev.outcome.notes?`<p class="small"><b>ההערות שלך:</b> ${esc(prev.outcome.notes)}</p>`:''}
-  ${prev.aiReview?`<div class="ai small">${md(prev.aiReview.text.split('\n').slice(0,14).join('\n'))}</div>`:''}</div></details>`;
+  ${prev.outcome.worked?`<p class="small"><b>מה עבד:</b> ${esc(prev.outcome.worked)}</p>`:''}
+  ${prev.outcome.notes?`<p class="small"><b>הערה:</b> ${esc(prev.outcome.notes)}</p>`:''}</div></details>`;
 }
 
 function vBake(b){
@@ -631,11 +739,12 @@ function vBake(b){
   return `<li class="step ${cls}"><span class="dot" aria-hidden="true">${st.doneAt?'✓':''}</span>
    <div class="head"><span class="title">${esc(sd.title)}</span><span class="small muted num">${st.doneAt?esc(tFmt(st.startedAt))+' · '+took:i===ci?'':mins(sd.dur[0])+'–'+mins(sd.dur[1])}</span></div>${lastDone}${body}</li>`;
  }).join('');
- const ingList=r.ing.map(([n,q])=>`<li><span>${esc(n)}</span><b>${g(q,b.scale)} ג׳</b></li>`).join('');
+ const FL=b.flavor&&FLAVORS.find(x=>x.id===b.flavor);
+ const ingList=r.ing.map(([n,q])=>`<li><span>${esc(n)}</span><b>${g(q,b.scale)} ג׳</b></li>`).join('')+(FL?`<li><span>${esc(FL.n)} <span class="tiny muted">(15%, בלמינציה)</span></span><b>${Math.round(flourOf(r)*b.scale*.15)} ג׳</b></li>`:'');
  const allDone=ci===-1;
  return `<div class="row sp"><button class="btn ghost small" data-act="backBakes">→ כל האפיות</button><button class="btn ghost small danger" data-act="delBake" data-id="${b.id}">מחק</button></div>
- <h2 style="margin-top:12px">${esc(b.name)}</h2>
- <p class="small muted">${esc(r.name)} · כמות ×${b.scale} · התחלה ${esc(dtFmt(b.createdAt))}</p>
+ <div class="card" style="cursor:default;margin-top:12px"><div class="art">${art(r.id)}</div><div class="meta"><div class="t">${esc(b.name)}</div><div class="small muted">${esc(r.name)} · ×${b.scale}</div><div class="tiny muted">${esc(dtFmt(b.createdAt))}</div></div></div>
+ <p class="small muted" hidden>${esc(r.name)} · כמות ×${b.scale} · התחלה ${esc(dtFmt(b.createdAt))}</p>
  <div class="clocks">${clock(b.createdAt,'מההתחלה')}${clock(lev&&lev.startedAt,'מהאכלת הלבן')}${clock(mix&&mix.startedAt,'מהערבוב')}</div>
  ${prevLesson(b)}
  <details><summary>מצרכים לכמות הזו</summary><div class="in"><ul class="ing">${ingList}</ul></div></details>
@@ -651,9 +760,14 @@ function stepBody(b,r,sd,st,i){
  if(!st.startedAt){
   x+=`<button class="btn accent" data-act="stepStart" data-i="${i}">התחל שלב</button>`;
  }else{
-  x+=`<div class="row sp"><div><div class="mid" dir="ltr" data-since="${st.startedAt}"></div><div class="tiny muted">בשלב הזה · מומלץ ${mins(sd.dur[0])}–${mins(sd.dur[1])}</div></div>
-   <div class="small" style="text-align:end">${st.startedAt+sd.dur[0]*6e4>now()?`מינימום בעוד<br><span dir="ltr" data-until="${st.startedAt+sd.dur[0]*6e4}"></span>`:`מקסימום בעוד<br><span dir="ltr" data-until="${st.startedAt+sd.dur[1]*6e4}"></span>`}</div></div>`;
-  if(sd.type==='fold')x+=foldBox(b,sd,st,i);
+  x+=ringTimer(st,sd);
+  if(sd.type==='fold'){
+   x+=foldBox(b,sd,st,i);
+   const FL=b.flavor&&FLAVORS.find(q=>q.id===b.flavor);
+   if(FL)x+=`<div class="note small">🌿 בקיפול האחרון / למינציה: פזר <b>${Math.round(flourOf(r)*b.scale*.15)} ג׳ ${esc(FL.n)}</b>. ${esc(FL.tip)}.</div>`;
+   const di=ui.doughIssue&&DOUGH_ISSUES[ui.doughIssue];
+   x+=`<div><div class="small muted">איך הבצק מרגיש?</div><div class="chips" style="margin-top:6px">${Object.entries(DOUGH_ISSUES).map(([k,v])=>`<button class="chip" data-act="doughIssue" data-v="${k}" aria-pressed="${ui.doughIssue===k}">${v[0]}</button>`).join('')}</div>${di?`<div class="note ${di[2]} small">${di[1]}</div>`:''}</div>`;
+  }
   if(sd.type==='fold'||sd.type==='bulk'||(sd.type==='mix'&&!r.steps.some(s=>s.type==='fold'))||(sd.type==='mix'&&false))x+=bulkBox(b,r);
   if(sd.type==='bulk'&&r.steps.every(s=>s.type!=='fold'))x+='';
   if(sd.type==='proof')x+=pokeBox(b,i,sd);
@@ -663,16 +777,52 @@ function stepBody(b,r,sd,st,i){
  }
  return x+'</div>';
 }
+function ringTimer(st,sd){
+ const el=(now()-st.startedAt)/6e4,mn=sd.dur[0],mx=sd.dur[1];
+ const R=46,Cc=2*Math.PI*R,fr=Math.min(el/mx,1),mk=mn/mx;
+ const over=el>mx,ready=el>=mn;
+ const ang=a=>{const t=-Math.PI/2+2*Math.PI*a;return [60+R*Math.cos(t),60+R*Math.sin(t)];};
+ const [mxX,mxY]=ang(mk);
+ const col=over?'var(--plum)':ready?'var(--ok)':'var(--caramel)';
+ return `<div class="ringrow"><svg class="ring" viewBox="0 0 120 120" role="img" aria-label="התקדמות השלב">
+  <circle cx="60" cy="60" r="${R}" fill="var(--paper)" stroke="var(--chip)" stroke-width="10"/>
+  <circle cx="60" cy="60" r="${R}" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${(Cc*fr).toFixed(1)} ${Cc.toFixed(1)}" transform="rotate(-90 60 60)" style="transform-box:view-box"/>
+  <circle cx="${mxX.toFixed(1)}" cy="${mxY.toFixed(1)}" r="4" fill="var(--rye)"/>
+  <text x="60" y="58" text-anchor="middle" font-family="Frank Ruhl Libre,Georgia,serif" font-size="21" font-weight="700" fill="var(--rye)" data-since="${st.startedAt}" direction="ltr">0:00</text>
+  <text x="60" y="78" text-anchor="middle" font-size="10.5" fill="var(--muted)">${over?'מעבר למומלץ':ready?'אפשר להמשיך':'בשלב'}</text></svg>
+  <div class="small"><div class="muted tiny">מומלץ</div><b>${mins(mn)}–${mins(mx)}</b>
+  <div style="margin-top:8px" class="muted tiny">${!ready?'מינימום בעוד':'מקסימום בעוד'}</div><b dir="ltr" data-until="${st.startedAt+(ready?mx:mn)*6e4}"></b></div></div>`;
+}
 function foldBox(b,sd,st,i){
  const every=b.foldEvery||sd.folds.every;
  const fl=b.folds.filter(f=>f.step===i);
  const lastT=fl.length?fl[fl.length-1].at:st.startedAt;
  const doneAll=fl.length>=sd.folds.n;
- return `<div class="panel" style="margin:0;background:var(--bg)"><div class="row sp"><div><div class="mid num">${fl.length}/${sd.folds.n}</div><div class="tiny muted">קיפולים</div></div>
+ const hands=Array.from({length:sd.folds.n},(_,k)=>`<span style="display:inline-block;width:18px;height:18px;border-radius:50%;margin-inline-end:4px;background:${k<fl.length?'var(--crust)':'var(--chip)'};border:2px solid ${k<fl.length?'var(--crust)':'var(--line)'}"></span>`).join('');
+ return `<div class="sub"><div class="row sp"><div><div class="mid num">${fl.length}/${sd.folds.n}</div><div style="margin-top:4px">${hands}</div><div class="tiny muted">קיפולים</div></div>
   <div style="text-align:end" class="small">${doneAll?'כל הקיפולים בוצעו':`קיפול הבא בעוד<br><b dir="ltr" data-until="${lastT+every*6e4}"></b>`}</div></div>
   <div class="row" style="margin-top:10px"><button class="btn accent" data-act="fold" data-i="${i}">ביצעתי קיפול</button>${fl.length?`<button class="btn ghost small" data-act="foldUndo" data-i="${i}">בטל אחרון</button>`:''}
   <label class="f" style="flex:1;min-width:110px">מרווח (דק׳)<input type="number" inputmode="numeric" data-fe="1" value="${every}" min="10" max="120"></label></div>
   ${fl.length?`<p class="tiny muted" style="margin:8px 0 0">${fl.map(f=>tFmt(f.at)).join(' · ')}</p>`:''}</div>`;
+}
+function bowlGauge(pct,tg){
+ const x0=70,x1=150,yTop=10,yBot=112,base=34,cap=v=>Math.min(base*(1+Math.max(v||0,0)/100),yBot-yTop-6);
+ const h=pct!=null?cap(pct):base,dy=yBot-h,ty=yBot-cap(tg),by=yBot-base;
+ const over=pct!=null&&pct>tg+10,near=pct!=null&&pct>=tg-5;
+ return `<svg class="bowl" style="direction:ltr" viewBox="0 0 220 124" role="img" aria-label="עלייה ${pct!=null?Math.round(pct):0}% מתוך יעד ${tg}%">
+  <ellipse cx="110" cy="117" rx="52" ry="4" fill="#000" opacity=".08"/>
+  <rect x="${x0}" y="${yTop}" width="${x1-x0}" height="${yBot-yTop}" rx="12" fill="var(--glass)" stroke="#CDB594" stroke-width="2"/>
+  <clipPath id="tubclip"><rect x="${x0+2}" y="${yTop+2}" width="${x1-x0-4}" height="${yBot-yTop-4}" rx="10"/></clipPath>
+  <g clip-path="url(#tubclip)"><rect x="${x0}" y="${dy}" width="${x1-x0}" height="${h+4}" fill="${over?'#D7A98A':'#E9CF9F'}"/>
+   <path d="M${x0} ${dy+2} q20 -8 40 -3 t40 3 v6 h-80z" fill="#F2DDB5"/>
+   ${dust(12,17,x0+8,x1-8,Math.min(dy+10,yBot-6),yBot-4,'#FFFDF7',2.2)}</g>
+  <path d="M${x0+8} ${yTop+10} v${yBot-yTop-24}" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+  <rect x="${x0-4}" y="${by-2}" width="${x1-x0+8}" height="5" rx="2.5" fill="#7A5234"/>
+  <text x="${x0-10}" y="${by+4}" text-anchor="end" font-size="10" fill="var(--muted)">התחלה</text>
+  <line x1="${x0-6}" x2="${x1+6}" y1="${ty}" y2="${ty}" stroke="${near&&!over?'var(--ok)':'var(--rye)'}" stroke-width="2.2" stroke-dasharray="6 4"/>
+  <text x="${x1+12}" y="${ty+4}" font-size="11" font-weight="700" fill="var(--rye)">יעד ${tg}%</text>
+  ${pct!=null?`<text x="${x1+12}" y="${Math.max(dy+4,yTop+10)}" font-size="11" fill="var(--muted)" ${Math.abs(dy-ty)<14?'visibility="hidden"':''}>${Math.round(pct)}%</text>`:''}
+ </svg>`;
 }
 function bulkBox(b,r){
  const R=b.readings;const last=R[R.length-1];
@@ -681,10 +831,10 @@ function bulkBox(b,r){
  let prog='';
  if(tg!=null){
   const w=pct!=null?Math.min(pct/tg*100,100):0;const over=pct!=null&&pct>tg+10;
-  prog=`<div class="row sp small"><span>עלייה: <b class="num">${pct!=null?Math.round(pct)+'%':'—'}</b></span><span>יעד: <b class="num">${tg}%</b> <span class="muted">(בצק <span dir="ltr">${T}°C</span>)</span></span></div><div class="bar ${over?'over':''}" role="progressbar" aria-valuenow="${Math.round(w)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${w}%"></i></div>
+  prog=bowlGauge(pct,tg)+`<div class="row sp small"><span>עלייה: <b class="num">${pct!=null?Math.round(pct)+'%':'—'}</b></span><span>יעד: <b class="num">${tg}%</b> <span class="muted">(בצק <span dir="ltr">${T}°C</span>)</span></span></div><div class="bar ${over?'over':''}" role="progressbar" aria-valuenow="${Math.round(w)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${w}%"></i></div>
   ${pct!=null&&pct>=tg-5&&!over?'<div class="note good small">הגעת ליעד — בדוק כיפה ובועות בשוליים, ועבור לעיצוב.</div>':''}${over?'<div class="note bad small">עבר את היעד — עצב עכשיו.</div>':''}`;
  }
- return `<div class="panel" style="margin:0;background:var(--bg)"><h3 style="font-size:17px">מדידת תסיסה</h3>${prog}
+ return `<div class="sub"><h3 style="font-size:17px">מדידת תסיסה</h3>${prog||`<p class="small muted">הזן טמפ׳ בצק כדי לקבל יעד עלייה.</p>`}${T!=null&&T>26?`<div class="note bad small">הבצק ב-${T}°C — מעל 26°C. חום מאיץ תסיסה: קרר 5 דק׳ ובדוק מוקדם יותר.</div>`:''}
  <form data-form="reading" class="stack" style="margin-top:10px">
   <div class="g3"><label class="f">טמפ׳ בצק °C<input name="temp" type="number" step="0.5" inputmode="decimal" value="${T!=null?T:''}"></label>
   <label class="f">צנצנת: התחלה (מ״ל)<input name="start" type="number" inputmode="decimal" value="${b.aliquotStart||''}"></label>
@@ -698,39 +848,98 @@ function pokeBox(b,i,sd){
  const P=(b.pokes||[]).filter(p=>p.step===i);const last=P[P.length-1];
  return `<div><div class="small muted">מבחן לחיצה${sd.cold?' (אחרי המקרר, או לפני הכנסה לתנור)':''}:</div><div class="chips" style="margin-top:6px">${Object.entries(POKE).map(([k,v])=>`<button class="chip" data-act="poke" data-i="${i}" data-v="${k}" aria-pressed="${last&&last.v===k}">${v[0]}</button>`).join('')}</div>${last?`<div class="note ${POKE[last.v][2]} small">${POKE[last.v][1]}</div>`:''}</div>`;
 }
+function vPlanner(){
+ const P=ui.plan||{};const T=P.t||(()=>{const d=new Date(now()+864e5);d.setHours(9,0,0,0);return d.getTime();})();
+ const fridge=P.fridge!=null?P.fridge:12,bulk=P.bulk!=null?P.bulk:4.5;
+ const H=36e5,M=6e4;
+ const heat=T-45*M,fridgeIn=T-fridge*H,shape=fridgeIn-30*M,mix=shape-bulk*H,aut=mix-45*M;
+ const f1=aut-4*H,f10=aut-11*H;
+ const row=(ts,l,sub)=>`<li><span>${l}${sub?`<br><span class="tiny muted">${sub}</span>`:''}</span><b class="num">${esc(dtFmt(ts))}</b></li>`;
+ return `<details ${ui.planOpen?'open':''}><summary><span class="ico">🗓️</span><span>תכנון לאחור משעת האפייה</span></summary><div class="in">
+  <form data-form="plan" class="stack"><label class="f">מתי להכניס לתנור?<input type="datetime-local" name="t" value="${toLocalInput(T)}"></label>
+  <div class="g2"><label class="f">מקרר (ש׳, 6–24)<input type="number" name="fridge" min="6" max="24" step="1" value="${fridge}"></label><label class="f">התפחה ראשונה (ש׳, 3–6)<input type="number" name="bulk" min="3" max="6" step="0.5" value="${bulk}"></label></div>
+  <button class="btn small" type="submit">חשב</button></form>
+  <ul class="ing" style="margin-top:10px">
+   ${row(f10,'האכלת מחמצת 1:10:10','ללילה / יום עבודה — כ-10–12 ש׳')}
+   ${row(f1,'או האכלה 1:1:1','לאותו יום — כ-4 ש׳')}
+   ${row(aut,'אוטוליזה','20 דק׳ עד 3 ש׳')}
+   ${row(mix,'מחמצת, מלח ולישה','ומשם קיפולים והתפחה')}
+   ${row(shape,'עיצוב','כ-30 דק׳')}
+   ${row(fridgeIn,'למקרר','')}
+   ${row(heat,'חימום התנור','כ-45 דק׳')}
+   ${row(T,'לתנור','')}
+  </ul><p class="tiny muted">השעון נותן מסגרת. טמפ׳ החדר, חוזק המחמצת ומצב הבצק קובעים את הקצב בפועל.</p></div></details>`;
+}
+function prevOf(b){return Object.values(S.bakes).filter(x=>x.id!==b.id&&x.recipeId===b.recipeId&&x.outcome&&x.createdAt<b.createdAt).sort((a,c)=>c.createdAt-a.createdAt)[0];}
 function vOutcomeForm(b){
- return `<section class="panel"><h3>איך יצא?</h3><form data-form="outcome" class="stack">
- <fieldset style="border:0;padding:0;margin:0"><legend class="small muted">דירוג</legend><div class="chips">${[1,2,3,4,5].map(n=>`<label class="chip"><input type="radio" name="rating" value="${n}" style="width:auto;min-height:0;margin:0 0 0 4px" ${n===3?'checked':''}>${n}</label>`).join('')}</div></fieldset>
- <label class="f">פירור<select name="crumb">${CRUMB.map(c=>`<option value="${c.id}">${esc(c.label)}</option>`).join('')}</select></label>
- <div class="g2"><label class="f">תפיחה בתנור<select name="spring"><option value="good">טובה</option><option value="ok">בינונית</option><option value="weak">חלשה</option></select></label>
- <label class="f">חמיצות<select name="sour"><option value="mild">עדינה</option><option value="balanced" selected>מאוזנת</option><option value="very">חמוץ מאוד</option></select></label></div>
- <label class="f">הערות<textarea name="notes" placeholder="קרום, צבע, טעם, מה היית משנה"></textarea></label>
- <button class="btn primary" type="submit">שמור תוצאה</button></form></section>`;
+ const o=b.outcome||b.draftOutcome||{};const prev=prevOf(b);
+ const changed=o.changed!=null?o.changed:(prev&&prev.outcome.next)||'';
+ const sel=(v,x)=>v===x?'selected':'';
+ return `<section class="panel"><h3>יומן האפייה — איך יצא?</h3><p class="tiny muted">גם כיכר שלא יצאה מושלמת מלמדת בדיוק מה לשנות.</p><form data-form="outcome" class="stack">
+ <fieldset style="border:0;padding:0;margin:0"><legend class="small muted">דירוג</legend><div class="chips">${[1,2,3,4,5].map(n=>`<label class="chip"><input type="radio" name="rating" value="${n}" style="width:auto;min-height:0;margin:0 0 0 4px" ${(o.rating||3)===n?'checked':''}>${n}</label>`).join('')}</div></fieldset>
+ <label class="f">מה רואים<select name="crumb">${CRUMB.map(c=>`<option value="${c.id}" ${sel(o.crumb,c.id)}>${esc(c.label)}</option>`).join('')}</select></label>
+ <div class="g2"><label class="f">שיטת אפייה<select name="method">${Object.entries(METHODS).map(([k,v])=>`<option value="${k}" ${sel(o.method||'pot',k)}>${v}</option>`).join('')}</select></label>
+ <label class="f">תפיחה בתנור<select name="spring"><option value="good" ${sel(o.spring,'good')}>טובה</option><option value="ok" ${sel(o.spring,'ok')}>בינונית</option><option value="weak" ${sel(o.spring,'weak')}>חלשה</option></select></label></div>
+ <label class="f">חמיצות<select name="sour"><option value="mild" ${sel(o.sour,'mild')}>עדינה</option><option value="balanced" ${sel(o.sour||'balanced','balanced')}>מאוזנת</option><option value="very" ${sel(o.sour,'very')}>חמוץ מאוד</option></select></label>
+ <label class="f">המשתנה ששיניתי הפעם<input name="changed" value="${esc(changed)}" placeholder="למשל: אוטוליזה של שעה במקום 20 דק׳"></label>
+ <label class="f">מה עבד טוב<textarea name="worked">${esc(o.worked||'')}</textarea></label>
+ <label class="f">מה אשנה בפעם הבאה <span class="tiny">(משתנה אחד)</span><input name="next" value="${esc(o.next||'')}" placeholder="שנו משתנה אחד בכל אפייה"></label>
+ <label class="f">הערה חופשית<textarea name="notes">${esc(o.notes||'')}</textarea></label>
+ <button class="btn primary" type="submit">שמור ביומן</button></form></section>`;
+}
+function journalRows(b){
+ const r=recipeOf(b),o=b.outcome||{};
+ const idx=t=>r.steps.findIndex(s=>s.type===t);
+ const st=i=>i>=0?(b.steps[i]||{}):{};
+ const lev=st(idx('levain'));
+ const feed=S.starter.feeds.filter(f=>f.at<=(lev.startedAt||b.createdAt)+36e5).slice(-1)[0];
+ const temps=(b.readings||[]).map(x=>x.temp).filter(x=>x!=null);
+ const mixS=st(idx('mix')).startedAt,shapeI=idx('shape'),shapeS=st(shapeI).startedAt;
+ const dur=x=>x.startedAt&&x.doneAt?mins((x.doneAt-x.startedAt)/6e4):null;
+ const coldI=r.steps.findIndex(s=>s.cold);
+ const flours=r.ing.filter(x=>x[2]==='flour').map(x=>x[0]).join(' + ');
+ const hy=hydration(r);
+ const FL=b.flavor&&FLAVORS.find(x=>x.id===b.flavor);
+ const lp=lastPct(b);
+ return [
+  ['תאריך ושעת התחלה',dtFmt(b.createdAt)],
+  ['יחס וזמן האכלת המחמצת',feed?`${ratioStr(feed)} · ${dtFmt(feed.at)}${feed.peakAt?' · שיא אחרי '+hrs((feed.peakAt-feed.at)/36e5):''}`:(lev.startedAt?'התחלה '+dtFmt(lev.startedAt):null)],
+  ['קמחים והידרציה',`${flours}${hy?' · '+hy+'%':''}${FL?' · '+FL.n:''}`],
+  ['טמפרטורת הבצק',temps.length?(Math.min(...temps)===Math.max(...temps)?temps[0]+'°C':Math.min(...temps)+'–'+Math.max(...temps)+'°C'):null],
+  ['קיפולים',b.folds.length?`${b.folds.length} · ${b.folds.map(f=>tFmt(f.at)).join(', ')}`:null],
+  ['משך ההתפחה הראשונה',mixS&&shapeS?mins((shapeS-mixS)/6e4)+(lp?` · עלייה ${Math.round(lp.pct)}%`:''):null],
+  ['עיצוב והתפחה בקירור',[dur(st(shapeI))?'עיצוב '+dur(st(shapeI)):null,coldI>=0&&dur(st(coldI))?'מקרר '+dur(st(coldI)):null].filter(Boolean).join(' · ')||null],
+  ['שיטת אפייה',METHODS[o.method]||null],
+  ['המשתנה ששיניתי',o.changed||null],
+  ['מה עבד טוב',o.worked||null],
+  ['מה אשנה בפעם הבאה',o.next||null],
+  ['הערה חופשית',o.notes||null]
+ ];
 }
 function vOutcome(b){
  const o=b.outcome,L=bakeLessons(b);
- return `<h2>סיכום</h2><section class="panel"><div class="stars" style="font-size:20px">${stars(o.rating)}</div>
- <p class="small">${esc((CRUMB.find(c=>c.id===o.crumb)||{}).label||'')} · תפיחה ${o.spring==='good'?'טובה':o.spring==='weak'?'חלשה':'בינונית'} · ${o.sour==='very'?'חמוץ מאוד':o.sour==='mild'?'חמיצות עדינה':'חמיצות מאוזנת'}</p>
- ${o.notes?`<p class="small">${esc(o.notes)}</p>`:''}
- <h3 style="margin-top:12px">לקחים</h3>${L.map(t=>`<div class="note ${t.c} small">${esc(t.t)}</div>`).join('')}
+ const rows=journalRows(b).map(([k,v])=>`<tr><th style="width:42%">${esc(k)}</th><td>${v?esc(v):'<span class="muted">—</span>'}</td></tr>`).join('');
+ return `<h2>יומן האפייה</h2><section class="panel"><div class="row sp"><div class="stars" style="font-size:22px">${stars(o.rating)}</div><span class="small muted">${esc((CRUMB.find(c=>c.id===o.crumb)||{}).label||'')}</span></div>
+ <div class="tbl"><table class="journal">${rows}</table></div>
+ <h3 style="margin-top:14px">לקחים</h3>${L.map(t=>`<div class="note ${t.c} small">${esc(t.t)}</div>`).join('')}
  ${b.aiReview?`<h3 style="margin-top:14px">ניתוח המאמן (מהגרסה הקודמת)</h3><div class="ai">${md(b.aiReview.text)}</div>`:''}
- <div class="row" style="margin-top:8px"><button class="btn ghost small" data-act="editOutcome" data-id="${b.id}">ערוך תוצאה</button></div></section>`;
+ <div class="row" style="margin-top:8px"><button class="btn ghost small" data-act="editOutcome" data-id="${b.id}">ערוך</button></div></section>`;
 }
 
 function vRecipes(){
  if(ui.recipeId){
   const r=RECIPES.find(x=>x.id===ui.recipeId);const k=ui.recipeScale;const hy=hydration(r);
   return `<button class="btn ghost small" data-act="recipeBack">→ כל המתכונים</button>
-  <h2>${esc(r.name)}</h2><p class="muted">${esc(r.sub)}</p>
-  <div class="spec">${hy?`<div><b>${hy}%</b>הידרציה</div>`:'<div><b>מועשר</b>סוג בצק</div>'}<div><b>${esc(r.time)}</b>זמן כולל</div></div>
+  <div class="rhero">${art(r.id)}</div>${r.course?'<span class="state peak">מהקורס</span>':''}<h2 style="margin-top:4px">${esc(r.name)}</h2><p class="muted">${esc(r.sub)}</p>
+  <div class="spec">${hy?`<div><b>${hy}%</b>הידרציה</div>`:'<div><b>מועשר</b>סוג בצק</div>'}<div><b>${r.steps.length}</b>שלבים</div><div><b style="font-size:13px;font-family:Assistant,sans-serif">${esc(r.time)}</b>זמן כולל</div></div>
   <div class="chips" role="group" aria-label="כמות">${[0.5,1,1.5,2].map(v=>`<button class="chip" data-act="recipeScale" data-v="${v}" aria-pressed="${k===v}">×${v}</button>`).join('')}</div>
-  <section class="panel" style="margin-top:10px"><ul class="ing">${r.ing.map(([n,q])=>`<li><span>${esc(n)}</span><b>${g(q,k)} ג׳</b></li>`).join('')}</ul></section>
-  <h3>שלבים</h3><ol style="padding-inline-start:20px">${r.steps.map(s=>`<li style="margin-bottom:8px"><b>${esc(s.title)}</b> <span class="small muted">(${mins(s.dur[0])}–${mins(s.dur[1])})</span><br><span class="small">${esc(s.d(k))}</span></li>`).join('')}</ol>
+  <h2>מצרכים</h2><section class="panel"><ul class="ing">${r.ing.map(([n,q])=>`<li><span>${esc(n)}</span><b>${g(q,k)} ג׳</b></li>`).join('')}</ul></section>
+  <h2>שלבים</h2><section class="panel"><ol class="steps">${r.steps.map((s,i)=>`<li class="step"><span class="dot" style="color:var(--rye)">${i+1}</span><div class="head"><span class="title">${esc(s.title)}</span><span class="tiny muted">${mins(s.dur[0])}–${mins(s.dur[1])}</span></div><div class="small" style="margin-top:4px">${esc(s.d(k))}</div></li>`).join('')}</ol></section>
   <button class="btn primary wide" data-act="recipeStart">התחל אפייה עם המתכון הזה</button>
-  ${r.src?`<p class="tiny muted" style="margin-top:10px">מקור: <a href="${r.src[0]}" target="_blank" rel="noopener">${esc(r.src[1])}</a> (ניסוח ושלבים מותאמים)</p>`:'<p class="tiny muted" style="margin-top:10px">נוסחת בסיס סטנדרטית, עם יעדי תסיסה לפי טמפ׳ בצק.</p>'}`;
+  ${r.src?`<p class="tiny muted" style="margin-top:10px">מקור: ${r.src[0]?`<a href="${r.src[0]}" target="_blank" rel="noopener">${esc(r.src[1])}</a> (ניסוח ושלבים מותאמים)`:esc(r.src[1])}</p>`:'<p class="tiny muted" style="margin-top:10px">נוסחת בסיס סטנדרטית, עם יעדי תסיסה לפי טמפ׳ בצק.</p>'}`;
  }
  return RECIPES.map(r=>{const hy=hydration(r);const n=Object.values(S.bakes).filter(b=>b.recipeId===r.id).length;
-  return `<button class="card" data-act="recipeOpen" data-id="${r.id}"><div class="row sp"><span class="t">${esc(r.name)}</span><span class="small muted">${hy?hy+'% הידרציה':'מועשר'}</span></div><div class="small muted">${esc(r.sub)}${n?` · אפית ${n} פעמים`:''}</div></button>`;}).join('');
+  return `<button class="card" data-act="recipeOpen" data-id="${r.id}"><div class="art">${art(r.id)}</div><div class="meta"><div class="t">${esc(r.name)}${r.course?' <span class="state peak" style="font-size:11px;padding:2px 8px;margin:0;vertical-align:middle">מהקורס</span>':''}</div><div class="small muted">${esc(r.sub)}</div><div class="tiny muted" style="margin-top:3px">${hy?hy+'% הידרציה':'בצק מועשר'}${n?` · אפית ${n} פעמים`:''}</div></div></button>`;}).join('');
 }
 
 const KNOW=[
@@ -768,8 +977,41 @@ const SOURCES=[
  ['https://www.mydailysourdoughbread.com/reading-your-sourdough-crumb/','קריאת פירור — My Daily Sourdough'],
  ['https://sourdoughratio.com/blog/underproofed-vs-overproofed','תת-התפחה מול התפחת-יתר']
 ];
+function calcBox(){
+ return `<div class="sub" data-calcbox><h3 style="font-size:17px">מחשבון אחוזי אופה</h3>
+ <div class="g2"><label class="f">קמח (ג׳)<input type="number" inputmode="decimal" data-calc="flour" value="350"></label><label class="f">הידרציה %<input type="number" inputmode="decimal" data-calc="hyd" value="73"></label>
+ <label class="f">מחמצת %<input type="number" inputmode="decimal" data-calc="lev" value="25"></label><label class="f">מלח %<input type="number" inputmode="decimal" data-calc="salt" value="3"></label>
+ <label class="f">תוספות %<input type="number" inputmode="decimal" data-calc="add" value="0"></label></div>
+ <ul class="ing" style="margin-top:10px" id="calcOut"></ul></div>`;
+}
+function updCalc(){
+ const box=document.querySelector('[data-calcbox]');if(!box)return;
+ const v=k=>num(box.querySelector(`[data-calc="${k}"]`).value)||0;
+ const F=v('flour');const rows=[['קמח',F],['מים',F*v('hyd')/100],['מחמצת',F*v('lev')/100],['מלח',F*v('salt')/100],['תוספות',F*v('add')/100]];
+ const tot=rows.reduce((a,x)=>a+x[1],0);
+ const out=document.getElementById('calcOut');if(out)out.innerHTML=rows.map(([n,q])=>`<li><span>${n}</span><b>${Math.round(q)} ג׳</b></li>`).join('')+`<li><span><b>משקל בצק</b></span><b>${Math.round(tot)} ג׳</b></li>`;
+}
+const TB=(head,rows)=>`<div class="tbl"><table><thead><tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+const BOOK=[
+ {n:'02',t:'תכנון — רצף העבודה',h:()=>`<p>לחם מחמצת אפשר להכין בכ-14 ש׳, או לפרוס את התהליך עד כ-45 ש׳. מתכננים לפי שעת האפייה וחוזרים לאחור.</p>${TB(['שלב','טווח זמן'],[['האכלת המחמצת','3–12 ש׳'],['אוטוליזה','20 דק׳ – 3 ש׳'],['לישה, קיפולים והתפחה ראשונה','3–6 ש׳'],['עיצוב ראשוני, מנוחה ועיצוב סופי','כ-30 דק׳'],['התפחה במקרר','6–24 ש׳'],['חימום התנור ואפייה','כשעה וחצי']])}<p><b>לאחור:</b> קובעים שעת אפייה, מפחיתים חימום ואפייה, אחר כך קירור, עיצוב והתפחה ראשונה — וכך יודעים מתי להאכיל ומתי להתחיל. בלשונית אפייה יש מחשבון שעושה את זה.</p><p class="muted">השעון נותן מסגרת; טמפ׳ החדר, חוזק המחמצת ומצב הבצק קובעים את הקצב.</p>`},
+ {n:'03',t:'המתכון הבסיסי',h:()=>`<p>כיכר של כ-700 ג׳ בצק, בהידרציה מתונה שמתאימה ללמידת תחושת הבצק.</p>${TB(['מרכיב','כמות'],[['קמח לחם','280 ג׳'],['קמח כפרי','70 ג׳'],['מים','255 מ״ל'],['מחמצת פעילה','90 ג׳'],['מלח','10 ג׳']])}<p><b>ציוד:</b> קערה וכיסוי, משקל דיגיטלי, קלף, סלסילת התפחה (או קערה עם מגבת), נייר אפייה, תער, רשת קירור, סיר או משטח אפייה.</p><p><b>לפני הערבוב:</b> לוודא שהמחמצת פעילה וסמוך לשיא. ביום חם — מים קרים יותר כדי לשלוט בטמפ׳ הבצק.</p>`},
+ {n:'04',t:'המחמצת',h:()=>`${TB(['מתי','יחס מחמצת:מים:קמח','זמן משוער'],[['לאותו יום','1:1:1','כ-4 ש׳'],['ללילה / יום עבודה','1:10:10','כ-10–12 ש׳']])}<p><b>סימני שיא:</b> הנפח גדל משמעותית עם בועות רבות בצדדים ובפנים; החלק העליון תפוח או כיפתי, לפני שמתחיל לשקוע; מרקם אוורירי וריח נעים, חמצמץ ועדין.</p><p>בוחרים יחס לפי חלון הזמן, לא לפי הרגל. מחמצת חזקה נותנת תסיסה חזקה וטעם מאוזן; מחמצת שעברה את השיא עדיין עובדת, אבל פחות חזקה וחמוצה יותר.</p>`},
+ {n:'05',t:'בניית הבצק',h:()=>`<p><b>1. אוטוליזה:</b> קמחים ומים עד שאין קמח יבש, מכסים וממתינים 20 דק׳ עד 3 ש׳.</p><p><b>2. מחמצת:</b> מוסיפים ולשים בצביטות עד שנטמעת.</p><p><b>3. מלח:</b> מוסיפים וממשיכים עד שהבצק אחיד ומבריק.</p><p><b>טמפרטורה:</b> בזמן הלישה הבצק לא עובר 26°C. ביום חם מקררים כ-5 דק׳ וממשיכים. חום מאיץ תסיסה — טמפרטורה היא חלק מהמתכון.</p>`},
+ {n:'06',t:'קיפולים והתפחה ראשונה',h:()=>`${TB(['זמן','פעולה'],[['אחרי הלישה','מנוחה של כ-30 דק׳'],['קיפול 1','קיפול רגיל'],['אחרי 20–40 דק׳','קיפול 2'],['אחרי 20–40 דק׳','קיפול 3 או למינציה'],['אחרי כ-30 דק׳','בדיקה אם נדרש קיפול נוסף']])}<p><b>מה מחפשים:</b> הבצק נעשה יציב, אלסטי ופחות דביק מקיפול לקיפול. עובדים בידיים רטובות בלבד — בלי קמח ובלי שמן. לא רודפים אחרי מספר קיפולים.</p><p>לישה, קיפולים והתפחה ראשונה יחד: בדרך כלל 3–6 ש׳. מתקדמים לפי הבצק.</p>`},
+ {n:'07',t:'עיצוב',h:()=>`<p><b>עיצוב ראשוני:</b> בעדינות, עם מעט מתח על הפנים, בלי להוציא את האוויר.</p><p><b>בנץ׳ רסט:</b> כ-15 דק׳. מתפשט מהר — לקצר; מתנגד למתיחה — להאריך.</p><p><b>עיצוב סופי:</b> לצורה הרצויה, ולסלסילה כשהתפר כלפי מעלה.</p><p><b>התפחה סופית:</b> לקמח היטב את הסלסילה, לכסות ולמקרר ל-6–24 ש׳. להוציא רק כשהתנור וכלי האפייה חמים ומוכנים.</p>`},
+ {n:'08',t:'אפייה וקירור',h:()=>`<h4>בסיר</h4><p>חימום מקדים עם הסיר כ-45 דק׳ במקסימום או ב-250°C. הופכים על נייר, מקמחים ומעטרים, חורצים — ומעבירים מיד לסיר, עם שתי קוביות קרח בין הנייר לדופן.</p>${TB(['שלב','טמפ׳','זמן'],[['מכסה סגור','250°C','17 דק׳'],['מכסה פתוח','230°C','כ-20 דק׳']])}<h4>על אבן / משטח</h4><p>חימום לפחות 45 דק׳ בחום עליון-תחתון עם תבנית ריקה בתחתית. מכניסים, שופכים כוס מים לתבנית וסוגרים מהר. אחרי 22 דק׳ פותחים לשחרור אדים, מורידים ל-230°C ואופים כ-20 דק׳ נוספות. <b>זהירות:</b> אדים ומתכת לוהטת.</p><h4>הקירור הוא חלק מהאפייה</h4><p>לרשת, ולפחות שעה לפני פריסה. חיתוך מוקדם עלול ליצור מרקם דביק. אחרי הפריסה: בודקים מבנה, אלסטיות ולחות, ומקשרים לחוזק המחמצת, לתסיסה, לעיצוב ולאפייה.</p>`},
+ {n:'09',t:'אחוזי אופה',h:()=>`<p>הקמח הוא תמיד 100%, וכל מרכיב אחר מחושב ביחס לקמח — לא למשקל הבצק.</p>${TB(['מרכיב','אחוז','ל-300 ג׳ קמח'],[['קמח','100%','300 ג׳'],['מים','75%','225 מ״ל'],['מחמצת','25%','75 ג׳'],['מלח','3%','9 ג׳'],['תוספות','15%','45 ג׳']])}<p><b>החישוב:</b> משקל הקמח × האחוז = משקל המרכיב.</p><p><b>במתכון הבסיסי:</b> 350 ג׳ קמח; 15% תוספות ≈ 52 ג׳ לכיכר. כשמגדילים או מקטינים, שומרים על אותם אחוזים. כמות המחמצת תלויה גם בכמה זמן יהיה לבצק לתפוח.</p><p><b>הידרציה:</b> בקמח לבן, למתחילים — לא לעבור 73%. ככל שיש יותר קמח מלא, אפשר להעלות מים בהדרגה.</p>${calcBox()}<p class="muted">המספרים עוזרים לתכנן; הבצק מלמד מתי להתקדם.</p>`},
+ {n:'10',t:'טעמים וחמאה ביתית',h:()=>`${TB(['טעם','דגש'],FLAVORS.map(f=>[f.n,f.tip]))}<p>מתחילים מכ-15% תוספות ביחס לקמח, ומוסיפים בזמן הלמינציה. תוספות רטובות — לסנן היטב. בלשונית אפייה אפשר לבחור טעם, והכמות מחושבת לבד.</p><h4>חמאה ביתית</h4><p>500 מ״ל שמנת להקצפה 38% נותנים בערך 180–220 ג׳ חמאה. מקציפים שמנת קרה עד שהשומן נפרד מהנוזל; מסננים, סוחטים ושוטפים במים קרים עד שהמים כמעט שקופים; מתבלים במלח ומוסיפים טעמים.</p>`},
+ {n:'11',t:'כשמשהו לא מסתדר',h:()=>`${TB(['מה רואים','סיבה אפשרית','מה לבדוק'],[['כיכר שטוחה','תסיסת יתר או עיצוב חלש','קצב ההתפחה והמתח בעיצוב'],['כיכר דחוסה','מחמצת חלשה או תסיסה קצרה','שיא המחמצת וסיום ההתפחה הראשונה'],['בצק נקרע בקיפולים','חסר מנוחה או עבודה אגרסיבית','להאריך מנוחה ולעבוד בעדינות'],['בצק דביק מאוד','חום גבוה או הידרציה גבוהה','טמפ׳, מים וקמח — לא להוסיף שמן'],['נפתח מהצד','חריצה לא מספקת או קרום מוקדם','חריצה, אדים וחימום מקדים'],['קראמב דביק','פריסה מוקדמת או אפייה חסרה','להמתין שעה ולוודא השחמה מלאה']])}<h4>ארבעת המשתנים הראשונים לבדיקה</h4><ul><li>חוזק המחמצת בתחילת הלישה</li><li>טמפ׳ הבצק והחדר</li><li>משך ההתפחה הראשונה והסופית</li><li>חוזק העיצוב, החימום המקדים והאדים</li></ul><p><b>שנו משתנה אחד בכל אפייה</b> — כך מבינים מה באמת שיפר את התוצאה. תוצאה טובה מתחילה באבחון רגוע ומדויק.</p>`},
+ {n:'12',t:'יומן האפייה',h:()=>`<p>בחוברת זה דף למילוי ידני. באפליקציה הוא מתמלא לבד: בסוף כל אפייה מופיע יומן עם תאריך ושעה, יחס ושעת ההאכלה, קמחים והידרציה, טמפ׳ הבצק, קיפולים, משך ההתפחה, עיצוב וקירור ושיטת האפייה. אתה מוסיף רק מה עבד, מה שינית ומה תשנה בפעם הבאה.</p><p>בפעם הבאה שתאפה את אותו מתכון, מה שכתבת ב"מה אשנה בפעם הבאה" יופיע בראש המסך.</p>`}
+];
 function vKnow(){
- return KNOW.map((k,i)=>`<details ${i===5?'open':''}><summary>${esc(k.t)}</summary><div class="in small">${k.h}</div></details>`).join('')+
+ const tab=ui.knowTab||'book';
+ const seg=`<div class="seg" role="tablist"><button role="tab" data-act="knowTab" data-v="book" aria-selected="${tab==='book'}">חוברת הקורס</button><button role="tab" data-act="knowTab" data-v="gen" aria-selected="${tab==='gen'}">ידע כללי</button></div>`;
+ if(tab==='book')return seg+`<div class="panel warm" style="text-align:center"><div class="tiny muted">מאסטרקלאס לחמי מחמצת</div><h3 style="font-size:22px;margin:4px 0">איתן גלר</h3><p class="small muted" style="margin:0">סיכום החוברת. העקרונות שלה כבר מובנים במתכון הבסיס, בזמנים, באבחון וביומן.</p></div>`+
+  BOOK.map(k=>`<details><summary><span class="ico num" aria-hidden="true" style="font-size:13px;font-weight:700;color:var(--crust)">${k.n}</span><span>${esc(k.t)}</span></summary><div class="in small">${k.h()}</div></details>`).join('');
+ const KI=['🫙','⚖️','🌡️','❄️','🔍','📈','🧪','👆','🍞','🔥'];
+ return seg+KNOW.map((k,i)=>`<details><summary><span class="ico" aria-hidden="true">${KI[i]||'•'}</span><span>${esc(k.t)}</span></summary><div class="in small">${k.h}</div></details>`).join('')+
  `<h2>מקורות</h2><ul class="small" style="padding-inline-start:18px">${SOURCES.map(s=>`<li><a href="${s[0]}" target="_blank" rel="noopener">${esc(s[1])}</a></li>`).join('')}</ul>`;
 }
 
@@ -796,25 +1038,30 @@ function vCoach(){
  let bestHtml='';
  if(best){const lp=lastPct(best);bestHtml=`<h3 style="margin-top:14px">האפייה הכי טובה שלך</h3><p class="small"><b>${esc(best.name)}</b> (${esc(dFmt(best.createdAt))}) <span class="stars">${stars(best.outcome.rating)}</span><br>${[lp&&lp.temp!=null?'בצק '+lp.temp+'°C':null,lp?'עצרת ב-'+Math.round(lp.pct)+'%':null,bulkMinutes(best)?'תסיסה '+mins(bulkMinutes(best)):null].filter(Boolean).join(' · ')||'אין מדידות'}</p>`;}
  const perR=RECIPES.map(r=>{const x=B.filter(b=>b.recipeId===r.id);return x.length?`<tr><td>${esc(r.name)}</td><td>${x.length}</td><td>${r1(avg(x.map(b=>b.outcome.rating)))}</td></tr>`:'';}).join('');
- return `<section class="panel"><div class="g3" style="text-align:center">
-  <div><div class="mid">${B.length}</div><div class="tiny muted">אפיות מסוכמות</div></div>
-  <div><div class="mid">${avgR!=null?avgR:'—'}</div><div class="tiny muted">דירוג ממוצע</div></div>
-  <div><div class="mid">${avgPeak!=null?hrs(avgPeak):'—'}</div><div class="tiny muted">ממוצע עד שיא</div></div></div>
+ return `<div class="g3" style="margin-bottom:14px">
+  <div class="stat"><div class="mid">${B.length}</div><div class="tiny muted">אפיות מסוכמות</div></div>
+  <div class="stat"><div class="mid">${avgR!=null?avgR:'—'}</div><div class="tiny muted">דירוג ממוצע</div></div>
+  <div class="stat"><div class="mid">${avgPeak!=null?hrs(avgPeak):'—'}</div><div class="tiny muted">ממוצע עד שיא</div></div></div>
+  <section class="panel">
   ${pattern?`<div class="note bad small" style="margin-top:12px">${esc(pattern)}</div>`:''}
   ${!B.length?'<p class="small muted" style="margin-top:12px">סכם כמה אפיות, והתובנות יופיעו כאן.</p>':''}
   ${cmpHtml}${bestHtml}
   ${perR?`<h3 style="margin-top:14px">לפי מתכון</h3><div class="tbl"><table><thead><tr><th>מתכון</th><th>אפיות</th><th>דירוג</th></tr></thead><tbody>${perR}</tbody></table></div>`:''}</section>
- <section class="panel"><h3>גיבוי</h3><p class="small muted">${Store.mode==='cloud'?'היומן מסונכרן לחשבון שלך. גיבוי לקובץ הוא ביטוח נוסף.':'היומן שמור רק במכשיר הזה. גבה מדי פעם לקובץ.'}</p>
-  <div class="row"><button class="btn small" data-act="exportData">ייצוא לקובץ</button><label class="btn small ghost">ייבוא מקובץ<input type="file" accept="application/json,.json" data-import="1" hidden></label>
-  ${Store.mode==='cloud'?'<button class="btn small ghost danger" data-act="signOut">התנתק</button>':''}</div></section>`;
+ <h2>היומן שלי</h2>
+ ${Store.mode==='cloud'?`<section class="panel"><p class="small">היומן מסונכרן לענן ונפתח אוטומטית בטלפון הזה — בלי שם משתמש ובלי סיסמה.</p>
+  <div class="row"><button class="btn small primary" data-act="showCode">הצג קוד יומן</button><button class="btn small" data-act="shareLink">קישור למכשיר נוסף</button><button class="btn small ghost" data-act="switchJournal">חבר יומן אחר</button></div>
+  ${ui.switching?`<form data-form="join" class="stack" style="margin-top:12px"><label class="f">קוד יומן<input name="code" dir="ltr" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXXX-XXXXX-XXXXX-XXXXX" style="font-family:ui-monospace,Menlo,monospace;text-align:center"></label><div class="warn small" role="alert"></div><button class="btn small" type="submit">חבר</button></form>`:''}</section>`
+ :`<section class="panel"><p class="small muted">${Store.err==='anon'?'הסנכרון כבוי: צריך להפעיל Anonymous ב-Firebase Authentication.':'היומן שמור רק במכשיר הזה.'} גבה מדי פעם לקובץ.</p></section>`}
+ <section class="panel"><h3>גיבוי לקובץ</h3>
+  <div class="row"><button class="btn small" data-act="exportData">ייצוא</button><label class="btn small ghost">ייבוא<input type="file" accept="application/json,.json" data-import="1" hidden></label></div></section>`;
 }
 
 /* ---------- render ---------- */
 function render(){
  const app=$('#app');
  $('#tabs').innerHTML=TABS.map(([id,l])=>`<button data-act="tab" data-id="${id}" ${ui.tab===id?'aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[id]}</svg>${l}</button>`).join('');
- if(!READY){app.innerHTML='<div class="loading">טוען את היומן…</div>';return;}
- if(ui.needLogin){$('#tabs').innerHTML='';app.innerHTML=vLogin();return;}
+ if(!READY){app.innerHTML=`<div class="loading">${LOGO}טוען את היומן…</div>`;return;}
+ if(ui.welcome){$('#tabs').innerHTML='';app.innerHTML=vWelcome();return;}
  let body='';
  if(ui.tab==='starter')body=vStarter();
  else if(ui.tab==='bake'){const b=ui.bakeId&&S.bakes[ui.bakeId];body=b?vBake(b):vBakeList();}
@@ -822,7 +1069,7 @@ function render(){
  else if(ui.tab==='know')body=vKnow();
  else body=vCoach();
  app.innerHTML=vHeader()+body;
- tickTimers();
+ tickTimers();updCalc();
 }
 function tickTimers(){
  const t=now();
@@ -847,7 +1094,7 @@ function feedSheet(){
   <div class="g3"><label class="f">סטארטר (ג׳)<input name="starter" type="number" inputmode="decimal" value="${l.starter}" required></label>
   <label class="f">קמח (ג׳)<input name="flour" type="number" inputmode="decimal" value="${l.flour}" required></label>
   <label class="f">מים (ג׳)<input name="water" type="number" inputmode="decimal" value="${l.water}" required></label></div>
-  <div class="chips" role="group" aria-label="יחס מהיר">${[[1,1],[1,2],[1,3],[1,5]].map(([a,b])=>`<button type="button" class="chip" data-act="ratioPick" data-v="${b}">1:${b}:${b}</button>`).join('')}</div>
+  <div class="chips" role="group" aria-label="יחס מהיר">${[[1,1],[1,2],[1,5],[1,10]].map(([a,b])=>`<button type="button" class="chip" data-act="ratioPick" data-v="${b}">1:${b}:${b}</button>`).join('')}</div>
   <div class="g2"><label class="f">סוג קמח<select name="flourType">${FLOURS.map(([v,t])=>`<option value="${v}" ${l.flourType===v?'selected':''}>${t}</option>`).join('')}</select></label>
   <label class="f">טמפ׳ בחדר °C<input name="temp" type="number" step="0.5" inputmode="decimal" value="${l.temp!=null?l.temp:''}"></label></div>
   <label class="f">מתי<input name="at" type="datetime-local" value="${toLocalInput(now())}"></label>
@@ -872,8 +1119,9 @@ function newBakeSheet(preset){
  openSheet(`<h3>אפייה חדשה</h3><form data-form="newBake" class="stack">
   <label class="f">מתכון<select name="recipe">${RECIPES.map(r=>`<option value="${r.id}" ${preset===r.id?'selected':''}>${esc(r.name)}</option>`).join('')}</select></label>
   <label class="f">כמות<select name="scale"><option value="0.5">×0.5</option><option value="1" selected>×1</option><option value="1.5">×1.5</option><option value="2">×2</option></select></label>
-  <label class="f">שם (אופציונלי)<input name="name" placeholder="למשל: חלה לשבת"></label>
-  <p class="small muted">השלב הראשון (הלבן) יתחיל לרוץ מעכשיו.</p>
+  <label class="f">טעם (תוספת של כ-15% מהקמח, נכנסת בלמינציה)<select name="flavor">${FLAVORS.map(f=>`<option value="${f.id}">${esc(f.n)}</option>`).join('')}</select></label>
+  <label class="f">שם (אופציונלי)<input name="name" placeholder="למשל: כיכר זעתר לשבת"></label>
+  <p class="small muted">השלב הראשון (האכלת המחמצת) יתחיל לרוץ מעכשיו.</p>
   <div class="row"><button class="btn primary" type="submit">התחל</button><button class="btn ghost" type="button" data-act="closeSheet">ביטול</button></div></form>`);
  if(ui.recipeScale&&preset){const s=$('#sheet select[name=scale]');if(s)s.value=String(ui.recipeScale);}
 }
@@ -885,12 +1133,22 @@ function curBake(){return ui.bakeId&&S.bakes[ui.bakeId];}
 const ACT={
  tab(el){ui.tab=el.dataset.id;if(ui.tab!=='bake')ui.bakeId=ui.bakeId;render();window.scrollTo(0,0);},
  closeSheet,
- loginToggle(){ui.loginMode=ui.loginMode==='up'?'in':'up';render();},
- localMode(){ui.needLogin=false;Store.mode='local';Store.loadAll().then(render);},
- signOut(){if(confirm('להתנתק? הנתונים נשארים בחשבון.'))Store.signOut();},
+ joinToggle(){ui.joinMode=!ui.joinMode;render();},
+ async newJournal(el){
+  el.disabled=true;
+  Store.setCode(newCode());await Store.loadAll();ui.welcome=false;ui.joinMode=false;
+  if(!S.starter.feeds.length&&!Object.keys(S.bakes).length)Store.put('starter',S.starter);
+  render();codeSheet(true);
+ },
+ copyCode(){copyText(fmtCode(Store.code));},
+ shareLink(){const u=joinLink();if(navigator.share)navigator.share({title:'יומן מחמצת',text:'קישור לחיבור היומן',url:u}).catch(()=>{});else copyText(u);},
+ showCode(){codeSheet(false);},
+ switchJournal(){ui.switching=!ui.switching;render();},
+ knowTab(el){ui.knowTab=el.dataset.v;render();},
+ doughIssue(el){ui.doughIssue=ui.doughIssue===el.dataset.v?null:el.dataset.v;render();},
  exportData(){const blob=new Blob([JSON.stringify(S,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sourdough-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);},
  feedOpen:feedSheet, peakOpen:peakSheet,
- ratioPick(el){const f=el.closest('form');const s=num(f.starter.value)||25;const m=+el.dataset.v;f.flour.value=Math.round(s*m);f.water.value=Math.round(s*m);updFeedPred();},
+ ratioPick(el){const f=el.closest('form');const m=+el.dataset.v;const s=m>=10?10:(num(f.starter.value)||25);f.starter.value=s;f.flour.value=Math.round(s*m);f.water.value=Math.round(s*m);updFeedPred();},
  delFeed(el){if(!confirm('למחוק את ההאכלה הזו?'))return;S.starter.feeds=S.starter.feeds.filter(f=>f.id!==el.dataset.id);saveStarter();render();},
  fridge(){S.starter.settings.fridge=!S.starter.settings.fridge;saveStarter();render();toast(S.starter.settings.fridge?'מצב מקרר: תזכורת להאכלה שבועית':'חזרת לטמפ׳ החדר — האכל כדי להתחיל מחזור');},
  diag(el){ui.diag=ui.diag===el.dataset.id?null:el.dataset.id;render();},
@@ -909,7 +1167,7 @@ const ACT={
  foldUndo(el){const b=curBake();const i=+el.dataset.i;for(let k=b.folds.length-1;k>=0;k--){if(b.folds[k].step===i){b.folds.splice(k,1);break;}}saveBake(b);render();},
  poke(el){const b=curBake();b.pokes=b.pokes||[];b.pokes.push({at:now(),step:+el.dataset.i,v:el.dataset.v});saveBake(b);render();},
  finishEarly(){const b=curBake();b.forceOutcome=true;saveBake(b);render();setTimeout(()=>{const f=$('form[data-form="outcome"]');if(f)f.scrollIntoView({behavior:'smooth',block:'start'});},50);},
- editOutcome(){const b=curBake();b.outcome=null;b.forceOutcome=true;saveBake(b);render();},
+ editOutcome(){const b=curBake();b.draftOutcome=b.outcome;b.outcome=null;b.forceOutcome=true;saveBake(b);render();},
  aiReview(el){const b=S.bakes[el.dataset.id];reviewBake(b);},
  askDough(){
   const b=curBake();const q=($('#askDoughQ')||{}).value||'';if(!q.trim()){toast('כתוב שאלה קודם');return;}
@@ -930,12 +1188,17 @@ async function reviewBake(b){
  const prev=Object.values(S.bakes).filter(x=>x.id!==b.id&&x.outcome).sort((a,c)=>c.createdAt-a.createdAt).slice(0,5).map(bakeSummary);
  await runAI('review_'+b.id,`${RULES}\n\nסיימתי אפייה. התיעוד המלא (JSON):\n${JSON.stringify(bakeSummary(b))}\n\nאפיות קודמות להשוואה:\n${JSON.stringify(prev)}\n\nהסטארטר בימים האחרונים:\n${JSON.stringify(S.starter.feeds.slice(-5).map(feedSummary))}\n\nמשימה:\n## מה עבד\n## מה כנראה השפיע על התוצאה (קשר בין המדידות לתוצאה)\n## 3 שינויים לפעם הבאה במתכון הזה\nעד 220 מילים.`,t=>{b.aiReview={text:t,at:now()};saveBake(b);});
 }
-const AUTH_ERR={'auth/invalid-credential':'אימייל או סיסמה שגויים','auth/wrong-password':'אימייל או סיסמה שגויים','auth/user-not-found':'אין חשבון עם האימייל הזה','auth/email-already-in-use':'כבר יש חשבון עם האימייל הזה — עבור לכניסה','auth/weak-password':'סיסמה של 6 תווים לפחות','auth/invalid-email':'האימייל לא תקין','auth/network-request-failed':'אין חיבור לאינטרנט','auth/too-many-requests':'יותר מדי ניסיונות — נסה שוב בעוד כמה דקות'};
 const FORMS={
- async login(f){
-  const btn=f.querySelector('button[type=submit]');btn.disabled=true;$('#loginErr').textContent='';
-  try{await Store.signIn(f.email.value.trim(),f.pw.value,ui.loginMode==='up');ui.needLogin=false;await Store.loadAll();render();}
-  catch(e){$('#loginErr').textContent=AUTH_ERR[e&&e.code]||'הכניסה נכשלה. נסה שוב.';btn.disabled=false;}
+ async join(f){
+  const code=normCode(f.code.value);const err=f.querySelector('.warn');const btn=f.querySelector('button[type=submit]');
+  if(code.length!==20){err.textContent='הקוד צריך להכיל 20 תווים.';return;}
+  if(!Store.fb){err.textContent='אין חיבור לענן כרגע.';return;}
+  btn.disabled=true;err.textContent='';
+  try{
+   if(!(await Store.exists(code))){err.textContent='לא נמצא יומן עם הקוד הזה. בדוק שהקלדת נכון.';btn.disabled=false;return;}
+   if(Store.code&&Store.code!==code&&!confirm('להחליף את היומן בטלפון הזה ביומן של הקוד?')){btn.disabled=false;return;}
+   Store.setCode(code);await Store.loadAll();ui.welcome=false;ui.joinMode=false;ui.switching=false;ui.joinPrefill=null;render();toast('היומן חובר');
+  }catch(e){console.error(e);err.textContent='לא הצלחתי להתחבר. בדוק חיבור לאינטרנט.';btn.disabled=false;}
  },
  feed(f){
   const x=feedFromForm(f);if(!x.starter||!x.flour){toast('מלא כמויות סטארטר וקמח');return;}
@@ -954,7 +1217,8 @@ const FORMS={
  newBake(f){
   const r=RECIPES.find(x=>x.id===f.recipe.value);const scale=+f.scale.value||1;
   const id='b_'+uid();
-  const b={id,recipeId:r.id,name:f.name.value.trim()||r.name,scale,createdAt:now(),steps:r.steps.map(()=>({})),folds:[],readings:[],pokes:[]};
+  const fl=f.flavor&&f.flavor.value!=='none'?f.flavor.value:undefined;const fn=fl?FLAVORS.find(x=>x.id===fl).n:'';
+  const b={id,recipeId:r.id,name:f.name.value.trim()||(fn?r.name+' · '+fn:r.name),scale,flavor:fl,createdAt:now(),steps:r.steps.map(()=>({})),folds:[],readings:[],pokes:[]};
   b.steps[0].startedAt=now();
   saveBake(b);closeSheet();ui.tab='bake';ui.bakeId=id;ui.recipeId=null;render();window.scrollTo(0,0);
  },
@@ -968,10 +1232,12 @@ const FORMS={
  },
  outcome(f){
   const b=curBake();
-  b.outcome={rating:+(f.querySelector('input[name=rating]:checked')||{value:3}).value,crumb:f.crumb.value,spring:f.spring.value,sour:f.sour.value,notes:f.notes.value.trim()||undefined,at:now()};
-  delete b.forceOutcome;saveBake(b);render();
+  const tv=x=>x.value.trim()||undefined;
+  b.outcome={rating:+(f.querySelector('input[name=rating]:checked')||{value:3}).value,crumb:f.crumb.value,method:f.method.value,spring:f.spring.value,sour:f.sour.value,changed:tv(f.changed),worked:tv(f.worked),next:tv(f.next),notes:tv(f.notes),at:now()};
+  delete b.forceOutcome;delete b.draftOutcome;saveBake(b);render();
   if(SAMPLE)reviewBake(b);
  },
+ plan(f){ui.plan={t:fromLocalInput(f.t.value),fridge:Math.min(Math.max(num(f.fridge.value)||12,6),24),bulk:Math.min(Math.max(num(f.bulk.value)||4.5,3),6)};ui.planOpen=true;render();},
  chat(f){
   const q=f.q.value.trim();if(!q)return;
   ui.chat.push({role:'user',content:q});f.q.value='';
@@ -987,7 +1253,7 @@ const FORMS={
 };
 document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el)return;const fn=ACT[el.dataset.act];if(fn){e.preventDefault();fn(el,e);}});
 document.addEventListener('submit',e=>{const f=e.target;if(!f.dataset||!f.dataset.form)return;e.preventDefault();FORMS[f.dataset.form]&&FORMS[f.dataset.form](f);});
-document.addEventListener('input',e=>{if(e.target.closest&&e.target.closest('form[data-form="feed"]'))updFeedPred();});
+document.addEventListener('input',e=>{if(e.target.closest&&e.target.closest('form[data-form="feed"]'))updFeedPred();if(e.target.dataset&&e.target.dataset.calc)updCalc();});
 document.addEventListener('change',e=>{
  const el=e.target;const b=curBake();
  if(el.dataset.import&&el.files&&el.files[0]){const rd=new FileReader();rd.onload=()=>{try{const o=JSON.parse(rd.result);if(!o||!o.starter)throw 0;if(!confirm('לייבא את הגיבוי? הוא יחליף את היומן הנוכחי.'))return;applyLoaded(o);Store.put('starter',S.starter);Store.put('coach',S.coach);Object.values(S.bakes).forEach(x=>Store.put(x.id,x));render();toast('הגיבוי יובא');}catch(_){toast('הקובץ לא נראה כמו גיבוי של היומן');}};rd.readAsText(el.files[0]);el.value='';return;}
@@ -999,8 +1265,10 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#sheet').hidden
 /* ---------- boot ---------- */
 (async function(){
  render();
+ let join=null;try{const q=new URLSearchParams(location.search);join=normCode(q.get('join'));if(q.has('join'))history.replaceState(null,'',location.pathname);}catch(e){}
  const m=await Store.init();
- if(m==='login')ui.needLogin=true;else await Store.loadAll();
+ if(m==='welcome')ui.welcome=true;else await Store.loadAll();
+ if(join&&join.length===20&&Store.fb&&join!==Store.code){ui.welcome=true;ui.joinMode=true;ui.joinPrefill=join;}
  READY=true;render();
 })();
 if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
